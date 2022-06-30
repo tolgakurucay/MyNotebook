@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="SIGN IN"
+            android:text="@string/signin"
             android:textColor="@color/black"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -41,12 +41,12 @@
             app:layout_constraintWidth_percent="0.4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutForgotEmail"
+            android:id="@+id/textInputLayoutForgotName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
-            android:hint="E-Mail"
+            android:hint="@string/email"
             android:textColorHint="#000000"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
@@ -59,7 +59,7 @@
             app:startIconDrawable="@drawable/email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextForgotEmail"
+                android:id="@+id/editTextForgotName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -73,7 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:textColorHint="#000000"
             app:hintAnimationEnabled="true"
 
@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotEmail"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotName"
             app:layout_constraintWidth_percent="0.8"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/password">
@@ -103,7 +103,7 @@
             android:layout_marginTop="28dp"
             android:background="@android:drawable/screen_background_light_transparent"
 
-            android:text="SIGN IN NOW"
+            android:text="@string/signinnow"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.06"
@@ -117,7 +117,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Forgot Your Password?"
+            android:text="@string/forgotyourpassword"
             android:textColor="#000000"
             android:textColorHint="#FF8F00"
             android:textSize="14sp"
@@ -135,7 +135,7 @@
             android:layout_marginTop="16dp"
             android:elevation="10dp"
             android:gravity="center"
-            android:text="Don't Have An Account?"
+            android:text="@string/donthaveanaccount"
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -150,7 +150,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -188,7 +188,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             android:gravity="center"
-            android:text="Or Sign In With"
+            android:text="@string/orsigninwith"
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"

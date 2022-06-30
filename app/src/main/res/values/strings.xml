@@ -1,5 +1,19 @@
 <resources>
+
     <string name="app_name">My Notebook</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signin">SIGN IN</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="forgotyourpassword">Forgot Your Password?</string>
+    <string name="signinnow">Sign In Now</string>
+    <string name="donthaveanaccount">Don\'t Have An Account?</string>
+    <string name="register">Register</string>
+    <string name="orsigninwith">Or Sign In With</string>
+    <string name="signup">SIGN UP</string>
+    <string name="signupnow">Sign Up Now</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="forgotpasswordlabel">FORGOT PASSWORD</string>
+    <string name="sendcodetomail">Sent Code To Mail</string>
+
 </resources>

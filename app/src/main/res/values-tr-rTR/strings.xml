@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Notebook</string>
+    <string name="signin">GİRİŞ YAP</string>
+    <string name="email">E-Posta</string>
+    <string name="password">Şifre</string>
+    <string name="forgotyourpassword">Şifreni mi Unuttun?</string>
+    <string name="signinnow">Şimdi Giriş Yap</string>
+    <string name="donthaveanaccount">Bir Hesabın Yok Mu?</string>
+    <string name="register">Kayıt Ol</string>
+    <string name="orsigninwith">Ya da</string>
+    <string name="signup">ÜYE OL</string>
+    <string name="signupnow">Şimdi Üye Ol</string>
+    <string name="name">İsim</string>
+    <string name="surname">Soyisim</string>
+    <string name="forgotpasswordlabel">ŞİFREMİ UNUTTUM</string>
+    <string name="sendcodetomail">Mail\'e Kod Gönder</string>
+</resources>

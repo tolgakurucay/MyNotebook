@@ -28,7 +28,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:hint="Surname"
+            android:hint="@string/surname"
             android:textColorHint="#000000"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotEmail"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotName"
             app:layout_constraintWidth_percent="0.8"
             app:startIconDrawable="@drawable/ic_baseline_person_add_surname">
 
@@ -64,12 +64,12 @@
             app:layout_constraintWidth_percent="0.4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutForgotEmail"
+            android:id="@+id/textInputLayoutForgotName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
-            android:hint="Name"
+            android:hint="@string/name"
             android:textColorHint="#000000"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
@@ -82,7 +82,7 @@
             app:startIconDrawable="@drawable/ic_baseline_person_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextForgotEmail"
+                android:id="@+id/editTextForgotName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -95,7 +95,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:hint="E-mail"
+            android:hint="@string/email"
             android:textColorHint="#000000"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
@@ -121,7 +121,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:textColorHint="#000000"
             app:hintAnimationEnabled="true"
 
@@ -151,7 +151,7 @@
             android:layout_marginTop="28dp"
             android:background="@android:drawable/screen_background_light_transparent"
 
-            android:text="SIGN UP NOW"
+            android:text="@string/signupnow"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.06"
