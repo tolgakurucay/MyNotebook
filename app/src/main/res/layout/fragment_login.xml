@@ -23,11 +23,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/textViewSignIn"
+            android:id="@+id/textViewForgotPassword"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
@@ -35,13 +35,13 @@
             android:textColor="@color/black"
             android:textSize="34sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.3"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutMail"
+            android:id="@+id/textInputLayoutForgotEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -54,18 +54,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewSignIn"
+            app:layout_constraintTop_toBottomOf="@+id/textViewForgotPassword"
             app:layout_constraintWidth_percent="0.8"
             app:startIconDrawable="@drawable/email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextMail"
-
+                android:id="@+id/editTextForgotEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
-
-
                 android:textColor="#000000"
                 android:textColorHint="#000000" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -85,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutMail"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotEmail"
             app:layout_constraintWidth_percent="0.8"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/password">
@@ -121,6 +118,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="Forgot Your Password?"
+            android:textColor="#000000"
             android:textColorHint="#FF8F00"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -138,6 +136,7 @@
             android:elevation="10dp"
             android:gravity="center"
             android:text="Don't Have An Account?"
+            android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintHeight_percent="0.035"
@@ -152,6 +151,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="Register"
+            android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -166,7 +166,7 @@
             android:layout_height="0dp"
             android:background="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/textView5"
-            app:layout_constraintHeight_percent="0.006"
+            app:layout_constraintHeight_percent="0.002"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView5"
             app:layout_constraintWidth_percent="0.3" />
@@ -178,7 +178,7 @@
             android:background="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.006"
+            app:layout_constraintHeight_percent="0.002"
             app:layout_constraintTop_toTopOf="@+id/textView5"
             app:layout_constraintWidth_percent="0.3" />
 
@@ -188,7 +188,8 @@
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             android:gravity="center"
-            android:text="Sign In With"
+            android:text="Or Sign In With"
+            android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/imageViewLine2"
