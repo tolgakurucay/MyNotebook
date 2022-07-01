@@ -1,5 +1,8 @@
 package com.tolgakurucay.mynotebook.views.login
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +12,9 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
+import com.tolgakurucay.mynotebook.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentSignUpBinding
 import com.tolgakurucay.mynotebook.viewmodels.login.SignUpFragmentViewModel
 
@@ -37,6 +42,7 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         textChangeListener()
         buttonClickListener()
         observeLiveData()
@@ -63,7 +69,7 @@ class SignUpFragment : Fragment() {
     private fun buttonClickListener(){
         binding.buttonSignUpNow.setOnClickListener {
             if(validateFields()){
-
+                viewModel.createUserWithEmailAndPassword(binding.emailSignUpInput.text.toString(),binding.passwordSignUpInput.text.toString())
             }
             else
             {
@@ -121,8 +127,41 @@ class SignUpFragment : Fragment() {
 
             }
         })
+        viewModel.createMessage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when(it){
+                    "success" -> AlertDialog.Builder(this.context)
+                        .setIcon(R.drawable.ic_baseline_person_add_surname)
+                        .setTitle(R.string.createduserlabel)
+                        .setMessage(R.string.createduser)
+                        .setPositiveButton(R.string.okay,object: DialogInterface.OnClickListener{
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+                                val action=SignUpFragmentDirections.actionSignUpFragmentToLoginFragment()
+                                Navigation.findNavController(view!!).navigate(action)
+                            }
+
+                        })
+                        .create()
+                        .show()
+                        "fail" -> Util.alertDialog(this.context!!,getString(R.string.emailexistTitle),getString(R.string.emailexist),R.drawable.email,getString(R.string.okay))
+                }
+            }
+        })
+
+        viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    binding.progressBarSignUp.visibility=View.VISIBLE
+                }
+                else
+                {
+                    binding.progressBarSignUp.visibility=View.INVISIBLE
+                }
+            }
+        })
 
     }
+
 
 
 

@@ -22,4 +22,17 @@
     <string name="invalidemail">Geçersiz E-Posta</string>
     <string name="minimum8character">En Az 8 Karakter</string>
     <string name="blankfields">Lütfen Alanları Boş Bırakmayınız</string>
+    <string name="emailnotverified">E-Posta Adresi Doğrulanmadı, Lütfen Mail Kutunuzu Kontrol Ediniz. Eğer Göremezseniz Spam Klasörüne Göz Atınız</string>
+    <string name="emailnotverifiedlabel">E-Posta Doğrulanmadı</string>
+    <string name="okay">Tamam</string>
+    <string name="mailpasswordwrong">Ya Da Böyle Bir Mail Adresine Kayıtlı Kullanıcı Yok</string>
+    <string name="mailpasswordwronglabel">Mail Ve/Veya Şifre Hatalı</string>
+    <string name="createduserlabel">Kullanıcı Oluşturuldu!</string>
+    <string name="createduser">Kullanıcı Başarıyla Oluşturuldu. Giriş Yapmak İçin Mailinize Gelen Kodu Onaylayınız</string>
+    <string name="forgotpasswordtitle">E-Posta\'ya Link Gönderildi</string>
+    <string name="forgotpassword">Şifrenizi Sıfırlamak İçin Mail Adresinize Gelen Linki Tıklayınız</string>
+    <string name="nousertitle">Kullanıcı Bulunamadı</string>
+    <string name="nouser">Bu Mail İle Kayıtlı Kullanıcı Bulunamadı.</string>
+    <string name="emailexistTitle">Bu E-Postaya Kayıtlı Bir Hesap Var</string>
+    <string name="emailexist">Kayıt Olmak İçin Farklı Bir E-Posta Adresi Kullanmanız Gerekmektedir</string>
 </resources>

@@ -3,13 +3,18 @@ package com.tolgakurucay.mynotebook.viewmodels.login
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpFragmentViewModel : ViewModel() {
+
+    private val auth=FirebaseAuth.getInstance()
 
     val name=MutableLiveData<String>()
     val surname=MutableLiveData<String>()
     val mail=MutableLiveData<String>()
     val password=MutableLiveData<String>()
+    val createMessage=MutableLiveData<String>()
+    val loadingDialog=MutableLiveData<Boolean>()
 
 
     fun validateName(name:String){
@@ -64,6 +69,24 @@ class SignUpFragmentViewModel : ViewModel() {
         {
             this.password.value="validated"
         }
+
+    }
+
+    fun createUserWithEmailAndPassword(email:String,password: String){
+
+        auth.createUserWithEmailAndPassword(email,password)
+            .addOnSuccessListener {
+                auth.currentUser!!.sendEmailVerification()
+                    .addOnSuccessListener {
+                        createMessage.value="success"
+                    }
+                    .addOnFailureListener {
+                        createMessage.value="fail"
+                    }
+            }
+            .addOnFailureListener {
+                createMessage.value="fail"
+            }
 
     }
 

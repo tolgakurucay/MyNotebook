@@ -3,11 +3,18 @@ package com.tolgakurucay.mynotebook.viewmodels.login
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragmentViewModel : ViewModel() {
 
+    private var auth=FirebaseAuth.getInstance()
+
     val emailMessage=MutableLiveData<String>()
     val passwordMessage=MutableLiveData<String>()
+    val signMessage=MutableLiveData<String>()
+    val loadingDialog=MutableLiveData<Boolean>()
+
+
 
 
     fun validateEmail(email:String){
@@ -24,9 +31,8 @@ class LoginFragmentViewModel : ViewModel() {
             emailMessage.value="validated"
         }
 
-
-
     }
+
 
     fun validatePassword(password:String){
         if (password.isEmpty()){
@@ -38,6 +44,35 @@ class LoginFragmentViewModel : ViewModel() {
         else{
             passwordMessage.value="validated"
         }
+
+    }
+
+
+    fun signInWithEmailAndPassword(email:String,password: String){
+
+
+        loadingDialog.value=true
+        auth.signInWithEmailAndPassword(email,password)
+            .addOnSuccessListener {
+                auth.currentUser?.let { user->
+                    if(user.isEmailVerified){
+                        signMessage.value="okay"
+                        loadingDialog.value=false
+                    }
+                    else
+                    {
+                        signMessage.value="notverified"
+                        loadingDialog.value=false
+                    }
+
+                }
+
+            }
+            .addOnFailureListener {
+                signMessage.value="error"
+                loadingDialog.value=false
+            }
+
 
     }
 

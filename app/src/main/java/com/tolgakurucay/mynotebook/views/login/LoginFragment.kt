@@ -1,5 +1,6 @@
 package com.tolgakurucay.mynotebook.views.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,8 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
+import com.tolgakurucay.mynotebook.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
+import com.tolgakurucay.mynotebook.views.main.MainActivity
 
 
 class LoginFragment : Fragment() {
@@ -59,7 +62,7 @@ class LoginFragment : Fragment() {
         }
         binding.buttonSignInNow.setOnClickListener {
             if (validateFields()){
-
+                viewModel.signInWithEmailAndPassword(binding.emailSignInInput.text.toString(),binding.passwordSignInInput.text.toString())
             }
             else
             {
@@ -110,6 +113,45 @@ class LoginFragment : Fragment() {
                     "validated" -> binding.passwordSignInLayout.helperText=null
                 }
 
+            }
+        })
+
+        viewModel.signMessage.observe(viewLifecycleOwner, Observer {
+            it?.let { signMessage->
+               if(signMessage=="okay"){
+                   //Intent
+                   val intent=Intent(activity, MainActivity::class.java)
+                   startActivity(intent)
+                   this.activity?.let {
+                       it.finish()
+                   }
+
+               }
+                else if(signMessage=="notverified"){
+
+                    Util.alertDialog(this.context!!,getString(R.string.emailnotverifiedlabel),getString(R.string.emailnotverified),R.drawable.email,getString(R.string.okay))
+
+               }
+                else
+               {
+
+                   Util.alertDialog(this.context!!,getString(R.string.mailpasswordwronglabel),getString(R.string.mailpasswordwrong),R.drawable.ic_baseline_person_24,getString(R.string.okay))
+
+
+               }
+
+            }
+        })
+
+        viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    binding.progressBarLogin.visibility=View.VISIBLE
+                }
+                else
+                {
+                    binding.progressBarLogin.visibility=View.INVISIBLE
+                }
             }
         })
 

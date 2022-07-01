@@ -22,5 +22,18 @@
     <string name="invalidemail">Invalid E-mail</string>
     <string name="minimum8character">Minimum 8 Character</string>
     <string name="blankfields">Please Do Not Leave The Fields Blank</string>
+    <string name="emailnotverified">Email Is Not Verified.,Please Check Your Mail. If You Won\'t See Your Mail. Check Your Spams</string>
+    <string name="emailnotverifiedlabel">E-Mail Is Not Verified</string>
+    <string name="okay">Okay</string>
+    <string name="mailpasswordwronglabel">Mail And/Or Password Wrong</string>
+    <string name="createduserlabel">Created User!</string>
+    <string name="createduser">Created User Successfully. Please Confirm Your Mail To Sign In</string>
+    <string name="forgotpasswordtitle">Sent Link To Email</string>
+    <string name="forgotpassword">Click The Link That Came To Your Mail To Reset Email</string>
+    <string name="nousertitle">There Is No User</string>
+    <string name="nouser">There Is No User With This Mail Or May Be User Deleted</string>
+    <string name="emailexistTitle">Email Is Already Exist</string>
+    <string name="emailexist">You Have To Use Another E-Mail To Sign Up</string>
+    <string name="mailpasswordwrong">Or There Is No User With This Mail</string>
 
 </resources>

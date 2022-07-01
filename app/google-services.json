@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "426433673716",
+    "project_id": "my-notebook-39613",
+    "storage_bucket": "my-notebook-39613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426433673716:android:412c12c612f7641c6d61a1",
+        "android_client_info": {
+          "package_name": "com.tolgakurucay.mynotebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426433673716-8umh73oatub8nfcmppgnp1lhp5g8duok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tolgakurucay.mynotebook",
+            "certificate_hash": "fb874de205089a2377ed6ee2c3e7823853d0f856"
+          }
+        },
+        {
+          "client_id": "426433673716-3abqrfi4s7d4gn8prvnk4rhtpicrmpfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4XgT3X6tLeImtZzZFCl4xZg6xBaaMdT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426433673716-3abqrfi4s7d4gn8prvnk4rhtpicrmpfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -53,5 +54,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha01")
     //for liveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha01")
+    //for firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    //for firebase analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    //for firebase auth
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
 }
