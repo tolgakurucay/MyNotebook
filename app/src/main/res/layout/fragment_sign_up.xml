@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".SignUpFragment">
+    tools:context=".views.login.SignUpFragment">
     <ImageView
         android:layout_width="400dp"
         android:layout_height="300dp"
@@ -24,24 +24,26 @@
       android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutSurname"
+            android:id="@+id/surnameSignUpLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:hint="@string/surname"
             android:textColorHint="#000000"
+            app:helperText="@string/enteransurname"
+            app:helperTextEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotName"
+            app:layout_constraintTop_toBottomOf="@+id/nameSignUpLayout"
             app:layout_constraintWidth_percent="0.8"
             app:startIconDrawable="@drawable/ic_baseline_person_add_surname">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextSurname"
+                android:id="@+id/surnameSignUpInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -58,31 +60,33 @@
             android:textColor="@color/black"
             android:textSize="34sp"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutForgotName"
+            android:id="@+id/nameSignUpLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             android:hint="@string/name"
             android:textColorHint="#000000"
+            app:helperText="@string/enteranname"
+            app:helperTextEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewForgotPassword"
             app:layout_constraintWidth_percent="0.8"
             app:startIconDrawable="@drawable/ic_baseline_person_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextForgotName"
+                android:id="@+id/nameSignUpInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -91,24 +95,26 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutEmail"
+            android:id="@+id/emailSignUpLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:hint="@string/email"
             android:textColorHint="#000000"
+            app:helperText="@string/enteranmail"
+            app:helperTextEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSurname"
+            app:layout_constraintTop_toBottomOf="@+id/surnameSignUpLayout"
             app:layout_constraintWidth_percent="0.8"
             app:startIconDrawable="@drawable/email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextEmail"
+                android:id="@+id/emailSignUpInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -117,26 +123,27 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPassword"
+            android:id="@+id/passwordSignUpLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:hint="@string/password"
             android:textColorHint="#000000"
-            app:hintAnimationEnabled="true"
 
+            app:helperText="@string/enteranpassword"
+            app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
+            app:layout_constraintTop_toBottomOf="@+id/emailSignUpLayout"
             app:layout_constraintWidth_percent="0.8"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/password">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/passwordSignUpInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -145,7 +152,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonSignIn"
+            android:id="@+id/buttonSignUpNow"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="28dp"
@@ -156,7 +163,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.06"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword"
+            app:layout_constraintTop_toBottomOf="@+id/passwordSignUpLayout"
             app:layout_constraintWidth_percent="0.8" />
 
 

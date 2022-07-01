@@ -15,5 +15,12 @@
     <string name="surname">Surname</string>
     <string name="forgotpasswordlabel">FORGOT PASSWORD</string>
     <string name="sendcodetomail">Sent Code To Mail</string>
+    <string name="enteranmail">Enter An Mail</string>
+    <string name="enteranpassword">Enter An Password</string>
+    <string name="enteranname">Enter An Name</string>
+    <string name="enteransurname">Enter An Surname</string>
+    <string name="invalidemail">Invalid E-mail</string>
+    <string name="minimum8character">Minimum 8 Character</string>
+    <string name="blankfields">Please Do Not Leave The Fields Blank</string>
 
 </resources>

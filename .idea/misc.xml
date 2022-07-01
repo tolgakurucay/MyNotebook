@@ -7,10 +7,10 @@
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/sign_button_gradient.xml" value="0.244" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/sign_button_shape.xml" value="0.1895" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_log.xml" value="0.33489583333333334" />
-        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_login.xml" value="0.5" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_forgot_password.xml" value="0.33489583333333334" />
-        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_login.xml" value="0.25" />
-        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_login.xml" value="0.33" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_sign_up.xml" value="0.2937062937062937" />
       </map>
     </option>
   </component>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".LoginFragment">
+    tools:context=".views.login.LoginFragment">
 
     <ImageView
         android:layout_width="400dp"
@@ -36,30 +36,32 @@
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutForgotName"
+            android:id="@+id/emailSignInLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             android:hint="@string/email"
             android:textColorHint="#000000"
+            app:helperText="@string/enteranmail"
+            app:helperTextEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewForgotPassword"
             app:layout_constraintWidth_percent="0.8"
             app:startIconDrawable="@drawable/email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextForgotName"
+                android:id="@+id/emailSignInInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -68,27 +70,29 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPassword"
+            android:id="@+id/passwordSignInLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:hint="@string/password"
             android:textColorHint="#000000"
-            app:hintAnimationEnabled="true"
+            app:helperText="@string/enteranpassword"
 
+            app:helperTextEnabled="true"
+            app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutForgotName"
+            app:layout_constraintTop_toBottomOf="@+id/emailSignInLayout"
             app:layout_constraintWidth_percent="0.8"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/password">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/passwordSignInInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/screen_background_light_transparent"
@@ -97,7 +101,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonSignIn"
+            android:id="@+id/buttonSignInNow"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="28dp"
@@ -125,7 +129,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.035"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword"
+            app:layout_constraintTop_toBottomOf="@+id/passwordSignInLayout"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
@@ -141,7 +145,7 @@
             android:textStyle="bold"
             app:layout_constraintHeight_percent="0.035"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"
+            app:layout_constraintTop_toBottomOf="@+id/buttonSignInNow"
             app:layout_constraintWidth_percent="0.6" />
 
         <TextView
@@ -157,7 +161,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.035"
             app:layout_constraintStart_toEndOf="@+id/textViewDontHaveAnAccount"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"
+            app:layout_constraintTop_toBottomOf="@+id/buttonSignInNow"
             app:layout_constraintWidth_percent="0.25" />
 
         <ImageView

@@ -15,4 +15,11 @@
     <string name="surname">Soyisim</string>
     <string name="forgotpasswordlabel">ŞİFREMİ UNUTTUM</string>
     <string name="sendcodetomail">Mail\'e Kod Gönder</string>
+    <string name="enteranmail">Mail Giriniz</string>
+    <string name="enteranpassword">Şifre Giriniz</string>
+    <string name="enteranname">İsim Giriniz</string>
+    <string name="enteransurname">Soyisim Giriniz</string>
+    <string name="invalidemail">Geçersiz E-Posta</string>
+    <string name="minimum8character">En Az 8 Karakter</string>
+    <string name="blankfields">Lütfen Alanları Boş Bırakmayınız</string>
 </resources>

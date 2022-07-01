@@ -1,0 +1,86 @@
+package com.tolgakurucay.mynotebook.views.login
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.tolgakurucay.mynotebook.R
+import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
+import com.tolgakurucay.mynotebook.viewmodels.ForgotPasswordFragmentViewModel
+
+
+class ForgotPasswordFragment : Fragment() {
+
+    private lateinit var binding:FragmentForgotPasswordBinding
+    private lateinit var viewModel:ForgotPasswordFragmentViewModel
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding=FragmentForgotPasswordBinding.inflate(inflater)
+        viewModel=ViewModelProvider(this)[ForgotPasswordFragmentViewModel::class.java]
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        textChangeListener()
+        buttonClickListener()
+        observeLiveData()
+    }
+
+    private fun buttonClickListener(){
+        binding.sentCodeToMail.setOnClickListener {
+            if(validateFields()){
+
+            }
+            else
+            {
+                Toast.makeText(this.context,R.string.blankfields,Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+    private fun validateFields() : Boolean{
+        val email=binding.emailForgotPasswordLayout.helperText
+        return email==null
+
+    }
+
+    private fun observeLiveData(){
+        viewModel.emailMessage.observe(viewLifecycleOwner, Observer {
+            it?.let { emailMessage->
+                when(emailMessage){
+                    "Enter An Mail" -> binding.emailForgotPasswordLayout.helperText=resources.getText(R.string.enteranmail)
+                    "Invalid Email" -> binding.emailForgotPasswordLayout.helperText=resources.getText(R.string.invalidemail)
+                    "validated" -> binding.emailForgotPasswordLayout.helperText=null
+                }
+
+            }
+        })
+
+    }
+
+    private fun textChangeListener(){
+        binding.emailForgotPasswordInput.addTextChangedListener {
+            viewModel.validateEmail(binding.emailForgotPasswordInput.text.toString())
+        }
+
+    }
+
+
+}
