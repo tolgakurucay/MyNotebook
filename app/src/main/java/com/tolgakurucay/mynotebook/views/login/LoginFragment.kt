@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
-import com.tolgakurucay.mynotebook.Util
+import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
 import com.tolgakurucay.mynotebook.views.main.MainActivity
@@ -69,6 +69,15 @@ class LoginFragment : Fragment() {
                 Toast.makeText(this.context,R.string.blankfields,Toast.LENGTH_LONG).show()
 
             }
+        }
+        binding.imageViewGoogleSign.setOnClickListener {
+
+        }
+        binding.imageViewPhoneSign.setOnClickListener {
+
+        }
+        binding.imageViewFacebookSign.setOnClickListener {
+
         }
 
 

@@ -1,4 +1,4 @@
-package com.tolgakurucay.mynotebook
+package com.tolgakurucay.mynotebook.utils
 
 import android.content.Context
 import android.content.DialogInterface

@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
-import com.tolgakurucay.mynotebook.Util
+import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
 import com.tolgakurucay.mynotebook.viewmodels.login.ForgotPasswordFragmentViewModel
 

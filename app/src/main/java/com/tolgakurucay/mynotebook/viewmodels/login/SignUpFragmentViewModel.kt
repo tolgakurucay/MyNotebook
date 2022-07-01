@@ -1,13 +1,17 @@
 package com.tolgakurucay.mynotebook.viewmodels.login
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.tolgakurucay.mynotebook.models.CreateUserModel
 
 class SignUpFragmentViewModel : ViewModel() {
 
     private val auth=FirebaseAuth.getInstance()
+    private val firestore=FirebaseFirestore.getInstance()
 
     val name=MutableLiveData<String>()
     val surname=MutableLiveData<String>()
@@ -72,20 +76,37 @@ class SignUpFragmentViewModel : ViewModel() {
 
     }
 
-    fun createUserWithEmailAndPassword(email:String,password: String){
+    fun createUserWithEmailAndPassword(email:String,password: String,name:String,surname:String){
 
+        loadingDialog.value=true
         auth.createUserWithEmailAndPassword(email,password)
             .addOnSuccessListener {
                 auth.currentUser!!.sendEmailVerification()
                     .addOnSuccessListener {
-                        createMessage.value="success"
+                        val newUser=CreateUserModel(name,surname,email,password)
+                        firestore.collection("Users").document(auth.currentUser!!.uid).set(newUser)
+                            .addOnSuccessListener {
+                                createMessage.value="success"
+                                loadingDialog.value=false
+                            }
+                            .addOnFailureListener {
+                                createMessage.value="fail"
+                                loadingDialog.value=false
+
+                            }
+
+
                     }
                     .addOnFailureListener {
                         createMessage.value="fail"
+                        loadingDialog.value=false
+
                     }
             }
             .addOnFailureListener {
                 createMessage.value="fail"
+                loadingDialog.value=false
+
             }
 
     }
