@@ -1,9 +1,6 @@
 package com.tolgakurucay.mynotebook.views.login
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
-import com.tolgakurucay.mynotebook.viewmodels.LoginFragmentViewModel
+import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
 
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding:FragmentLoginBinding
-    private lateinit var viewModel:LoginFragmentViewModel
+    private lateinit var viewModel: LoginFragmentViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

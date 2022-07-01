@@ -11,13 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
-import com.tolgakurucay.mynotebook.viewmodels.ForgotPasswordFragmentViewModel
+import com.tolgakurucay.mynotebook.viewmodels.login.ForgotPasswordFragmentViewModel
 
 
 class ForgotPasswordFragment : Fragment() {
 
     private lateinit var binding:FragmentForgotPasswordBinding
-    private lateinit var viewModel:ForgotPasswordFragmentViewModel
+    private lateinit var viewModel: ForgotPasswordFragmentViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

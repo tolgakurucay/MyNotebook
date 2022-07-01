@@ -1,4 +1,4 @@
-package com.tolgakurucay.mynotebook.viewmodels
+package com.tolgakurucay.mynotebook.viewmodels.login
 
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData

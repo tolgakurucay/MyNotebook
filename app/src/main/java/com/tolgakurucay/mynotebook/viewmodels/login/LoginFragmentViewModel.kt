@@ -1,13 +1,13 @@
-package com.tolgakurucay.mynotebook.viewmodels
+package com.tolgakurucay.mynotebook.viewmodels.login
 
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ForgotPasswordFragmentViewModel : ViewModel() {
+class LoginFragmentViewModel : ViewModel() {
 
     val emailMessage=MutableLiveData<String>()
-
+    val passwordMessage=MutableLiveData<String>()
 
 
     fun validateEmail(email:String){
@@ -26,10 +26,20 @@ class ForgotPasswordFragmentViewModel : ViewModel() {
 
 
 
-
     }
 
+    fun validatePassword(password:String){
+        if (password.isEmpty()){
+            passwordMessage.value="Enter An Password"
+        }
+        else if(password.equals("")){
+            passwordMessage.value="Enter An Password"
+        }
+        else{
+            passwordMessage.value="validated"
+        }
 
+    }
 
 
 

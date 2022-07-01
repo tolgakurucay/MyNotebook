@@ -11,13 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentSignUpBinding
-import com.tolgakurucay.mynotebook.viewmodels.SignUpFragmentViewModel
+import com.tolgakurucay.mynotebook.viewmodels.login.SignUpFragmentViewModel
 
 
 class SignUpFragment : Fragment() {
 
     private lateinit var binding:FragmentSignUpBinding
-    private lateinit var viewModel:SignUpFragmentViewModel
+    private lateinit var viewModel: SignUpFragmentViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
