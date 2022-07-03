@@ -46,4 +46,13 @@
     <string name="verificationfailed">Doğrulama Başarısız</string>
     <string name="phonenumber">Telefon Numarası</string>
     <string name="phonenumber10">Telefon Numarası 10 Haneden Oluşmalıdır</string>
+    <string name="signout">Çıkış Yap</string>
+    <string name="settings">Ayarlar</string>
+    <string name="profile">Profil</string>
+    <string name="search">Ara</string>
+    <string name="areyousureyouwanttoexit">Çıkış Yapmak İstediğinize Emin Misiniz?</string>
+    <string name="exit">Çıkış</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="loggedout">Çıkış Yapıldı!</string>
 </resources>

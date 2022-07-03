@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/search" android:title="@string/search" android:icon="@drawable/search"/>
+    <item android:id="@+id/profile" android:title="@string/profile" android:icon="@drawable/ic_baseline_person_24"/>
+    <item android:id="@+id/placeholder" android:title=""/>
+    <item android:id="@+id/settings" android:title="@string/settings" android:icon="@drawable/settings"/>
+    <item android:id="@+id/signOut" android:title="@string/signout" android:icon="@drawable/signout" />
+
+
+</menu>
