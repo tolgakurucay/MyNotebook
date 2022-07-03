@@ -2,6 +2,7 @@ package com.tolgakurucay.mynotebook.views.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.tolgakurucay.mynotebook.BuildConfig
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
@@ -26,6 +28,7 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -66,18 +69,35 @@ class LoginFragment : Fragment() {
             }
             else
             {
+
                 Toast.makeText(this.context,R.string.blankfields,Toast.LENGTH_LONG).show()
 
             }
         }
-        binding.imageViewGoogleSign.setOnClickListener {
 
-        }
         binding.imageViewPhoneSign.setOnClickListener {
-
+            val intent=Intent(this.activity,SocialLoginActivity::class.java)
+            intent.putExtra("signType","phoneSignIn")
+            startActivity(intent)
+            this.activity?.let {
+                it.finish()
+            }
         }
         binding.imageViewFacebookSign.setOnClickListener {
-
+            val intent=Intent(this.activity,SocialLoginActivity::class.java)
+            intent.putExtra("signType","facebookSignIn")
+            startActivity(intent)
+            this.activity?.let {
+                it.finish()
+            }
+        }
+        binding.imageViewGoogleSign.setOnClickListener {
+            val intent=Intent(this.activity,SocialLoginActivity::class.java)
+            intent.putExtra("signType","googleSignIn")
+            startActivity(intent)
+            this.activity?.let {
+                it.finish()
+            }
         }
 
 

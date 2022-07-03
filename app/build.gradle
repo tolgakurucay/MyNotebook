@@ -62,5 +62,16 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     //for firebase firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    //for google Sign In
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    implementation 'com.google.firebase:firebase-core:21.0.0'
+    implementation 'com.google.firebase:firebase-dynamic-links:21.0.1'
+    //countryCodePicker for phone auth
+    implementation 'com.hbb20:ccp:2.5.1'
+    //pinEntryEditText for PhoneAuth
+    implementation ('com.alimuzaffar.lib:pinentryedittext:2.0.6') {
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+    }
+
 
 }

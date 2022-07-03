@@ -1,5 +1,5 @@
 <resources>
-
+    <string name="app_id" translatable="false">com.tolgakurucay.mynotebook</string>
     <string name="app_name">My Notebook</string>
     <string name="signin">SIGN IN</string>
     <string name="email">E-Mail</string>
@@ -35,5 +35,16 @@
     <string name="emailexistTitle">Email Is Already Exist</string>
     <string name="emailexist">You Have To Use Another E-Mail To Sign Up</string>
     <string name="mailpasswordwrong">Or There Is No User With This Mail</string>
+    <string name="enteranphone">Enter An Phone Number</string>
+    <string name="sentcode">Send Code</string>
+    <string name="verify">Verify The Code</string>
+    <string name="codedidntsent">Code Didn\'t Sent? Try It</string>
+    <string name="code6">Code Must Be 6 Number Of Characters</string>
+    <string name="codesent">Verification Code Has Sent</string>
+    <string name="invalidphonenumber">Invalid Phone Number</string>
+    <string name="verificationsuccessful">Verification Successful</string>
+    <string name="verificationfailed">Verification Failed</string>
+    <string name="phonenumber">Phone Number</string>
+    <string name="phonenumber10">Phone Number Must Be 10 Character Of Number</string>
 
 </resources>

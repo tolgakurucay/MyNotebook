@@ -35,4 +35,15 @@
     <string name="nouser">Bu Mail İle Kayıtlı Kullanıcı Bulunamadı.</string>
     <string name="emailexistTitle">Bu E-Postaya Kayıtlı Bir Hesap Var</string>
     <string name="emailexist">Kayıt Olmak İçin Farklı Bir E-Posta Adresi Kullanmanız Gerekmektedir</string>
+    <string name="enteranphone">Telefon Numarası Giriniz</string>
+    <string name="sentcode">Kod Gönder</string>
+    <string name="verify">Kodu Doğrula</string>
+    <string name="codedidntsent">Kod Gönderilmedi Mi? Tekrar Dene</string>
+    <string name="code6">Kod 6 Sayıdan Oluşmalıdır</string>
+    <string name="codesent">Doğrulama Kodu Gönderildi</string>
+    <string name="invalidphonenumber">Telefon Numarası Geçersiz</string>
+    <string name="verificationsuccessful">Doğrulama Başarılı</string>
+    <string name="verificationfailed">Doğrulama Başarısız</string>
+    <string name="phonenumber">Telefon Numarası</string>
+    <string name="phonenumber10">Telefon Numarası 10 Haneden Oluşmalıdır</string>
 </resources>
