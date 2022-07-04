@@ -12,11 +12,13 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.BuildConfig
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
+import com.tolgakurucay.mynotebook.views.main.FeedFragmentDirections
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 
 
@@ -47,6 +49,10 @@ class LoginFragment : Fragment() {
        textChangeListener()
         buttonClickListener()
         observeLiveData()
+        val auth=FirebaseAuth.getInstance()
+        if(auth.currentUser!=null){
+            startActivity(Intent(this.context,MainActivity::class.java))
+        }
 
 
     }

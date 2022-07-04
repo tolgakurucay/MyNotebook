@@ -51,20 +51,20 @@ class FeedFragment : Fragment() {
     }
     private fun init(){
         auth= FirebaseAuth.getInstance()
-        viewModel=ViewModelProvider(this@FeedFragment)[FeedFragmentViewModel::class.java]
+        viewModel=ViewModelProvider(this).get(FeedFragmentViewModel::class.java)
         binding.bottomNavigationView.background=null
         binding.bottomNavigationView.menu.getItem(2).isEnabled=false
     }
     private fun buttonClickListener(){
         binding.buttonAddNote.setOnClickListener {
-            viewModel.addNote()
+            navigator("addNote")
         }
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.search-> Log.d(TAG, "buttonClickListener: search")
                 R.id.profile->navigator("profile")
                 R.id.signOut->signOut()
-                R.id.settings->navigator("settings")
+                R.id.favorites->navigator("favorites")
 
             }
             true
@@ -75,14 +75,21 @@ class FeedFragment : Fragment() {
 
     }
     private fun navigator(fragmentName:String){
-       if(fragmentName == "settings"){
-           val action=FeedFragmentDirections.actionFeedFragmentToSettingsFragment()
-           Navigation.findNavController(requireView()).navigate(action)
+       if(fragmentName == "profile"){
+           val direction=FeedFragmentDirections.actionFeedFragmentToProfileFragment()
+           Navigation.findNavController(this.requireView()).navigate(direction)
 
        }
-        else if(fragmentName== "profile"){
+        else if(fragmentName=="favorites"){
 
+           val direction=FeedFragmentDirections.actionFeedFragmentToFavoritesFragment()
+           Navigation.findNavController(this.requireView()).navigate(direction)
        }
+        else if(fragmentName=="addNote"){
+           val direction=FeedFragmentDirections.actionFeedFragmentToAddNoteFragment()
+           Navigation.findNavController(this.requireView()).navigate(direction)
+       }
+
 
 
     }

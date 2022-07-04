@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.main.AddNoteFragment">
+
+
+    <ImageView
+        android:id="@+id/imageViewUpload"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/upload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/holo_red_dark" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSave"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginTop="24dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:text="@string/save"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addWeather"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="@string/title"
+        android:textColorHint="#000000"
+        app:helperText="@string/enteratitle"
+        app:helperTextEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewUpload"
+        app:layout_constraintWidth_percent="0.8"
+        app:startIconDrawable="@drawable/title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/description"
+        android:textColorHint="#000000"
+        app:helperText="@string/enteradescription"
+        app:helperTextEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="@color/black"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout"
+        app:layout_constraintWidth_percent="0.8"
+        app:startIconDrawable="@drawable/description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descriptionInput"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:gravity="center"
+            android:inputType="textMultiLine|textImeMultiLine|textLongMessage|text"
+            android:lines="7"
+            android:maxLines="20"
+            android:scrollbars="vertical"
+            android:textColor="#000000"
+            android:textColorHint="#000000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+
+        android:id="@+id/addAlarm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_baseline_add_alarm_24"
+        app:layout_constraintBottom_toBottomOf="@+id/addWeather"
+        app:layout_constraintEnd_toStartOf="@+id/addWeather"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toStartOf="@+id/descriptionLayout"
+        app:layout_constraintTop_toTopOf="@+id/addWeather"
+        app:layout_constraintWidth_percent="0.15"
+        android:background="@android:color/transparent"
+        app:tint="@android:color/holo_red_dark" />
+
+    <ImageButton
+        android:id="@+id/addWeather"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cloud"
+        app:layout_constraintEnd_toStartOf="@+id/addLocation"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addAlarm"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionLayout"
+        app:layout_constraintWidth_percent="0.15"
+        app:tint="@android:color/holo_red_dark" />
+
+    <ImageButton
+        android:id="@+id/addLocation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/location"
+        app:layout_constraintBottom_toBottomOf="@+id/addWeather"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionLayout"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toEndOf="@+id/addWeather"
+        app:tint="@android:color/holo_red_dark"
+        app:layout_constraintTop_toTopOf="@+id/addWeather"
+        android:background="@android:color/transparent"
+        app:layout_constraintWidth_percent="0.15" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

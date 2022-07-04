@@ -55,4 +55,12 @@
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="loggedout">Çıkış Yapıldı!</string>
+    <string name="favorites">Favoriler</string>
+    <string name="title">Başlık</string>
+    <string name="description">Açıklama</string>
+    <string name="enteratitle">Lütfen Başlık Giriniz</string>
+    <string name="enteradescription">Lütfen Açıklama Giriniz</string>
+    <string name="selectanImage">Lütfen Bir Görsel Seçiniz</string>
+    <string name="save">Kaydet</string>
+    <string name="atleast3character">En Az 3 Karakter Giriniz</string>
 </resources>
