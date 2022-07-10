@@ -49,10 +49,6 @@ class LoginFragment : Fragment() {
        textChangeListener()
         buttonClickListener()
         observeLiveData()
-        val auth=FirebaseAuth.getInstance()
-        if(auth.currentUser!=null){
-            startActivity(Intent(this.context,MainActivity::class.java))
-        }
 
 
     }

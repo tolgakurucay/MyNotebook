@@ -1,18 +1,29 @@
 package com.tolgakurucay.mynotebook.views.main
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.ColorFilter
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentAddNoteBinding
+import com.tolgakurucay.mynotebook.models.NoteModel
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.viewmodels.main.AddNoteFragmentViewModel
 import kotlin.math.log
 
@@ -21,6 +32,8 @@ class AddNoteFragment : Fragment() {
 
     private lateinit var binding:FragmentAddNoteBinding
     private lateinit var viewModel:AddNoteFragmentViewModel
+    private var customDialog=CustomLoadingDialog()
+    private var imageUri:Uri?=null
     val TAG="bilgi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +51,32 @@ class AddNoteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        customDialog.show(requireFragmentManager(),"giriş")
+
+
         init()
         textChangeListeners()
         observeLiveData()
+       binding.imageViewUpload.setOnClickListener {
+
+           val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+           sActivityResultLauncher.launch(intent)
+
+       }
+
+        binding.buttonSave.setOnClickListener {
+            if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
+                val currentDate=GetCurrentDate()
+                val note=NoteModel(binding.titleInput.text.toString(),binding.descriptionInput.text.toString(),imageUri,currentDate.currentDate())
+                viewModel.addNoteToLocal(note)
+            }
+            else
+            {
+                Toast.makeText(this.requireContext(),getString(R.string.addtitleanddescription),Toast.LENGTH_LONG).show()
+            }
+        }
+
+
 
 
     }
@@ -49,6 +85,8 @@ class AddNoteFragment : Fragment() {
         viewModel=ViewModelProvider(this)[AddNoteFragmentViewModel::class.java]
 
     }
+
+
 
     private fun textChangeListeners(){
 
@@ -62,6 +100,31 @@ class AddNoteFragment : Fragment() {
         }
 
     }
+
+    var sActivityResultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult(),object:ActivityResultCallback<ActivityResult>{
+        override fun onActivityResult(result: ActivityResult?) {
+            result?.let {
+
+                if(it.resultCode==Activity.RESULT_OK){
+                    val data=result.data
+                    data?.let {
+                        val uri=it.data
+                        uri?.let {
+                            imageUri=it
+                            binding.imageViewUpload.setImageURI(it)
+                            binding.imageViewUpload.background=null
+                        }
+                    }
+
+                }
+            }
+
+
+        }
+
+    })
+
+
 
     private fun observeLiveData(){
 
@@ -93,6 +156,18 @@ class AddNoteFragment : Fragment() {
             if(it==null){
 
                 binding.descriptionLayout.helperText=null
+            }
+        })
+
+        viewModel.addingMessage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it=="added"){
+                    Toast.makeText(this.requireContext(),getString(R.string.addedNote),Toast.LENGTH_LONG).show()
+                }
+                else
+                {
+                    Toast.makeText(this.requireContext(),it,Toast.LENGTH_LONG).show()
+                }
             }
         })
 

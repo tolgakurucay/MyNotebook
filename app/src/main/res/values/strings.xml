@@ -67,5 +67,8 @@
     <string name="selectanImage">Please Select An Image</string>
     <string name="save">Save</string>
     <string name="atleast3character">Enter At Least 3 Characters</string>
+    <string name="loading">Loading</string>
+    <string name="addtitleanddescription">At Least Be Added An Title And An Description</string>
+    <string name="addedNote">Note Has Successfully Added To Database</string>
 
 </resources>
