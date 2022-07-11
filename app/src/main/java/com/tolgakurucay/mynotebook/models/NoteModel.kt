@@ -16,8 +16,8 @@ data class NoteModel(
     @ColumnInfo(name="Description")
     val description:String,
 
-    @ColumnInfo(name="ImageURI")
-    val imageUri: String?,
+    @ColumnInfo(name="Image")
+    val imageBase64: String?,
 
     @ColumnInfo(name="Date")
     val date: Long)

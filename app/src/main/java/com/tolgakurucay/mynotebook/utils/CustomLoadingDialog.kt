@@ -37,10 +37,12 @@ class CustomLoadingDialog() : DialogFragment() {
 
 
 
-
         this.isCancelable=false
         return binding.root
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

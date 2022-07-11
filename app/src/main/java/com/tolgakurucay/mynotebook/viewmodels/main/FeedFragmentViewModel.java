@@ -1,17 +1,21 @@
 package com.tolgakurucay.mynotebook.viewmodels.main;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.Navigation;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.snackbar.Snackbar;
 import com.tolgakurucay.mynotebook.models.NoteModel;
 import com.tolgakurucay.mynotebook.services.NoteDAO;
 import com.tolgakurucay.mynotebook.services.NoteDatabase;
@@ -22,8 +26,6 @@ public class FeedFragmentViewModel extends ViewModel {
 
 
     public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();
-
-
 
 
 
@@ -53,8 +55,10 @@ public class FeedFragmentViewModel extends ViewModel {
             }
         }.getBookDatabase(context);
 
+
         if(db!=null){
             NoteDAO dao= db.noteDao();
+            //dao.deleteAll();
            List<NoteModel> notes = dao.getAllNotes();
            noteList.setValue(notes);
         }

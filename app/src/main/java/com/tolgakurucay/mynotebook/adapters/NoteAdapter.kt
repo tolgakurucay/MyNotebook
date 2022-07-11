@@ -1,5 +1,6 @@
-package com.tolgakurucay.mynotebook
+package com.tolgakurucay.mynotebook.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
@@ -14,6 +15,7 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
 
     private lateinit var binding:NoteLayoutBinding
     private val dateClass= GetCurrentDate()
+    val TAG="bilgi"
 
     class NoteViewHolder(view:View): RecyclerView.ViewHolder(view){
 
@@ -26,9 +28,17 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+
         binding.textViewTitle.setText(noteList[position].title)
         binding.textViewDate.setText(dateClass.getDateFromLong(noteList[position].date))
-        binding.imageViewImage.setImageURI(noteList[position].title.toUri())
+       if(noteList[position].imageBase64!=null){
+           noteList[position].imageBase64?.let {
+               binding.imageViewImage.setImageBitmap(Util.base64ToBitmap(it))
+               binding.imageViewImage.background=null
+           }
+        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -37,7 +47,7 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
 
     fun updateNoteList(newNoteList:List<NoteModel>){
         noteList.clear()
-        noteList=ArrayList(newNoteList)
+        noteList= ArrayList(newNoteList)
         notifyDataSetChanged()
     }
 

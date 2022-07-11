@@ -21,6 +21,8 @@ interface NoteDAO {
      @Query("select * from notes where id=:uuid")
       fun getNote(uuid:Int):NoteModel
 
+    @Query("delete from notes")
+    fun deleteAll()
 
 
 }

@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS"/>
 
 
     <meta-data
@@ -14,6 +16,8 @@
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
+
+
 
     <application
         android:name=".utils.FirstClass"
@@ -27,11 +31,11 @@
         <activity
             android:name=".views.login.SocialLoginActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".views.main.MainActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".views.login.LoginActivity"
             android:screenOrientation="portrait"

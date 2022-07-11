@@ -25,7 +25,6 @@ public class AddNoteFragmentViewModel extends ViewModel {
     public MutableLiveData<String> titleMessage=new MutableLiveData<>();
     public MutableLiveData<String> descriptionMessage=new MutableLiveData<>();
     public MutableLiveData<String> addingMessage=new MutableLiveData<>();
-    public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();
 
     public void verifyTitle(String title){
         if(Objects.equals(title, "")){
@@ -84,6 +83,7 @@ public class AddNoteFragmentViewModel extends ViewModel {
             if(db!=null){
                 NoteDAO dao= db.noteDao();
                 dao.insertNote(note);
+                addingMessage.setValue("added");
             }
 
 

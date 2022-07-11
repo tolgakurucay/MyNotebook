@@ -1,8 +1,12 @@
 package com.tolgakurucay.mynotebook.views.main
 
+import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,12 +14,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.tolgakurucay.mynotebook.NoteAdapter
+import com.tolgakurucay.mynotebook.adapters.NoteAdapter
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
@@ -31,6 +38,7 @@ class FeedFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestPermissions()
 
     }
 
@@ -88,6 +96,33 @@ class FeedFragment : Fragment() {
         binding.bottomNavigationView.background=null
         binding.bottomNavigationView.menu.getItem(2).isEnabled=false
         viewModel.getAllNotes(this.requireContext())
+
+
+    }
+
+
+    private fun requestPermissions(){
+        if(ContextCompat.checkSelfPermission(this.requireContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
+            Snackbar.make(this.requireView(),"Permission Needed",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission",object: View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(this@FeedFragment.requireActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)){
+                        ActivityCompat.requestPermissions(this@FeedFragment.requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
+                    }
+                    else
+                    {
+                        val intent=Intent()
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        val uri= Uri.fromParts("package",this@FeedFragment.requireActivity().packageName,null)
+                        intent.setData(uri)
+                        startActivity(intent)
+                    }
+
+                }
+
+            }).show()
+        }
+
     }
     private fun buttonClickListener(){
         binding.buttonAddNote.setOnClickListener {

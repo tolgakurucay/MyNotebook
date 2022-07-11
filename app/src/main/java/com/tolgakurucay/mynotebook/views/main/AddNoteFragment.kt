@@ -26,6 +26,7 @@ import com.tolgakurucay.mynotebook.databinding.FragmentAddNoteBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
+import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.AddNoteFragmentViewModel
 import kotlin.math.log
 
@@ -35,9 +36,10 @@ class AddNoteFragment : Fragment() {
     private lateinit var binding:FragmentAddNoteBinding
     private lateinit var viewModel:AddNoteFragmentViewModel
     private var customDialog=CustomLoadingDialog()
-    private var imageUri:String?=null
+    private var imageUri:Uri?=null
     private var imageBitmap:Bitmap?=null
     val TAG="bilgi"
+    val currentDate=GetCurrentDate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +70,18 @@ class AddNoteFragment : Fragment() {
        }
 
         binding.buttonSave.setOnClickListener {
+            var scaled:Bitmap?=null
             customDialog.show(requireFragmentManager(),"giriş")
             if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
-                val currentDate=GetCurrentDate()
-                val note=NoteModel(binding.titleInput.text.toString().replaceFirstChar { it.uppercase() },binding.descriptionInput.text.toString(),it.toString(),currentDate.currentDateAsLong())
+
+                if(imageUri!=null){
+                    scaled=Util.makeSmallerBitmap(MediaStore.Images.Media.getBitmap(this.activity!!.contentResolver,imageUri),200)
+
+                }
+
+
+
+                val note=NoteModel(binding.titleInput.text.toString().replaceFirstChar { it.uppercase() },binding.descriptionInput.text.toString(),Util.bitmapToBase64(scaled),currentDate.currentDateAsLong())
                 viewModel.addNoteToLocal(note,requireContext())
                 customDialog.dismiss()
             }
@@ -116,8 +126,9 @@ class AddNoteFragment : Fragment() {
                     data?.let {
                         val uri=it.data
                         uri?.let {
-                            imageUri=it.toString()
+                            imageUri=it
                             binding.imageViewUpload.background=null
+                            binding.imageViewUpload.setImageURI(it)
                         }
                     }
 

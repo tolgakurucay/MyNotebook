@@ -18,7 +18,6 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
-import com.tolgakurucay.mynotebook.views.main.FeedFragmentDirections
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 
 
@@ -52,6 +51,10 @@ class LoginFragment : Fragment() {
 
 
     }
+
+
+
+
 
     private fun buttonClickListener(){
         binding.textViewForgotYourPassword.setOnClickListener {
