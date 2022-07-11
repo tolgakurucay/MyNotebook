@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/hide_image.xml" value="0.3505" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/input_background.xml" value="0.3495" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/loading_dialog_shape.xml" value="0.207" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/note_background.xml" value="0.3505" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/note_background_top.xml" value="0.3495" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/sign_button_gradient.xml" value="0.244" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/sign_button_shape.xml" value="0.1895" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/font/font.xml" value="0.3103890551517743" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_log.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -19,6 +23,7 @@
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_settings.xml" value="0.2864471996579735" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/note_layout.xml" value="0.67" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1" />
       </map>
     </option>

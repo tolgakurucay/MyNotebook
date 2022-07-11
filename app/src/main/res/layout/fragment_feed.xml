@@ -8,16 +8,35 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.MaterialComponents"
+
     tools:context=".views.main.MainActivity">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
+    <TextView
+        android:id="@+id/textViewError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nonotes"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:theme="@style/Theme.MaterialComponents"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,18 +46,18 @@
             android:id="@+id/bottomAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:fabCradleMargin="10dp"
-            app:fabAnimationMode="scale"
+            android:layout_gravity="bottom"
             android:background="@color/black"
-            app:fabCradleRoundedCornerRadius="25dp"
-            android:layout_gravity="bottom">
+            app:fabAnimationMode="scale"
+            app:fabCradleMargin="10dp"
+            app:fabCradleRoundedCornerRadius="25dp">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigationView"
                 android:layout_width="match_parent"
-                app:menu="@menu/bottom_navigation_menu"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:layout_height="match_parent">
+                app:menu="@menu/bottom_navigation_menu">
 
             </com.google.android.material.bottomnavigation.BottomNavigationView>
 
@@ -55,18 +74,7 @@
             app:layout_anchor="@id/bottomAppBar" />
 
 
-
-
-
-
-
-
-
-
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

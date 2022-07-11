@@ -2,6 +2,7 @@ package com.tolgakurucay.mynotebook.views.main
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.ColorFilter
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentAddNoteBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
@@ -34,6 +36,7 @@ class AddNoteFragment : Fragment() {
     private lateinit var viewModel:AddNoteFragmentViewModel
     private var customDialog=CustomLoadingDialog()
     private var imageUri:String?=null
+    private var imageBitmap:Bitmap?=null
     val TAG="bilgi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +71,7 @@ class AddNoteFragment : Fragment() {
             customDialog.show(requireFragmentManager(),"giriş")
             if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
                 val currentDate=GetCurrentDate()
-                val note=NoteModel(binding.titleInput.text.toString(),binding.descriptionInput.text.toString(),imageUri,currentDate.currentDateAsLong())
+                val note=NoteModel(binding.titleInput.text.toString().replaceFirstChar { it.uppercase() },binding.descriptionInput.text.toString(),it.toString(),currentDate.currentDateAsLong())
                 viewModel.addNoteToLocal(note,requireContext())
                 customDialog.dismiss()
             }
@@ -114,7 +117,6 @@ class AddNoteFragment : Fragment() {
                         val uri=it.data
                         uri?.let {
                             imageUri=it.toString()
-                            binding.imageViewUpload.setImageURI(it)
                             binding.imageViewUpload.background=null
                         }
                     }
@@ -166,6 +168,8 @@ class AddNoteFragment : Fragment() {
             it?.let {
                 if(it=="added"){
                     Toast.makeText(this.requireContext(),getString(R.string.addedNote),Toast.LENGTH_LONG).show()
+                    val action=AddNoteFragmentDirections.actionAddNoteFragmentToFeedFragment()
+                    Navigation.findNavController(this.requireView()).navigate(action)
                 }
                 else
                 {
@@ -174,6 +178,7 @@ class AddNoteFragment : Fragment() {
                 }
             }
         })
+
 
 
 

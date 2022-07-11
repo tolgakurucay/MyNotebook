@@ -1,6 +1,7 @@
 package com.tolgakurucay.mynotebook.viewmodels.main;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -16,13 +17,15 @@ import com.tolgakurucay.mynotebook.services.NoteDatabase;
 import com.tolgakurucay.mynotebook.models.NoteModel;
 import com.tolgakurucay.mynotebook.services.NoteDatabase_Impl;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AddNoteFragmentViewModel extends ViewModel {
 
-    public MutableLiveData<String> titleMessage=new MutableLiveData();
-    public MutableLiveData<String> descriptionMessage=new MutableLiveData();
-    public MutableLiveData<String> addingMessage=new MutableLiveData();
+    public MutableLiveData<String> titleMessage=new MutableLiveData<>();
+    public MutableLiveData<String> descriptionMessage=new MutableLiveData<>();
+    public MutableLiveData<String> addingMessage=new MutableLiveData<>();
+    public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();
 
     public void verifyTitle(String title){
         if(Objects.equals(title, "")){
@@ -78,8 +81,12 @@ public class AddNoteFragmentViewModel extends ViewModel {
                 }
             }.getBookDatabase(context);
 
-            NoteDAO dao= db.noteDao();
-            dao.insertNote(note);
+            if(db!=null){
+                NoteDAO dao= db.noteDao();
+                dao.insertNote(note);
+            }
+
+
 
 
         }
@@ -91,9 +98,7 @@ public class AddNoteFragmentViewModel extends ViewModel {
     }
 
 
-    public void getNotes(){
 
-    }
 
 
 

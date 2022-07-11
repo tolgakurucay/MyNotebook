@@ -66,4 +66,5 @@
     <string name="loading">Yükleniyor</string>
     <string name="addtitleanddescription">En Az Bir Başlık Ve Açıklama Eklenmiş Olması Gerekmektedir</string>
     <string name="addedNote">Not Veritabanına Başarıyla Kaydedildi</string>
+    <string name="nonotes">Not Yok</string>
 </resources>

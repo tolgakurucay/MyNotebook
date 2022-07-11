@@ -10,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.tolgakurucay.mynotebook.NoteAdapter
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
@@ -22,6 +25,7 @@ class FeedFragment : Fragment() {
 
     private lateinit var binding:FragmentFeedBinding
     private lateinit var viewModel:FeedFragmentViewModel
+    private var noteAdapter= NoteAdapter(arrayListOf())
     var TAG="bilgi"
     private lateinit var auth:FirebaseAuth
 
@@ -47,13 +51,43 @@ class FeedFragment : Fragment() {
     }
 
     private fun observeLiveData(){
+        viewModel.noteList.observe(viewLifecycleOwner, Observer {
+            if(it!=null){
+                binding.textViewError.visibility=View.INVISIBLE
+                if(it.isEmpty()){
+                    Log.d(TAG, "observeLiveData: boş"+it.toString())
+
+                }
+                else
+                {
+                    Log.d(TAG, "observeLiveData: veri var"+it.toString())
+                    noteAdapter.updateNoteList(it)
+                }
+
+
+            }
+            else
+            {
+                binding.textViewError.visibility=View.VISIBLE
+                Log.d(TAG, "observeLiveData: hata")
+
+            }
+            
+           
+            
+        })
 
     }
     private fun init(){
         auth= FirebaseAuth.getInstance()
+        binding.recyclerView.layoutManager=GridLayoutManager(this.requireContext(),2,GridLayoutManager.VERTICAL,false)
+        binding.recyclerView.adapter=noteAdapter
+
         viewModel=ViewModelProvider(this).get(FeedFragmentViewModel::class.java)
+
         binding.bottomNavigationView.background=null
         binding.bottomNavigationView.menu.getItem(2).isEnabled=false
+        viewModel.getAllNotes(this.requireContext())
     }
     private fun buttonClickListener(){
         binding.buttonAddNote.setOnClickListener {
