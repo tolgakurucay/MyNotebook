@@ -1,4 +1,4 @@
-package com.tolgakurucay.mynotebook
+package com.tolgakurucay.mynotebook.services
 
 import androidx.room.Dao
 import androidx.room.Delete

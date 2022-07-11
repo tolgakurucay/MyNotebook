@@ -7,6 +7,7 @@ public class GetCurrentDate {
     public Timestamp currentDate(){
        return Timestamp.now();
     }
+    public Long currentDateAsLong(){return Timestamp.now().toDate().getTime();}
 
 
 }

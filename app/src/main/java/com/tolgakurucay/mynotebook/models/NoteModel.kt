@@ -16,10 +16,10 @@ data class NoteModel(
     val description:String,
 
     @ColumnInfo(name="ImageURI")
-    val imageUri: Uri?,
+    val imageUri: String?,
 
     @ColumnInfo(name="Date")
-    val date: Timestamp)
+    val date: Long)
 {
     @PrimaryKey(autoGenerate = true)
     var id:Int=0

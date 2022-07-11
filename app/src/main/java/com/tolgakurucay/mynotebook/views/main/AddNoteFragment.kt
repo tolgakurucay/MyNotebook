@@ -33,7 +33,7 @@ class AddNoteFragment : Fragment() {
     private lateinit var binding:FragmentAddNoteBinding
     private lateinit var viewModel:AddNoteFragmentViewModel
     private var customDialog=CustomLoadingDialog()
-    private var imageUri:Uri?=null
+    private var imageUri:String?=null
     val TAG="bilgi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ class AddNoteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        customDialog.show(requireFragmentManager(),"giriş")
+        //customDialog.show(requireFragmentManager(),"giriş")
 
 
         init()
@@ -65,14 +65,17 @@ class AddNoteFragment : Fragment() {
        }
 
         binding.buttonSave.setOnClickListener {
+            customDialog.show(requireFragmentManager(),"giriş")
             if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
                 val currentDate=GetCurrentDate()
-                val note=NoteModel(binding.titleInput.text.toString(),binding.descriptionInput.text.toString(),imageUri,currentDate.currentDate())
-                viewModel.addNoteToLocal(note)
+                val note=NoteModel(binding.titleInput.text.toString(),binding.descriptionInput.text.toString(),imageUri,currentDate.currentDateAsLong())
+                viewModel.addNoteToLocal(note,requireContext())
+                customDialog.dismiss()
             }
             else
             {
                 Toast.makeText(this.requireContext(),getString(R.string.addtitleanddescription),Toast.LENGTH_LONG).show()
+                customDialog.dismiss()
             }
         }
 
@@ -110,7 +113,7 @@ class AddNoteFragment : Fragment() {
                     data?.let {
                         val uri=it.data
                         uri?.let {
-                            imageUri=it
+                            imageUri=it.toString()
                             binding.imageViewUpload.setImageURI(it)
                             binding.imageViewUpload.background=null
                         }
@@ -167,6 +170,7 @@ class AddNoteFragment : Fragment() {
                 else
                 {
                     Toast.makeText(this.requireContext(),it,Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "observeLiveData: $it")
                 }
             }
         })

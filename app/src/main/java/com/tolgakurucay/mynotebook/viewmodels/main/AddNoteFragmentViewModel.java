@@ -1,18 +1,20 @@
 package com.tolgakurucay.mynotebook.viewmodels.main;
 
-import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
+import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-import com.tolgakurucay.mynotebook.BaseViewModel;
-import com.tolgakurucay.mynotebook.NoteDAO;
-import com.tolgakurucay.mynotebook.NoteDatabase;
+
+import com.tolgakurucay.mynotebook.services.NoteDAO;
+import com.tolgakurucay.mynotebook.services.NoteDatabase;
 import com.tolgakurucay.mynotebook.models.NoteModel;
+import com.tolgakurucay.mynotebook.services.NoteDatabase_Impl;
 
 import java.util.Objects;
 
@@ -46,37 +48,39 @@ public class AddNoteFragmentViewModel extends ViewModel {
         }
     }
 
-    public void addNoteToLocal(NoteModel note){
+    public void addNoteToLocal(NoteModel note, Context context){
 
         try{
-           NoteDatabase database= new NoteDatabase() {
-               @NonNull
-               @Override
-               protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
-                   return null;
-               }
 
-               @NonNull
-               @Override
-               protected InvalidationTracker createInvalidationTracker() {
-                   return null;
-               }
 
-               @Override
-               public void clearAllTables() {
+            NoteDatabase db = new NoteDatabase() {
+                @NonNull
+                @Override
+                protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
+                    return null;
+                }
 
-               }
+                @NonNull
+                @Override
+                protected InvalidationTracker createInvalidationTracker() {
+                    return null;
+                }
 
-               @NonNull
-               @Override
-               public NoteDAO noteDao() {
-                   return null;
-               }
-           };
+                @Override
+                public void clearAllTables() {
 
-            NoteDAO dao=database.noteDao();
+                }
+
+                @NonNull
+                @Override
+                public NoteDAO noteDao() {
+                    return null;
+                }
+            }.getBookDatabase(context);
+
+            NoteDAO dao= db.noteDao();
             dao.insertNote(note);
-            addingMessage.setValue("added");
+
 
         }
         catch (Exception ex){
@@ -84,12 +88,10 @@ public class AddNoteFragmentViewModel extends ViewModel {
         }
 
 
+    }
 
 
-
-
-
-
+    public void getNotes(){
 
     }
 
