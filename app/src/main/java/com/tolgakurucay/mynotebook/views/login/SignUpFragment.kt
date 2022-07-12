@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentSignUpBinding
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.viewmodels.login.SignUpFragmentViewModel
 
 
@@ -23,6 +24,7 @@ class SignUpFragment : Fragment() {
 
     private lateinit var binding:FragmentSignUpBinding
     private lateinit var viewModel: SignUpFragmentViewModel
+    private var loadingDialog= CustomLoadingDialog()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,11 +158,11 @@ class SignUpFragment : Fragment() {
         viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
-                    binding.progressBarSignUp.visibility=View.VISIBLE
+                    loadingDialog.show(requireFragmentManager(),"started")
                 }
                 else
                 {
-                    binding.progressBarSignUp.visibility=View.INVISIBLE
+                    loadingDialog.dismiss()
                 }
             }
         })

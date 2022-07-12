@@ -40,6 +40,7 @@ class FeedFragment : Fragment() {
         super.onCreate(savedInstanceState)
         requestPermissions()
 
+
     }
 
     override fun onCreateView(
@@ -88,6 +89,7 @@ class FeedFragment : Fragment() {
     }
     private fun init(){
         auth= FirebaseAuth.getInstance()
+
         binding.recyclerView.layoutManager=GridLayoutManager(this.requireContext(),2,GridLayoutManager.VERTICAL,false)
         binding.recyclerView.adapter=noteAdapter
 

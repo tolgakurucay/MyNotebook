@@ -16,10 +16,16 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.ActivitySocialLoginBinding
+import com.tolgakurucay.mynotebook.models.CreateUserModel
+import com.tolgakurucay.mynotebook.models.CreateUserWithPhone
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.SignType
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 import java.util.concurrent.TimeUnit
+import kotlin.math.log
 
 class SocialLoginActivity : AppCompatActivity() {
     
@@ -30,6 +36,7 @@ class SocialLoginActivity : AppCompatActivity() {
     private lateinit var phoneCallBacks:PhoneAuthProvider.OnVerificationStateChangedCallbacks
     private lateinit var forceResendingToken:PhoneAuthProvider.ForceResendingToken
     private val TAG="bilgi"
+    private var loadingDialog=CustomLoadingDialog()
     
     
     
@@ -81,33 +88,35 @@ class SocialLoginActivity : AppCompatActivity() {
 
 
     private fun phoneSignIn() {
+
         hideDown()
         phoneListener()
-                binding.progressBar.visibility=View.INVISIBLE
+
         
                 binding.buttonSignPhone.setOnClickListener {
-                    binding.progressBar.visibility=View.VISIBLE
-                    
+                        loadingDialog.show(supportFragmentManager,"started")
                     if(isPhone10==true){
                         //doğrulama
                         phoneNumber=binding.countryCodePicker.selectedCountryCodeWithPlus+binding.phoneSignInInput.text.toString()
                         phoneCallBacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
                             override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                                binding.progressBar.visibility=View.INVISIBLE
+
+
                             }
 
                             override fun onCodeSent(storedVerificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
                                 verificationId=storedVerificationId
                                 forceResendingToken=p1
                                 hideUp()
-                                binding.progressBar.visibility=View.INVISIBLE
+                                loadingDialog.dismiss()
 
                             }
 
                             override fun onVerificationFailed(p0: FirebaseException) {
                                 Log.d(TAG, "onVerificationFailed: ${p0.localizedMessage}")
                                 Toast.makeText(this@SocialLoginActivity,p0.localizedMessage,Toast.LENGTH_LONG).show()
-                                binding.progressBar.visibility=View.INVISIBLE
+                                loadingDialog.dismiss()
+
                             }
 
                         }
@@ -127,60 +136,93 @@ class SocialLoginActivity : AppCompatActivity() {
                     else
                     {
                         Toast.makeText(this@SocialLoginActivity,getString(R.string.phonenumber10),Toast.LENGTH_LONG).show()
-                        binding.progressBar.visibility=View.INVISIBLE
+
                     }
                     
 
                 }
         
         binding.buttonSignPhone1.setOnClickListener {
-            binding.progressBar.visibility=View.VISIBLE
+
+            loadingDialog.show(supportFragmentManager,"started")
             if(isCode6){
 
                     val credential=PhoneAuthProvider.getCredential(verificationId,binding.phoneOTB.text.toString())
                     auth.signInWithCredential(credential)
                         .addOnSuccessListener {
-                            Toast.makeText(this@SocialLoginActivity,getString(R.string.verificationsuccessful),Toast.LENGTH_SHORT).show()
-                            val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                            binding.progressBar.visibility=View.INVISIBLE
+
+                            isUserSavedToFirebase {
+                                if(!it){
+                                    saveToFirebaseWithPhone {
+                                        if(it){
+                                            Log.d(TAG, "phoneSignIn: yeni kayıt olundu")
+                                            Toast.makeText(this@SocialLoginActivity,getString(R.string.verificationsuccessful),Toast.LENGTH_SHORT).show()
+                                            val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(this,"Error!",Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Log.d(TAG, "phoneSignIn:  kayıt olunmuş")
+                                    Log.d(TAG, auth.currentUser!!.phoneNumber!!)
+                                    Toast.makeText(this@SocialLoginActivity,getString(R.string.verificationsuccessful),Toast.LENGTH_SHORT).show()
+                                    val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                                    SignType.signType="phone"
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            }
+
+
+
+
                         }
                         .addOnFailureListener {
                             Toast.makeText(this@SocialLoginActivity,getString(R.string.verificationfailed)+"\n"+it.toString(),Toast.LENGTH_SHORT).show()
-                            binding.progressBar.visibility=View.INVISIBLE
+                            loadingDialog.dismiss()
+
                         }
 
             }
             else
             {
                 Toast.makeText(this@SocialLoginActivity,getString(R.string.code6),Toast.LENGTH_LONG).show()
-                binding.progressBar.visibility=View.INVISIBLE
+                loadingDialog.dismiss()
+
             }
         }
         
         binding.textViewResendCode.setOnClickListener {
+            loadingDialog.show(supportFragmentManager,"started")
             binding.phoneOTB.setText("")
-            binding.progressBar.visibility=View.VISIBLE
+
             phoneCallBacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
                 override fun onVerificationCompleted(p0: PhoneAuthCredential) {
                     Log.d(TAG, "onVerifivationCompleted: ${p0.toString()}")
-                    binding.progressBar.visibility=View.INVISIBLE
+
                 }
 
                 override fun onCodeSent(storedVerificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
-                    binding.progressBar.visibility=View.INVISIBLE
+
                     verificationId=storedVerificationId
                     forceResendingToken=p1
                     Toast.makeText(this@SocialLoginActivity,getString(R.string.codesent),Toast.LENGTH_SHORT).show()
+                    loadingDialog.dismiss()
                     
 
                 }
 
                 override fun onVerificationFailed(p0: FirebaseException) {
-                    binding.progressBar.visibility=View.INVISIBLE
+
                     Log.d(TAG, "onVerificationFailed: ${p0.localizedMessage}")
                     Toast.makeText(this@SocialLoginActivity,p0.localizedMessage,Toast.LENGTH_LONG).show()
+                    loadingDialog.dismiss()
                 }
 
             }
@@ -227,6 +269,7 @@ class SocialLoginActivity : AppCompatActivity() {
     }
 
     private fun googleSignIn() {
+        loadingDialog.show(supportFragmentManager,"started")
         gso=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -234,7 +277,9 @@ class SocialLoginActivity : AppCompatActivity() {
         mGoogleSignInClient=GoogleSignIn.getClient(this,gso)
 
         val signInIntent: Intent =mGoogleSignInClient.signInIntent
+       // loadingDialog.dismiss()
         startActivityForResult(signInIntent,58)
+
 
 
 
@@ -242,36 +287,136 @@ class SocialLoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if(requestCode==58){
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
+
+        }
+        else
+        {
+
         }
     }
 
     private fun handleResult(completedTask:Task<GoogleSignInAccount>) {
+
         try{
             val account: GoogleSignInAccount?=completedTask.getResult(ApiException::class.java)
             if(account!=null){
                 updateUI(account)
+
+            }
+            else
+            {
+
             }
         }
         catch (e: ApiException){
             Log.d(TAG, "handleResult: ${e.localizedMessage}")
+
         }
 
     }
 
+
+    private fun saveToFirebase(completion:(isTrue:Boolean)->Unit){
+
+        val auth=FirebaseAuth.getInstance()
+        val firebase=FirebaseFirestore.getInstance()
+        auth.currentUser?.let {
+            val user=CreateUserModel(it.displayName,null,it.email,null,null)
+            firebase.collection("Users").document(it.uid).set(user).addOnSuccessListener {
+                completion(true)
+            }
+                .addOnFailureListener {
+                    completion(false)
+                }
+        }
+    }
+
+    private fun saveToFirebaseWithPhone(completion:(isTrue:Boolean)->Unit){
+
+        val auth=FirebaseAuth.getInstance()
+        val firebase=FirebaseFirestore.getInstance()
+        auth.currentUser?.let {
+            val user=CreateUserWithPhone(it.phoneNumber.toString(),null,null,null)
+            firebase.collection("Users").document(it.uid).set(user).addOnSuccessListener {
+                completion(true)
+            }
+                .addOnFailureListener {
+                    completion(false)
+                }
+        }
+    }
+
+    private fun isUserSavedToFirebase(completion:(isTrue:Boolean)->Unit){
+        val auth=FirebaseAuth.getInstance()
+        val firebase=FirebaseFirestore.getInstance()
+        auth.currentUser?.let {
+            
+            firebase.collection("Users").document(it.uid).get()
+                .addOnSuccessListener { 
+                    if(it!=null){
+                        if(it.exists()){
+                            completion(true)
+                        }
+                        else
+                        {
+                            completion(false)
+                        }
+                    }
+                    else
+                    {
+                        completion(false)
+                    }
+                }
+        }
+    }
+
     private fun updateUI(account: GoogleSignInAccount) {
+
+
+
         val credential = GoogleAuthProvider.getCredential(account.idToken,null)
         auth.signInWithCredential(credential)
             .addOnSuccessListener {
                 Log.d(TAG, "updateUI: giriş başarılı")
-                val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                isUserSavedToFirebase {
+                    if(!it){
+                        Log.d(TAG, "updateUI: veritabanına kaydedilmemiş")
+                        saveToFirebase {
+
+                            if(it){
+                                Log.d(TAG, "updateUI: Şimdi kaydedildi")
+                                val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                                Log.d(TAG, auth.currentUser!!.email!!)
+                                SignType.signType="email"
+                                startActivity(intent)
+                                finish()
+                            }
+                            else
+                            {
+                                Toast.makeText(this,"Error",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                    else{
+                        Log.d(TAG, "updateUI: veritabanına kaydedilmiş")
+                        val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                        Log.d(TAG, auth.currentUser!!.email!!)
+                        SignType.signType="email"
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+
+
+
             }
             .addOnFailureListener {
                 Log.d(TAG, "updateUI: giriş başarısız")
+
             }
 
     }

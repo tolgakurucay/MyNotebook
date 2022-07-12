@@ -20,16 +20,6 @@
 
     </ImageView>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/baseConstraint"
-        app:layout_constraintEnd_toEndOf="@id/baseConstraint"
-        app:layout_constraintStart_toStartOf="@id/baseConstraint"
-        app:layout_constraintTop_toTopOf="@id/baseConstraint" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutUp"

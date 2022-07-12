@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/add_note_background"
     tools:context=".views.main.AddNoteFragment">
 
 
@@ -12,10 +13,10 @@
         android:id="@+id/imageViewUpload"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/upload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5" />
@@ -25,11 +26,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:text="@string/save"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintHorizontal_bias="0.493"
@@ -44,14 +44,15 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:hint="@string/title"
-        android:textColorHint="#000000"
+        android:textColorHint="#FFFFFF"
         app:helperText="@string/enteratitle"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/white"
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
-        app:hintTextColor="@color/black"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.125"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewUpload"
         app:layout_constraintWidth_percent="0.8"
@@ -64,8 +65,8 @@
             android:background="@android:drawable/screen_background_light_transparent"
 
             android:inputType="textPersonName"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FDFDFD"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,15 +77,16 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:hint="@string/description"
-        android:textColorHint="#000000"
+        android:textColorHint="#FFFFFF"
         app:helperText="@string/enteradescription"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/white"
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
-        app:hintTextColor="@color/black"
+        app:hintTextColor="#FFFFFF"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.250"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleLayout"
         app:layout_constraintWidth_percent="0.8"
@@ -96,8 +98,8 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/screen_background_light_transparent"
             android:scrollbars="vertical"
-            android:textColor="#000000"
-            android:textColorHint="#000000" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -114,13 +116,13 @@
         app:layout_constraintStart_toStartOf="@+id/descriptionLayout"
         app:layout_constraintTop_toTopOf="@+id/addWeather"
         app:layout_constraintWidth_percent="0.15"
-        app:tint="@android:color/holo_red_dark" />
+        app:tint="@color/white" />
 
     <ImageButton
         android:id="@+id/addWeather"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:src="@drawable/cloud"
         android:visibility="invisible"

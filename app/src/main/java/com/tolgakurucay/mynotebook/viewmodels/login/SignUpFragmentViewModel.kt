@@ -83,7 +83,7 @@ class SignUpFragmentViewModel : ViewModel() {
             .addOnSuccessListener {
                 auth.currentUser!!.sendEmailVerification()
                     .addOnSuccessListener {
-                        val newUser=CreateUserModel(name,surname,email,password)
+                        val newUser=CreateUserModel(name,surname,email,password,null)
                         firestore.collection("Users").document(auth.currentUser!!.uid).set(newUser)
                             .addOnSuccessListener {
                                 createMessage.value="success"

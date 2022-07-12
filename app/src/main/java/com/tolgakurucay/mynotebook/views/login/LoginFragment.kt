@@ -2,7 +2,6 @@ package com.tolgakurucay.mynotebook.views.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.google.firebase.auth.FirebaseAuth
-import com.tolgakurucay.mynotebook.BuildConfig
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.SignType
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 
@@ -25,6 +24,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding:FragmentLoginBinding
     private lateinit var viewModel: LoginFragmentViewModel
+    private var loadingDialog=CustomLoadingDialog()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +89,8 @@ class LoginFragment : Fragment() {
             }
         }
         binding.imageViewFacebookSign.setOnClickListener {
+
+
             val intent=Intent(this.activity,SocialLoginActivity::class.java)
             intent.putExtra("signType","facebookSignIn")
             startActivity(intent)
@@ -97,6 +99,7 @@ class LoginFragment : Fragment() {
             }
         }
         binding.imageViewGoogleSign.setOnClickListener {
+
             val intent=Intent(this.activity,SocialLoginActivity::class.java)
             intent.putExtra("signType","googleSignIn")
             startActivity(intent)
@@ -154,7 +157,9 @@ class LoginFragment : Fragment() {
             it?.let { signMessage->
                if(signMessage=="okay"){
                    //Intent
+
                    val intent=Intent(activity, MainActivity::class.java)
+                   SignType.signType="email"
                    startActivity(intent)
                    this.activity?.let {
                        it.finish()
@@ -180,11 +185,11 @@ class LoginFragment : Fragment() {
         viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
-                    binding.progressBarLogin.visibility=View.VISIBLE
+                    loadingDialog.show(requireFragmentManager(),"started")
                 }
                 else
                 {
-                    binding.progressBarLogin.visibility=View.INVISIBLE
+                    loadingDialog.dismiss()
                 }
             }
         })

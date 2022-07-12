@@ -67,4 +67,9 @@
     <string name="addtitleanddescription">En Az Bir Başlık Ve Açıklama Eklenmiş Olması Gerekmektedir</string>
     <string name="addedNote">Not Veritabanına Başarıyla Kaydedildi</string>
     <string name="nonotes">Not Yok</string>
+    <string name="error">Hata!</string>
+    <string name="savedchanges">Değişiklikler Kaydedildi</string>
+    <string name="resetmypassword">Şifremi Sıfırla</string>
+    <string name="changelanguage">Dil Değiştir</string>
+    <string name="upgradepackage">Paketi Yükselt</string>
 </resources>

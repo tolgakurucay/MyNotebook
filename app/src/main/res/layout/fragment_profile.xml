@@ -1,14 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/profileConstraint"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/profile_background"
     tools:context=".views.main.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageViewProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        android:background="@drawable/upload" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonProfileSave"
+        app:layout_constraintWidth_percent="0.8">
+
+        <LinearLayout
+            android:id="@+id/upgradeMyPackage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changeLanguage">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@drawable/brick_background"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/upgradepackage" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/changeLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resetMyPassword">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@drawable/brick_background"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/changelanguage" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resetMyPassword"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25
+"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@drawable/brick_background"
+                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/resetmypassword" />
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/editTextMail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSurname"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <EditText
+        android:id="@+id/editTextSurname"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.075"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewProfile"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <Button
+        android:id="@+id/buttonProfileSave"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMail"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

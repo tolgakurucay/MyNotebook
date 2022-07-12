@@ -71,5 +71,10 @@
     <string name="addtitleanddescription">At Least Be Added An Title And An Description</string>
     <string name="addedNote">Note Has Successfully Added To Database</string>
     <string name="nonotes">No Notes</string>
+    <string name="error">Error!</string>
+    <string name="savedchanges">Saved Changes</string>
+    <string name="resetmypassword">Reset My Password</string>
+    <string name="changelanguage">Change Language</string>
+    <string name="upgradepackage">Upgrade Package</string>
 
 </resources>
