@@ -1,3 +1,5 @@
+@file:Suppress("OverrideDeprecatedMigration")
+
 package com.tolgakurucay.mynotebook.views.login
 
 import android.content.Intent
@@ -107,6 +109,7 @@ class SocialLoginActivity : AppCompatActivity() {
                             override fun onCodeSent(storedVerificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
                                 verificationId=storedVerificationId
                                 forceResendingToken=p1
+                                Toast.makeText(this@SocialLoginActivity,getString(R.string.codesent),Toast.LENGTH_SHORT).show()
                                 hideUp()
                                 loadingDialog.dismiss()
 

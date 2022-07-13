@@ -33,6 +33,32 @@
         app:layout_constraintWidth_percent="0.8">
 
         <LinearLayout
+            android:id="@+id/whoAmI"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.25"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/upgradeMyPackage">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@drawable/pencil" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/whoami"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/upgradeMyPackage"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -44,14 +70,16 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:background="@drawable/brick_background"
-                android:padding="8dp" />
+                android:layout_weight="5"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/chart"
+                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:text="@string/upgradepackage" />
 
@@ -70,14 +98,15 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:background="@drawable/brick_background"
+                android:layout_weight="5"
+                android:background="@drawable/language"
                 android:padding="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:text="@string/changelanguage" />
 
@@ -97,28 +126,30 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:background="@drawable/brick_background"
-                 />
+                android:layout_weight="5"
+                android:background="@drawable/password" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="@string/resetmypassword" />
 
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
+    <TextView
         android:id="@+id/editTextMail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
         android:focusable="false"
+        android:gravity="center"
         android:inputType="none"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,31 +160,39 @@
         android:id="@+id/editTextSurname"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintHeight_percent="0.075"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPersonName"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName"
+        app:layout_constraintWidth_percent="0.8" />
 
     <EditText
+
         android:id="@+id/editTextName"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPersonName"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewProfile"
         app:layout_constraintWidth_percent="0.8" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonProfileSave"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/screen_background_light_transparent"
         android:text="@string/save"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.075"
         app:layout_constraintStart_toStartOf="parent"

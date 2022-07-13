@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/plus"
-            android:background="@color/purple_200"
+            android:backgroundTint="#C38C3B"
             app:layout_anchor="@id/bottomAppBar" />
 
 

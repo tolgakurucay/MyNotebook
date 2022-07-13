@@ -72,4 +72,10 @@
     <string name="resetmypassword">Şifremi Sıfırla</string>
     <string name="changelanguage">Dil Değiştir</string>
     <string name="upgradepackage">Paketi Yükselt</string>
+    <string name="whoami">Ben Kimim ve İletişim</string>
+    <string name="mydescription">" Selam, ben Tolga Kuruçay. İnsanların hayatını kolaylaştıran birçok android uygulaması yapıyorum. Benimle mynotebookapp2022@gmail.com adresinden iletişime geçebilirsiniz."</string>
+    <string name="turkish">Türkçe</string>
+    <string name="english">İngilizce</string>
+    <string name="languageturkish">Dil Türkçeye Çevrildi</string>
+    <string name="languageenglish">Dil İngilizceye Çevrildi</string>
 </resources>

@@ -1,10 +1,15 @@
 package com.tolgakurucay.mynotebook.utils
 
 import android.R
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.DisplayMetrics
 import androidx.appcompat.app.AlertDialog
 import java.io.ByteArrayOutputStream
 import java.sql.Blob
@@ -84,6 +89,16 @@ object Util {
             return null
         }
 
+
+    }
+
+    fun setLocale(lang: String?,activity: Activity) {
+        val myLocale = Locale(lang)
+        val res: Resources = activity.resources
+        val dm: DisplayMetrics = res.getDisplayMetrics()
+        val conf: Configuration = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
 
     }
 
