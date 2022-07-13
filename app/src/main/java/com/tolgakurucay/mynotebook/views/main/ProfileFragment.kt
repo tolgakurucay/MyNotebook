@@ -55,6 +55,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
+
         viewModel.getFromMail(auth.currentUser!!)
             signType{
                 if(it=="email"){
@@ -111,6 +113,8 @@ class ProfileFragment : Fragment() {
         binding.changeLanguage.setOnClickListener {
             val fragmentChangeLanguage=ChangeLanguage()
             fragmentChangeLanguage.show(requireFragmentManager(),null)
+
+
         }
 
 

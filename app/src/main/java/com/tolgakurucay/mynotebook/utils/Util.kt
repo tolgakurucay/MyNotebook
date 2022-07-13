@@ -102,6 +102,17 @@ object Util {
 
     }
 
+     fun getLanguage(activity:Activity) : String{
+        val sharedPreference=activity.getSharedPreferences("com.tolgakurucay.mynotebook",Context.MODE_PRIVATE)
+        return sharedPreference.getString("language","en").toString()
+    }
+
+     fun saveLanguage(languageCode:String,activity: Activity){
+        val sharedPreference=activity.getSharedPreferences("com.tolgakurucay.mynotebook",Context.MODE_PRIVATE)
+        sharedPreference.edit().putString("language",languageCode).commit()
+
+    }
+
 
 
 

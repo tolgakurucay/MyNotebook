@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.ActivityMainBinding
+import com.tolgakurucay.mynotebook.utils.Util
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: mainactivity")
+
+        Util.setLocale(Util.getLanguage(this),this)
 
 
     }

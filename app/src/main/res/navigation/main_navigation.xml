@@ -48,5 +48,14 @@
             android:id="@+id/action_profileFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/changeLanguage2"
+        android:name="com.tolgakurucay.mynotebook.utils.ChangeLanguage"
+        android:label="fragment_change_language"
+        tools:layout="@layout/fragment_change_language" >
+        <action
+            android:id="@+id/action_changeLanguage2_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </dialog>
 
 </navigation>
