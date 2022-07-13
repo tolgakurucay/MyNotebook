@@ -25,6 +25,7 @@ import com.tolgakurucay.mynotebook.models.CreateUserModel
 import com.tolgakurucay.mynotebook.models.CreateUserWithPhone
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.SignType
+import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 import java.util.concurrent.TimeUnit
 import kotlin.math.log
@@ -176,7 +177,8 @@ class SocialLoginActivity : AppCompatActivity() {
                                     Log.d(TAG, auth.currentUser!!.phoneNumber!!)
                                     Toast.makeText(this@SocialLoginActivity,getString(R.string.verificationsuccessful),Toast.LENGTH_SHORT).show()
                                     val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                                    SignType.signType="phone"
+                                    //SignType.signType="phone"
+                                    Util.saveSignType(this,"phone")
                                     startActivity(intent)
                                     finish()
                                 }
@@ -207,7 +209,7 @@ class SocialLoginActivity : AppCompatActivity() {
 
             phoneCallBacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
                 override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                    Log.d(TAG, "onVerifivationCompleted: ${p0.toString()}")
+
 
                 }
 
@@ -223,7 +225,7 @@ class SocialLoginActivity : AppCompatActivity() {
 
                 override fun onVerificationFailed(p0: FirebaseException) {
 
-                    Log.d(TAG, "onVerificationFailed: ${p0.localizedMessage}")
+
                     Toast.makeText(this@SocialLoginActivity,p0.localizedMessage,Toast.LENGTH_LONG).show()
                     loadingDialog.dismiss()
                 }
@@ -280,7 +282,7 @@ class SocialLoginActivity : AppCompatActivity() {
         mGoogleSignInClient=GoogleSignIn.getClient(this,gso)
 
         val signInIntent: Intent =mGoogleSignInClient.signInIntent
-       // loadingDialog.dismiss()
+
         startActivityForResult(signInIntent,58)
 
 
@@ -296,10 +298,7 @@ class SocialLoginActivity : AppCompatActivity() {
             handleResult(task)
 
         }
-        else
-        {
 
-        }
     }
 
     private fun handleResult(completedTask:Task<GoogleSignInAccount>) {
@@ -316,7 +315,7 @@ class SocialLoginActivity : AppCompatActivity() {
             }
         }
         catch (e: ApiException){
-            Log.d(TAG, "handleResult: ${e.localizedMessage}")
+
 
         }
 
@@ -384,17 +383,18 @@ class SocialLoginActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken,null)
         auth.signInWithCredential(credential)
             .addOnSuccessListener {
-                Log.d(TAG, "updateUI: giriş başarılı")
+
                 isUserSavedToFirebase {
                     if(!it){
-                        Log.d(TAG, "updateUI: veritabanına kaydedilmemiş")
+
                         saveToFirebase {
 
                             if(it){
-                                Log.d(TAG, "updateUI: Şimdi kaydedildi")
+
                                 val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
                                 Log.d(TAG, auth.currentUser!!.email!!)
-                                SignType.signType="email"
+
+                                Util.saveSignType(this,"google")
                                 startActivity(intent)
                                 finish()
                             }
@@ -405,10 +405,9 @@ class SocialLoginActivity : AppCompatActivity() {
                         }
                     }
                     else{
-                        Log.d(TAG, "updateUI: veritabanına kaydedilmiş")
+
                         val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                        Log.d(TAG, auth.currentUser!!.email!!)
-                        SignType.signType="email"
+                        Util.saveSignType(this,"google")
                         startActivity(intent)
                         finish()
                     }
@@ -418,7 +417,7 @@ class SocialLoginActivity : AppCompatActivity() {
 
             }
             .addOnFailureListener {
-                Log.d(TAG, "updateUI: giriş başarısız")
+
 
             }
 

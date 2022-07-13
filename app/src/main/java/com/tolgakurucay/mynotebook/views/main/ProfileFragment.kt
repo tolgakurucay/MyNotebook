@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.views.main
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -57,22 +58,20 @@ class ProfileFragment : Fragment() {
 
 
 
-        viewModel.getFromMail(auth.currentUser!!)
-            signType{
-                if(it=="email"){
-                    viewModel.getFromMail(auth.currentUser!!)
+        val signType=Util.getSignType(requireActivity())
+        Log.d(TAG, "onViewCreated: "+signType)
+        when(signType){
+            "email" -> {viewModel.getFromMail(auth.currentUser!!)
+                binding.resetMyPassword.visibility=View.VISIBLE}
+
+            "phone" -> {binding.resetMyPassword.visibility=View.GONE
+                          viewModel.getFromPhone(auth.currentUser!!)}
+
+            "google" -> {binding.resetMyPassword.visibility=View.GONE
+                        viewModel.getFromMail(auth.currentUser!!)}
+        }
 
 
-                }
-                else if(it=="phone"){
-                    binding.resetMyPassword.visibility=View.GONE
-                    viewModel.getFromPhone(auth.currentUser!!)
-                }
-                else
-                {
-                    Log.d(TAG, "onViewCreated: ERROR")
-                }
-            }
          buttonClickListeners()
          observeFlowData()
     }
@@ -82,22 +81,26 @@ class ProfileFragment : Fragment() {
         loadingDialog= CustomLoadingDialog()
         viewModel= ViewModelProvider(this)[ProfileFragmentViewModel::class.java]
         auth=FirebaseAuth.getInstance()
-        signType {
-            if(it=="email"){
-                binding.editTextMail.hint=getString(R.string.email)
+
+        val signType=Util.getSignType(requireActivity())
+        Log.d(TAG, "init: "+signType)
+
+        when(signType){
+            "email" ->  {binding.editTextMail.hint=getString(R.string.email)
+                        binding.editTextName.hint=getString(R.string.name)
+                         binding.editTextName.hint=getString(R.string.surname)}
+
+            "phone" -> {binding.editTextMail.hint=getString(R.string.phonenumber)
+                         binding.editTextName.hint=getString(R.string.name)
+                        binding.editTextName.hint=getString(R.string.surname)}
+
+            "google" -> {binding.editTextMail.hint=getString(R.string.email)
                 binding.editTextName.hint=getString(R.string.name)
-                binding.editTextName.hint=getString(R.string.surname)
-            }
-            else if(it=="phone"){
-                binding.editTextMail.hint=getString(R.string.phonenumber)
-                binding.editTextName.hint=getString(R.string.name)
-                binding.editTextName.hint=getString(R.string.surname)
-            }
-            else
-            {
-                this.activity?.finish()
-            }
+                binding.editTextName.hint=getString(R.string.surname)}
+
         }
+
+
     }
 
 
@@ -117,25 +120,28 @@ class ProfileFragment : Fragment() {
 
         }
 
+        binding.resetMyPassword.setOnClickListener {
+
+        }
+
 
         binding.buttonProfileSave.setOnClickListener {
 
             val name=binding.editTextName.text.toString()
             val surname=binding.editTextSurname.text.toString()
 
-            signType {
-                if(it=="email"){
-                    viewModel.setMail(name,surname,imageBase64,auth.currentUser!!)
-
-                }
-                else if(it=="phone"){
-                    viewModel.setPhone(name,surname,imageBase64,auth.currentUser!!)
-                }
-                else
-                {
-
-                }
+            val signType=Util.getSignType(requireActivity())
+            if(signType=="email"){
+                viewModel.setMail(name,surname,imageBase64,auth.currentUser!!)
             }
+            else if(signType=="google"){
+                viewModel.setMail(name,surname,imageBase64,auth.currentUser!!)
+            }
+            else if(signType=="phone"){
+                viewModel.setPhone(name,surname,imageBase64,auth.currentUser!!)
+            }
+
+
         }
         ///////////////////////////////////
         var sActivityResultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult(),object:ActivityResultCallback<ActivityResult>{
@@ -151,6 +157,7 @@ class ProfileFragment : Fragment() {
                                 val bigBitmap=MediaStore.Images.Media.getBitmap(this@ProfileFragment.requireActivity().contentResolver,imageUri)
                                 imageBitmap=Util.makeSmallerBitmap(bigBitmap,200)
                                 binding.imageViewProfile.setImageBitmap(imageBitmap)
+                                binding.imageViewProfile.background=null
                                 imageBase64=Util.bitmapToBase64(imageBitmap)
 
 
@@ -181,26 +188,6 @@ class ProfileFragment : Fragment() {
     }
 
 
-    private fun signType(completion:(signType:String)->Unit){
-        val signType=SignType.signType
-        signType?.let {
-            if(signType=="email"){
-                Log.d(TAG, "signType: email")
-                completion("email")
-
-            }
-            else if(signType=="phone")
-            {
-                Log.d(TAG, "signType: phone")
-                completion("phone")
-            }
-            else
-            {
-                Log.d(TAG, "signType: error")
-                completion("error")
-            }
-        }
-    }
 
    private fun observeFlowData(){
 
@@ -226,11 +213,20 @@ class ProfileFragment : Fragment() {
                binding.editTextMail.setText(it!!.phoneNumber)
                binding.editTextName.setText(it!!.name)
                binding.editTextSurname.setText(it!!.surname)
-               it!!.photo?.let {
-                   val bitmap=Util.base64ToBitmap(it)
+
+               if(it.photo!="null"){
+                   val bitmap=Util.base64ToBitmap(it.photo)
+                   imageBitmap=bitmap
+                   imageBase64=Util.bitmapToBase64(imageBitmap)
                    binding.imageViewProfile.setImageBitmap(bitmap)
                    binding.imageViewProfile.background=null
                }
+               else
+               {
+                binding.imageViewProfile.setImageResource(R.drawable.ic_baseline_person_24)
+               }
+
+
 
            }
 
@@ -241,14 +237,22 @@ class ProfileFragment : Fragment() {
            viewModel.mailFlow.collect{
 
                it?.let {
-                   Log.d(TAG, "observeFlowData: "+it.toString())
+
                    binding.editTextName.setText(it.name)
                    binding.editTextSurname.setText(it.surname)
                    binding.editTextMail.setText(it.mail)
-                   it!!.photo?.let {
-                       val bitmap=Util.base64ToBitmap(it)
+                   if(it.photo!="null"){
+                       Log.d("bilgi","setimage alındı : ")
+                       val bitmap=Util.base64ToBitmap(it.photo)
+                       imageBitmap=bitmap
+                       imageBase64=Util.bitmapToBase64(imageBitmap)
                        binding.imageViewProfile.setImageBitmap(bitmap)
                        binding.imageViewProfile.background=null
+                   }
+                   else
+                   {
+                       Log.d("bilgi","setimage alınamadı")
+
                    }
                }
            }

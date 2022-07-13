@@ -113,6 +113,16 @@ object Util {
 
     }
 
+    fun saveSignType(activity:Activity,signType:String){
+        val sharedPreferences=activity.getSharedPreferences("com.tolgakurucay.mynotebook",Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("signType",signType).commit()
+    }
+
+    fun getSignType(activity:Activity): String{
+        val sharedPreferences=activity.getSharedPreferences("com.tolgakurucay.mynotebook",Context.MODE_PRIVATE)
+        return sharedPreferences.getString("signType","google").toString()
+    }
+
 
 
 

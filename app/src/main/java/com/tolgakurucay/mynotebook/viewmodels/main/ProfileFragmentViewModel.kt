@@ -37,7 +37,7 @@ class ProfileFragmentViewModel : ViewModel() {
                     val password=it["password"].toString()
                     val photo=it["photo"].toString()
                     val userModel=CreateUserModel(name,surname,mail,password,photo)
-                    Log.d(TAG, "getFromMail: ${userModel}")
+
                     viewModelScope.launch {
                         mailFlow.emit(userModel)
                         loading.emit(false)

@@ -18,7 +18,7 @@ import java.util.Objects;
 public class FirstClass extends Application {
 
     private FirebaseAuth auth;
-    private final String TAG="signtipi";
+
 
     @Override
     public void onCreate() {
@@ -26,16 +26,7 @@ public class FirstClass extends Application {
 
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            Log.d(TAG, auth.getCurrentUser().getUid());
-            Log.d(TAG, auth.getCurrentUser().getEmail());
-            Log.d(TAG, auth.getCurrentUser().getPhoneNumber());
-            if(auth.getCurrentUser().getEmail()!=null && auth.getCurrentUser().getEmail()!=""){
-                SignType.INSTANCE.setSignType("email");
-            }
-            else
-            {
-                SignType.INSTANCE.setSignType("phone");
-            }
+
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

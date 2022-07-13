@@ -159,7 +159,8 @@ class LoginFragment : Fragment() {
                    //Intent
 
                    val intent=Intent(activity, MainActivity::class.java)
-                   SignType.signType="email"
+                   //SignType.signType="email"
+                   Util.saveSignType(requireActivity(),"email")
                    startActivity(intent)
                    this.activity?.let {
                        it.finish()
