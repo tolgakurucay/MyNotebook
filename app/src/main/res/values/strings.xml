@@ -82,5 +82,8 @@
     <string name="english">English</string>
     <string name="languageturkish">Language Changed to Turkish</string>
     <string name="languageenglish">Language Changed to English</string>
+    <string name="password8">At Least Enter 8 Characters</string>
+    <string name="passwordsarentmatch">Passwords Aren\'t Match</string>
+    <string name="passwordchangedsuccesfully">Password Changed Successfully!</string>
 
 </resources>

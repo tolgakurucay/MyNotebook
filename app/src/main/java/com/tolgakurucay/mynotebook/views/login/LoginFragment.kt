@@ -15,7 +15,6 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
-import com.tolgakurucay.mynotebook.utils.SignType
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 

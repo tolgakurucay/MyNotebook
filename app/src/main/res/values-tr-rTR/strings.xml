@@ -78,4 +78,7 @@
     <string name="english">İngilizce</string>
     <string name="languageturkish">Dil Türkçeye Çevrildi</string>
     <string name="languageenglish">Dil İngilizceye Çevrildi</string>
+    <string name="password8">En Az 8 karakter Giriniz</string>
+    <string name="passwordsarentmatch">Şifreler Uyuşmuyor</string>
+    <string name="passwordchangedsuccesfully">Şifre Başarıyla Değiştirildi!</string>
 </resources>

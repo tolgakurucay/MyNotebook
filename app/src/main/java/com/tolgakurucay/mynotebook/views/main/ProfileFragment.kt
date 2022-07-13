@@ -3,7 +3,6 @@ package com.tolgakurucay.mynotebook.views.main
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
@@ -24,7 +22,7 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentProfileBinding
 import com.tolgakurucay.mynotebook.utils.ChangeLanguage
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
-import com.tolgakurucay.mynotebook.utils.SignType
+import com.tolgakurucay.mynotebook.utils.ResetMyPasswordPopup
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.ProfileFragmentViewModel
 import kotlinx.coroutines.flow.filter
@@ -108,6 +106,12 @@ class ProfileFragment : Fragment() {
 
     private fun buttonClickListeners(){
 
+        binding.resetMyPassword.setOnClickListener {
+            Log.d(TAG, "buttonClickListeners: resetmypassword")
+            val resetMyPasswordPopup=ResetMyPasswordPopup()
+            resetMyPasswordPopup.show(requireFragmentManager(),null)
+        }
+
 
         binding.whoAmI.setOnClickListener {
             Util.alertDialog(this.requireContext(),"Tolga Kuruçay",getString(R.string.mydescription),R.drawable.pencil_black,getString(R.string.okay))
@@ -120,9 +124,7 @@ class ProfileFragment : Fragment() {
 
         }
 
-        binding.resetMyPassword.setOnClickListener {
 
-        }
 
 
         binding.buttonProfileSave.setOnClickListener {

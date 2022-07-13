@@ -34,13 +34,13 @@ private lateinit var binding:FragmentChangeLanguageBinding
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         binding= FragmentChangeLanguageBinding.inflate(layoutInflater)
         if(dialog!=null && dialog!!.window!=null){
             dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE)
         }
-        this.isCancelable=false
+
         return binding.root
     }
 

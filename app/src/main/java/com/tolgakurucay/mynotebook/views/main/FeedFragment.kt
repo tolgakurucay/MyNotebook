@@ -64,12 +64,12 @@ class FeedFragment : Fragment() {
             if(it!=null){
                 binding.textViewError.visibility=View.INVISIBLE
                 if(it.isEmpty()){
-                    Log.d(TAG, "observeLiveData: boş"+it.toString())
+
 
                 }
                 else
                 {
-                    Log.d(TAG, "observeLiveData: veri var"+it.toString())
+
                     noteAdapter.updateNoteList(it)
                 }
 
@@ -78,7 +78,7 @@ class FeedFragment : Fragment() {
             else
             {
                 binding.textViewError.visibility=View.VISIBLE
-                Log.d(TAG, "observeLiveData: hata")
+
 
             }
             

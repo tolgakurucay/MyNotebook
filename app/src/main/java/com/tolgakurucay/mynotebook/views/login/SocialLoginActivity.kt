@@ -12,7 +12,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.internal.ApiKey
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import com.google.android.gms.tasks.Task
@@ -24,11 +23,9 @@ import com.tolgakurucay.mynotebook.databinding.ActivitySocialLoginBinding
 import com.tolgakurucay.mynotebook.models.CreateUserModel
 import com.tolgakurucay.mynotebook.models.CreateUserWithPhone
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
-import com.tolgakurucay.mynotebook.utils.SignType
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 import java.util.concurrent.TimeUnit
-import kotlin.math.log
 
 class SocialLoginActivity : AppCompatActivity() {
     
