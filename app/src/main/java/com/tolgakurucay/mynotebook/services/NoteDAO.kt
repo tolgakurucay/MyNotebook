@@ -1,9 +1,6 @@
 package com.tolgakurucay.mynotebook.services
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.tolgakurucay.mynotebook.models.NoteModel
 
 @Dao
@@ -21,8 +18,11 @@ interface NoteDAO {
      @Query("select * from notes where id=:uuid")
       fun getNote(uuid:Int):NoteModel
 
-    @Query("delete from notes")
+      @Query("delete from notes")
     fun deleteAll()
+
+    @Update
+    fun updateNote(noteModel: NoteModel)
 
 
 }

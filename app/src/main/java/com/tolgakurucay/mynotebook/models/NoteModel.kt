@@ -2,25 +2,29 @@ package com.tolgakurucay.mynotebook.models
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 import java.util.*
 
+@Parcelize
 @Entity(tableName = "Notes")
-data class NoteModel(
+ data class NoteModel(
     @ColumnInfo(name="Title")
-     val title:String,
+     var title:String,
 
     @ColumnInfo(name="Description")
-    val description:String,
+    var description:String,
 
     @ColumnInfo(name="Image")
-    val imageBase64: String?,
+    var imageBase64: String?,
 
     @ColumnInfo(name="Date")
-    val date: Long)
+    var date: Long):Parcelable
 {
     @PrimaryKey(autoGenerate = true)
     var id:Int=0

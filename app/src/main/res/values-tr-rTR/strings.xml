@@ -81,4 +81,8 @@
     <string name="password8">En Az 8 karakter Giriniz</string>
     <string name="passwordsarentmatch">Şifreler Uyuşmuyor</string>
     <string name="passwordchangedsuccesfully">Şifre Başarıyla Değiştirildi!</string>
+    <string name="update">Güncelle</string>
+    <string name="updatedsuccessfully">Güncelleme Başarılı</string>
+    <string name="delete">Sil</string>
+    <string name="deletedsuccessfully">Silme Başarılı</string>
 </resources>

@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_feedFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
     </fragment>
     <fragment
         android:id="@+id/addNoteFragment"
@@ -57,5 +60,16 @@
             android:id="@+id/action_changeLanguage2_to_profileFragment"
             app:destination="@id/profileFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.tolgakurucay.mynotebook.views.main.NoteFragment"
+        android:label="NoteFragment" >
+        <action
+            android:id="@+id/action_noteFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <argument
+            android:name="noteObject"
+            app:argType="com.tolgakurucay.mynotebook.models.NoteModel" />
+    </fragment>
 
 </navigation>

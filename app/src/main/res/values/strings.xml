@@ -85,5 +85,9 @@
     <string name="password8">At Least Enter 8 Characters</string>
     <string name="passwordsarentmatch">Passwords Aren\'t Match</string>
     <string name="passwordchangedsuccesfully">Password Changed Successfully!</string>
+    <string name="update">Update</string>
+    <string name="updatedsuccessfully">Updated Successfully</string>
+    <string name="delete">Delete</string>
+    <string name="deletedsuccessfully">Deleted Successfully</string>
 
 </resources>

@@ -1,15 +1,15 @@
 package com.tolgakurucay.mynotebook.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
+import androidx.navigation.findNavController
 import com.tolgakurucay.mynotebook.databinding.NoteLayoutBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.utils.Util
+import com.tolgakurucay.mynotebook.views.main.FeedFragmentDirections
 
 class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
@@ -38,6 +38,14 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
            }
         }
 
+        binding.itemLayout.setOnClickListener {
+            val noteModel=noteList[position]
+            val action=FeedFragmentDirections.actionFeedFragmentToNoteFragment(noteModel)
+            holder.itemView.findNavController().navigate(action)
+        }
+
+
+
 
     }
 
@@ -50,5 +58,7 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
         noteList= ArrayList(newNoteList)
         notifyDataSetChanged()
     }
+
+
 
 }

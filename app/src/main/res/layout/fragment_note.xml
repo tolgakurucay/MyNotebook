@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/add_note_background"
+    tools:context=".views.main.AddNoteFragment">
+
+
+    <ImageView
+        android:id="@+id/imageViewUpdate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/upload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonUpdate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginTop="16dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:text="@string/save"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addWeather"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonDelete"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginTop="16dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:text="@string/delete"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonUpdate"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleLayoutUpdate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/title"
+        android:textColorHint="#FFFFFF"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/white"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewUpdate"
+        app:layout_constraintWidth_percent="0.8"
+        app:startIconDrawable="@drawable/title"
+        app:startIconTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleInputUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/screen_background_light_transparent"
+
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FDFDFD"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionLayoutUpdate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/description"
+        android:textColorHint="#FFFFFF"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/white"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#FFFFFF"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayoutUpdate"
+        app:layout_constraintWidth_percent="0.8"
+        app:startIconDrawable="@drawable/description"
+        app:startIconTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descriptionInputUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:scrollbars="vertical"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+
+        android:id="@+id/addAlarm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_baseline_add_alarm_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/addWeather"
+        app:layout_constraintEnd_toStartOf="@+id/addWeather"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toStartOf="@+id/descriptionLayoutUpdate"
+        app:layout_constraintTop_toTopOf="@+id/addWeather"
+        app:layout_constraintWidth_percent="0.15"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/addWeather"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cloud"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/addLocation"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addAlarm"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionLayoutUpdate"
+        app:layout_constraintWidth_percent="0.15"
+        app:tint="@android:color/holo_red_dark" />
+
+    <ImageButton
+        android:id="@+id/addLocation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/location"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/addWeather"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionLayoutUpdate"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintStart_toEndOf="@+id/addWeather"
+        app:layout_constraintTop_toTopOf="@+id/addWeather"
+        app:layout_constraintWidth_percent="0.15"
+        app:tint="@android:color/holo_red_dark" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
