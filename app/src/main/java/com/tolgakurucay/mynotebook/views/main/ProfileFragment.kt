@@ -25,18 +25,23 @@ import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.ResetMyPasswordPopup
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.ProfileFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private lateinit var binding:FragmentProfileBinding
     private lateinit var viewModel:ProfileFragmentViewModel
     private lateinit var auth:FirebaseAuth
-    private lateinit var loadingDialog: CustomLoadingDialog
     private var imageBitmap:Bitmap?=null
     private var imageBase64:String?=null
+
+    @Inject
+      lateinit var loadingDialog: CustomLoadingDialog
+
 
    val TAG="bilgi"
 
@@ -49,11 +54,11 @@ class ProfileFragment : Fragment() {
 
         init()
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
 
 
         val signType=Util.getSignType(requireActivity())
@@ -76,7 +81,7 @@ class ProfileFragment : Fragment() {
 
     private fun init(){
         binding= FragmentProfileBinding.inflate(layoutInflater)
-        loadingDialog= CustomLoadingDialog()
+      // loadingDialog= CustomLoadingDialog()
         viewModel= ViewModelProvider(this)[ProfileFragmentViewModel::class.java]
         auth=FirebaseAuth.getInstance()
 

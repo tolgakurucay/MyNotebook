@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.ActivityMainBinding
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding

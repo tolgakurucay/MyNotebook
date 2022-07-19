@@ -3,8 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
-    id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+
 }
 
 android {
@@ -36,6 +38,9 @@ android {
     buildFeatures{
         viewBinding true
     }
+    kapt{
+        correctErrorTypes=true
+    }
 }
 
 dependencies {
@@ -66,7 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     //for google Sign In
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
-    implementation 'com.google.firebase:firebase-core:21.0.0'
+    implementation 'com.google.firebase:firebase-core:21.1.0'
     implementation 'com.google.firebase:firebase-dynamic-links:21.0.1'
     //countryCodePicker for phone auth
     implementation 'com.hbb20:ccp:2.5.1'
@@ -82,6 +87,11 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
     //for internet intent
     implementation 'androidx.browser:browser:1.4.0'
+    //dependency injection
+    implementation ("com.google.dagger:hilt-android:2.42")
+    kapt ("com.google.dagger:hilt-android-compiler:2.42")
+
+
 
 
 

@@ -117,6 +117,7 @@ class NoteFragment : Fragment() {
         }
 
         binding.buttonDelete.setOnClickListener {
+
             viewModel.deleteModel(model,requireContext())
         }
 
