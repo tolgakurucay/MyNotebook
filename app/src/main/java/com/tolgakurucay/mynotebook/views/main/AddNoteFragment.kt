@@ -28,14 +28,17 @@ import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.AddNoteFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.log
 
-
+@AndroidEntryPoint
 class AddNoteFragment : Fragment() {
 
     private lateinit var binding:FragmentAddNoteBinding
     private lateinit var viewModel:AddNoteFragmentViewModel
-    private var customDialog=CustomLoadingDialog()
+    @Inject
+    lateinit var customDialog:CustomLoadingDialog
     private var imageUri:Uri?=null
     private var imageBitmap:Bitmap?=null
     val TAG="bilgi"
@@ -56,7 +59,6 @@ class AddNoteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //customDialog.show(requireFragmentManager(),"giriş")
 
 
         init()
@@ -71,7 +73,7 @@ class AddNoteFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             var scaled:Bitmap?=null
-            customDialog.show(requireFragmentManager(),"giriş")
+            customDialog.show(requireFragmentManager(),null)
             if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
 
                 if(imageUri!=null){

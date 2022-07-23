@@ -85,4 +85,7 @@
     <string name="updatedsuccessfully">Güncelleme Başarılı</string>
     <string name="delete">Sil</string>
     <string name="deletedsuccessfully">Silme Başarılı</string>
+    <string name="deleteTitle">Silme İşlemi</string>
+    <string name="youwantdelete">Silmek İstediğine Emin Misin?</string>
+    <string name="cancel">İptal</string>
 </resources>

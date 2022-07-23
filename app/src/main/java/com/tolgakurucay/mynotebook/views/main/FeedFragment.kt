@@ -8,10 +8,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -20,11 +19,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.adapters.NoteAdapter
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
+import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 
@@ -33,14 +35,13 @@ class FeedFragment : Fragment() {
     private lateinit var binding:FragmentFeedBinding
     private lateinit var viewModel:FeedFragmentViewModel
     private var noteAdapter= NoteAdapter(arrayListOf())
+    private var mainMenu: Menu?=null
     var TAG="bilgi"
     private lateinit var auth:FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermissions()
-
-
     }
 
     override fun onCreateView(
@@ -191,4 +192,11 @@ class FeedFragment : Fragment() {
     }
 
 
+
+
 }
+
+
+
+
+

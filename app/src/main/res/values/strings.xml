@@ -89,5 +89,8 @@
     <string name="updatedsuccessfully">Updated Successfully</string>
     <string name="delete">Delete</string>
     <string name="deletedsuccessfully">Deleted Successfully</string>
+    <string name="deleteTitle">Delete?</string>
+    <string name="youwantdelete">Are You Sure You Want To Delete?</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

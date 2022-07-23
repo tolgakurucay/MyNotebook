@@ -1,10 +1,16 @@
 package com.tolgakurucay.mynotebook.adapters
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.NoteLayoutBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
@@ -16,6 +22,9 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
     private lateinit var binding:NoteLayoutBinding
     private val dateClass= GetCurrentDate()
     val TAG="bilgi"
+    val list=HashMap<NoteModel,Boolean>()
+
+
 
     class NoteViewHolder(view:View): RecyclerView.ViewHolder(view){
 
@@ -27,7 +36,11 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
         return NoteViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NoteViewHolder, @SuppressLint("RecyclerView") position: Int) {
+
+        for(note in noteList){
+            list.put(note,false)
+        }
 
         binding.textViewTitle.setText(noteList[position].title)
         binding.textViewDate.setText(dateClass.getDateFromLong(noteList[position].date))
@@ -43,6 +56,22 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
             val action=FeedFragmentDirections.actionFeedFragmentToNoteFragment(noteModel)
             holder.itemView.findNavController().navigate(action)
         }
+
+       holder.itemView.setOnLongClickListener(object:View.OnLongClickListener{
+           override fun onLongClick(p0: View?): Boolean {
+               p0?.let { view->
+                   holder.itemView.setBackgroundColor(R.color.purple_500)
+                   list.put(noteList[position],true)
+
+                   Log.d(TAG, "onLongClick: ${noteList[position]}")
+
+
+               }
+               return true
+           }
+
+       })
+
 
 
 
@@ -61,4 +90,7 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
 
 
 
+
+
 }
+

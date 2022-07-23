@@ -1,6 +1,7 @@
 package com.tolgakurucay.mynotebook.views.main
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -21,6 +23,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavArgs
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentNoteBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
@@ -37,6 +41,9 @@ class NoteFragment : Fragment() {
     private var imageBitmap: Bitmap?=null
     private val currDate=GetCurrentDate()
     private lateinit var viewModel:NoteFragmentViewModel
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,8 +124,29 @@ class NoteFragment : Fragment() {
         }
 
         binding.buttonDelete.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.deleteTitle))
+                .setMessage(getString(R.string.youwantdelete))
+                .setIcon(R.drawable.error)
+                .setPositiveButton(getString(R.string.okay),object: DialogInterface.OnClickListener{
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        viewModel.deleteModel(model,requireContext())
+                    }
 
-            viewModel.deleteModel(model,requireContext())
+                })
+                .setNegativeButton(getString(R.string.cancel),object:DialogInterface.OnClickListener{
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        p0?.let {
+                            it.dismiss()
+                        }
+                    }
+
+                })
+                .create()
+                .show()
+
+
+
         }
 
 
@@ -218,6 +246,8 @@ class NoteFragment : Fragment() {
 
 
     }
+
+
 
 
 
