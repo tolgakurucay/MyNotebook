@@ -20,12 +20,14 @@ import com.tolgakurucay.mynotebook.models.NoteModel;
 import com.tolgakurucay.mynotebook.services.NoteDAO;
 import com.tolgakurucay.mynotebook.services.NoteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedFragmentViewModel extends ViewModel {
 
 
     public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();
+
 
 
 
@@ -61,6 +63,43 @@ public class FeedFragmentViewModel extends ViewModel {
             //dao.deleteAll();
            List<NoteModel> notes = dao.getAllNotes();
            noteList.setValue(notes);
+        }
+
+    }
+
+    public void deleteNotes(Context context, ArrayList<NoteModel> noteList){
+        NoteDatabase db = new NoteDatabase() {
+            @NonNull
+            @Override
+            public NoteDAO noteDao() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected InvalidationTracker createInvalidationTracker() {
+                return null;
+            }
+
+            @Override
+            public void clearAllTables() {
+
+            }
+        }.getBookDatabase(context);
+
+        if(db!=null){
+            NoteDAO dao =db.noteDao();
+            for(int i=0;i<noteList.size();i++){
+                dao.deleteNote(noteList.get(0));
+            }
+
+
         }
 
     }

@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.tolgakurucay.mynotebook.NoteClickListener
 import com.tolgakurucay.mynotebook.adapters.NoteAdapter
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
@@ -30,12 +32,30 @@ import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment() { 
 
     private lateinit var binding:FragmentFeedBinding
+    private var menuTop:Menu?=null
+    private var noteModels=ArrayList<NoteModel>()
     private lateinit var viewModel:FeedFragmentViewModel
-    private var noteAdapter= NoteAdapter(arrayListOf())
-    private var mainMenu: Menu?=null
+    private var noteAdapter= NoteAdapter(arrayListOf()){
+        if(it.size==0){//menüyü gizle
+            Log.d(TAG, "menüyü gizle: ")
+            setHasOptionsMenu(false)
+            noteModels=it
+
+        }
+        else//menüyü göster
+        {
+            Log.d(TAG, "menüyü göster: ")
+            setHasOptionsMenu(true)
+            noteModels=it
+
+
+        }
+    }
+    
+
     var TAG="bilgi"
     private lateinit var auth:FirebaseAuth
 
@@ -89,6 +109,7 @@ class FeedFragment : Fragment() {
 
     }
     private fun init(){
+
         auth= FirebaseAuth.getInstance()
 
         binding.recyclerView.layoutManager=GridLayoutManager(this.requireContext(),2,GridLayoutManager.VERTICAL,false)
@@ -99,6 +120,7 @@ class FeedFragment : Fragment() {
         binding.bottomNavigationView.background=null
         binding.bottomNavigationView.menu.getItem(2).isEnabled=false
         viewModel.getAllNotes(this.requireContext())
+        
 
 
     }
@@ -191,8 +213,27 @@ class FeedFragment : Fragment() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.app_bar_menu,menu)
+        menuTop=menu
 
 
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.deleteItems->  {viewModel.deleteNotes(requireContext(),noteModels)
+                viewModel.getAllNotes(requireContext())
+                noteModels.clear()
+                setHasOptionsMenu(false)
+
+            }
+            R.id.favoriteItems-> Log.d(TAG,"favorites clicked")
+        }
+        return true
+    }
 
 }
 

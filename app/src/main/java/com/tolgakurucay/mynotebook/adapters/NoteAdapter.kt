@@ -1,15 +1,12 @@
 package com.tolgakurucay.mynotebook.adapters
 
-import android.annotation.SuppressLint
-import android.graphics.Color
+
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
+import com.tolgakurucay.mynotebook.NoteClickListener
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.NoteLayoutBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
@@ -17,30 +14,59 @@ import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.views.main.FeedFragmentDirections
 
-class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:ArrayList<NoteModel>)->Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private lateinit var binding:NoteLayoutBinding
     private val dateClass= GetCurrentDate()
     val TAG="bilgi"
-    val list=HashMap<NoteModel,Boolean>()
+    val modelList=HashMap<NoteModel,Boolean>()
+    val viewIdList=HashMap<Int,Boolean>()
+    var modelArrayListEx=ArrayList<NoteModel>()
+    var okay=false
 
-
-
-    class NoteViewHolder(view:View): RecyclerView.ViewHolder(view){
+    object a:NoteClickListener{
+        override fun onItemClick(text: String) {
+            Log.d("bilgi", "onItemClick: $text")
+        }
 
     }
 
+
+
+
+
+    class NoteViewHolder(view:NoteLayoutBinding): RecyclerView.ViewHolder(view.root){
+
+
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater=LayoutInflater.from(parent.context)
         binding=NoteLayoutBinding.inflate(inflater)
-        return NoteViewHolder(binding.root)
+        return NoteViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    override fun onBindViewHolder(holder: NoteViewHolder,position: Int) {
+        if(!okay){
+            okay=true
 
-        for(note in noteList){
-            list.put(note,false)
+            for(id in 0 until noteList.size){
+                viewIdList.put(holder.adapterPosition,false)
+            }
+            for(model in noteList){
+                modelList.put(model,false)
+            }
+
+            Log.d(TAG, "onBindViewHolder: girildiiiiiiiiii")
+
         }
+
+
+
+
+        //ilk başta layoutId'leri al ve false'e eşitle HashMap<Int,Boolean>
+        //long click içerisinde hashmapin ilgili id'si ile karşılaştırma yaptır, eğer false ise true yap0
+
+
 
         binding.textViewTitle.setText(noteList[position].title)
         binding.textViewDate.setText(dateClass.getDateFromLong(noteList[position].date))
@@ -57,28 +83,40 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
             holder.itemView.findNavController().navigate(action)
         }
 
-       holder.itemView.setOnLongClickListener(object:View.OnLongClickListener{
-           override fun onLongClick(p0: View?): Boolean {
-               p0?.let { view->
-                   holder.itemView.setBackgroundColor(R.color.purple_500)
-                   list.put(noteList[position],true)
 
-                   Log.d(TAG, "onLongClick: ${noteList[position]}")
+       holder.itemView.setOnLongClickListener { p0 ->
+           p0?.let { view ->
 
+
+
+               if(viewIdList.get(holder.adapterPosition)==true){//seçilmişse
+                   viewIdList.put(holder.adapterPosition,false)
+                 //  modelList.put(noteList[position],true)
+                   modelArrayListEx.remove(noteList[position])
+                   holder.itemView.setBackgroundColor(android.R.color.transparent)
 
                }
-               return true
+               else//seçilmemişse
+               {
+                   holder.itemView.setBackgroundColor(R.color.purple_500)
+                   //modelList.put(noteList[position],false)
+                   modelArrayListEx.add(noteList[position])
+                   viewIdList.put(holder.adapterPosition,true)
+               }
+
+
+
+                completion(modelArrayListEx)
+
            }
-
-       })
-
-
-
+           true
+       }
 
 
     }
 
     override fun getItemCount(): Int {
+      
         return noteList.size
     }
 
@@ -87,8 +125,6 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>) : RecyclerView.Adapter<Note
         noteList= ArrayList(newNoteList)
         notifyDataSetChanged()
     }
-
-
 
 
 

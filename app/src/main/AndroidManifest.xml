@@ -23,19 +23,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyNotebook"
+        android:theme="@style/Theme.MyNotebook.WithActionBar"
         tools:targetApi="31">
         <activity
             android:name=".views.login.SocialLoginActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.MyNotebook.NoActionBar"
             android:exported="true" />
         <activity
             android:name=".views.main.MainActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.MyNotebook.WithActionBar"
             android:exported="true" />
         <activity
             android:name=".views.login.LoginActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.MyNotebook.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
