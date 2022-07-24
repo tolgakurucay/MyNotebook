@@ -20,6 +20,7 @@ public class FavoritesFragmentViewModel extends ViewModel {
 
 
    public MutableLiveData<List<NoteFavoritesModel>> favoritesList=new MutableLiveData<>();
+    public MutableLiveData<Boolean> deleted=new MutableLiveData<>();
 
 
     public void getFavorites(Context context){
@@ -54,6 +55,40 @@ public class FavoritesFragmentViewModel extends ViewModel {
             favoritesList.setValue(notes);
         }
 
+    }
+
+
+    public void deleteFavorite(Context context,NoteFavoritesModel model){
+        NoteDatabase db= new NoteDatabase() {
+            @NonNull
+            @Override
+            public NoteDAO noteDao() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected InvalidationTracker createInvalidationTracker() {
+                return null;
+            }
+
+            @Override
+            public void clearAllTables() {
+
+            }
+        }.getBookDatabase(context);
+
+        if(db!=null){
+            NoteDAO dao=db.noteDao();
+            dao.deleteFavorite(model);
+            deleted.setValue(true);
+        }
     }
 
 

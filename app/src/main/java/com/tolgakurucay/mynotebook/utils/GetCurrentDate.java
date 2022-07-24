@@ -4,8 +4,15 @@ import com.google.firebase.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.inject.Inject;
 
-public class GetCurrentDate {
+import dagger.hilt.android.AndroidEntryPoint;
+
+public class GetCurrentDate  {
+
+    //constructor
+    @Inject
+    public GetCurrentDate(){}
 
     public Timestamp currentDate(){
        return Timestamp.now();

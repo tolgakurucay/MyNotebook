@@ -6,19 +6,20 @@
     android:layout_height="wrap_content"
     android:background="@drawable/favorites_background">
 
-    <TextView
+    <EditText
         android:id="@+id/textViewFavoritesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="84dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="88dp"
+        android:background="@android:color/transparent"
         android:fontFamily="@font/righteorus"
         android:text="@string/title"
         android:textColor="#FFFFFF"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewDeleteFavorites"
+        app:layout_constraintStart_toEndOf="@+id/imageViewFavorites"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -29,22 +30,23 @@
         android:fontFamily="@font/orange_juice"
         android:text="@string/date"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textViewFavoritesTitle"
         app:layout_constraintStart_toStartOf="@+id/textViewFavoritesTitle"
         app:layout_constraintTop_toBottomOf="@+id/textViewFavoritesTitle" />
 
-    <TextView
+    <EditText
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="48dp"
         android:background="#8CFFFFFF"
-        android:lines="20"
+        android:gravity="start"
+        android:lines="25"
         android:scrollIndicators="end"
         android:scrollbarFadeDuration="1000"
         android:scrollbarSize="6dp"
@@ -60,4 +62,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textVliewFavoritesDate"
         app:layout_constraintVertical_bias="0.583" />
+
+    <ImageView
+        android:id="@+id/imageViewFavorites"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/hide_image"
+        app:layout_constraintBottom_toBottomOf="@+id/textVliewFavoritesDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewFavoritesTitle" />
+
+    <ImageView
+        android:id="@+id/imageViewDeleteFavorites"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/ic_baseline_delete_24"
+        app:layout_constraintBottom_toBottomOf="@+id/textVliewFavoritesDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
