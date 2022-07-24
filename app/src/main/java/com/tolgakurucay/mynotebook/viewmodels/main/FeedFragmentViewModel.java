@@ -96,12 +96,44 @@ public class FeedFragmentViewModel extends ViewModel {
         if(db!=null){
             NoteDAO dao =db.noteDao();
             for(int i=0;i<noteList.size();i++){
-                dao.deleteNote(noteList.get(0));
+                dao.deleteNote(noteList.get(i));
             }
 
 
         }
 
+    }
+
+    public void addFavorites(Context context,ArrayList<NoteModel> noteList){
+        NoteDatabase db= new NoteDatabase() {
+            @NonNull
+            @Override
+            public NoteDAO noteDao() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected InvalidationTracker createInvalidationTracker() {
+                return null;
+            }
+
+            @Override
+            public void clearAllTables() {
+
+            }
+        }.getBookDatabase(context);
+
+        if(db!=null){
+            NoteDAO dao=db.noteDao();
+
+        }
     }
 
 

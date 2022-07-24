@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import com.tolgakurucay.mynotebook.NoteClickListener
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.NoteLayoutBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
@@ -19,17 +18,11 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
     private lateinit var binding:NoteLayoutBinding
     private val dateClass= GetCurrentDate()
     val TAG="bilgi"
-    val modelList=HashMap<NoteModel,Boolean>()
     val viewIdList=HashMap<Int,Boolean>()
     var modelArrayListEx=ArrayList<NoteModel>()
     var okay=false
 
-    object a:NoteClickListener{
-        override fun onItemClick(text: String) {
-            Log.d("bilgi", "onItemClick: $text")
-        }
 
-    }
 
 
 
@@ -45,16 +38,26 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
         return NoteViewHolder(binding)
     }
 
+
+    fun viewIdListSetFalse(){
+        viewIdList.clear()
+        for(id in 0 until noteList.size){
+            viewIdList.put(id,false)
+        }
+    }
+    fun modelArrayListClear(){
+        modelArrayListEx.clear()
+
+    }
+
     override fun onBindViewHolder(holder: NoteViewHolder,position: Int) {
         if(!okay){
             okay=true
-
+            /*
             for(id in 0 until noteList.size){
                 viewIdList.put(holder.adapterPosition,false)
-            }
-            for(model in noteList){
-                modelList.put(model,false)
-            }
+            }*/
+            viewIdListSetFalse()
 
             Log.d(TAG, "onBindViewHolder: girildiiiiiiiiii")
 
@@ -63,8 +66,6 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
 
 
 
-        //ilk başta layoutId'leri al ve false'e eşitle HashMap<Int,Boolean>
-        //long click içerisinde hashmapin ilgili id'si ile karşılaştırma yaptır, eğer false ise true yap0
 
 
 
@@ -91,7 +92,6 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
 
                if(viewIdList.get(holder.adapterPosition)==true){//seçilmişse
                    viewIdList.put(holder.adapterPosition,false)
-                 //  modelList.put(noteList[position],true)
                    modelArrayListEx.remove(noteList[position])
                    holder.itemView.setBackgroundColor(android.R.color.transparent)
 
@@ -99,9 +99,11 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
                else//seçilmemişse
                {
                    holder.itemView.setBackgroundColor(R.color.purple_500)
-                   //modelList.put(noteList[position],false)
                    modelArrayListEx.add(noteList[position])
                    viewIdList.put(holder.adapterPosition,true)
+
+
+
                }
 
 

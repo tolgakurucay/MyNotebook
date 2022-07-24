@@ -10,21 +10,16 @@ import android.provider.Settings
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.tolgakurucay.mynotebook.NoteClickListener
 import com.tolgakurucay.mynotebook.adapters.NoteAdapter
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
@@ -36,20 +31,20 @@ class FeedFragment : Fragment() {
 
     private lateinit var binding:FragmentFeedBinding
     private var menuTop:Menu?=null
-    private var noteModels=ArrayList<NoteModel>()
+    private var tempNoteModels=ArrayList<NoteModel>()
     private lateinit var viewModel:FeedFragmentViewModel
     private var noteAdapter= NoteAdapter(arrayListOf()){
         if(it.size==0){//menüyü gizle
-            Log.d(TAG, "menüyü gizle: ")
             setHasOptionsMenu(false)
-            noteModels=it
+            tempNoteModels=it
+            Log.d(TAG, "${it.size}")
 
         }
         else//menüyü göster
         {
-            Log.d(TAG, "menüyü göster: ")
+            Log.d(TAG, "${it.size}")
             setHasOptionsMenu(true)
-            noteModels=it
+            tempNoteModels=it
 
 
         }
@@ -86,7 +81,7 @@ class FeedFragment : Fragment() {
                 binding.textViewError.visibility=View.INVISIBLE
                 if(it.isEmpty()){
 
-
+                    noteAdapter.updateNoteList(it)
                 }
                 else
                 {
@@ -111,6 +106,12 @@ class FeedFragment : Fragment() {
     private fun init(){
 
         auth= FirebaseAuth.getInstance()
+
+        setHasOptionsMenu(false)
+        noteAdapter.modelArrayListEx.clear()
+        for(i in 0 until noteAdapter.viewIdList.size){
+            noteAdapter.viewIdList.put(i,false)
+        }
 
         binding.recyclerView.layoutManager=GridLayoutManager(this.requireContext(),2,GridLayoutManager.VERTICAL,false)
         binding.recyclerView.adapter=noteAdapter
@@ -224,10 +225,31 @@ class FeedFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.deleteItems->  {viewModel.deleteNotes(requireContext(),noteModels)
-                viewModel.getAllNotes(requireContext())
-                noteModels.clear()
-                setHasOptionsMenu(false)
+            R.id.deleteItems->  {
+               AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.delete))
+                    .setMessage(getString(R.string.youwantdelete))
+                    .setIcon(R.drawable.ic_baseline_delete_24)
+                    .setPositiveButton(getString(R.string.delete),object:DialogInterface.OnClickListener{
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            viewModel.deleteNotes(requireContext(),tempNoteModels)
+                            tempNoteModels.clear()
+                            noteAdapter.viewIdListSetFalse()
+                            noteAdapter.modelArrayListClear()
+                            setHasOptionsMenu(false)
+                            viewModel.getAllNotes(requireContext())
+                        }
+
+                    })
+                    .setNegativeButton(getString(R.string.cancel), object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                        }
+
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show()
 
             }
             R.id.favoriteItems-> Log.d(TAG,"favorites clicked")
