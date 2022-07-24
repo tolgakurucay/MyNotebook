@@ -16,6 +16,7 @@ import androidx.room.InvalidationTracker;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.tolgakurucay.mynotebook.models.NoteFavoritesModel;
 import com.tolgakurucay.mynotebook.models.NoteModel;
 import com.tolgakurucay.mynotebook.services.NoteDAO;
 import com.tolgakurucay.mynotebook.services.NoteDatabase;
@@ -104,7 +105,7 @@ public class FeedFragmentViewModel extends ViewModel {
 
     }
 
-    public void addFavorites(Context context,ArrayList<NoteModel> noteList){
+    public void addFavorites(Context context,ArrayList<NoteFavoritesModel> favoritesList){
         NoteDatabase db= new NoteDatabase() {
             @NonNull
             @Override
@@ -130,8 +131,15 @@ public class FeedFragmentViewModel extends ViewModel {
             }
         }.getBookDatabase(context);
 
+
         if(db!=null){
+
             NoteDAO dao=db.noteDao();
+
+            for(int i=0;i<favoritesList.size();i++){
+
+                dao.insertFavorites(favoritesList.get(i));
+            }
 
         }
     }

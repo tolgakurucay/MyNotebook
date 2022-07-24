@@ -1,6 +1,7 @@
 package com.tolgakurucay.mynotebook.services
 
 import androidx.room.*
+import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
 
 @Dao
@@ -24,7 +25,8 @@ interface NoteDAO {
     @Update
     fun updateNote(noteModel: NoteModel)
 
-
+    @Insert
+        fun insertFavorites(favoriteNote:NoteFavoritesModel)
 
 
 }

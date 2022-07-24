@@ -92,5 +92,7 @@
     <string name="deleteTitle">Delete?</string>
     <string name="youwantdelete">Are You Sure You Want To Delete?</string>
     <string name="cancel">Cancel</string>
+    <string name="areyousureyouwanttoaddfavorites">Are You Sure You Want To Add Selected Notes To Favorites</string>
+    <string name="addtofavorites">Add To Favorites</string>
 
 </resources>

@@ -88,4 +88,6 @@
     <string name="deleteTitle">Silme İşlemi</string>
     <string name="youwantdelete">Silmek İstediğine Emin Misin?</string>
     <string name="cancel">İptal</string>
+    <string name="areyousureyouwanttoaddfavorites">Seçilen Notları Favorilere Eklemek İstediğinize Emin Misiniz?</string>
+    <string name="addtofavorites">Favorilere Ekle</string>
 </resources>

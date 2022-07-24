@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.adapters.NoteAdapter
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
+import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
@@ -33,7 +34,9 @@ class FeedFragment : Fragment() {
     private var menuTop:Menu?=null
     private var tempNoteModels=ArrayList<NoteModel>()
     private lateinit var viewModel:FeedFragmentViewModel
+    private var favoritesList=ArrayList<NoteFavoritesModel>()
     private var noteAdapter= NoteAdapter(arrayListOf()){
+
         if(it.size==0){//menüyü gizle
             setHasOptionsMenu(false)
             tempNoteModels=it
@@ -77,16 +80,23 @@ class FeedFragment : Fragment() {
 
     private fun observeLiveData(){
         viewModel.noteList.observe(viewLifecycleOwner, Observer {
+
             if(it!=null){
                 binding.textViewError.visibility=View.INVISIBLE
                 if(it.isEmpty()){
-
+                    Log.d(TAG, "favlist: ${favoritesList.size}")
                     noteAdapter.updateNoteList(it)
+                    for(i in it){
+                        favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
+                    }
+
                 }
                 else
                 {
 
                     noteAdapter.updateNoteList(it)
+                    Log.d(TAG, "favlist: ${favoritesList.size}")
+
                 }
 
 
@@ -252,7 +262,49 @@ class FeedFragment : Fragment() {
                     .show()
 
             }
-            R.id.favoriteItems-> Log.d(TAG,"favorites clicked")
+            R.id.favoriteItems-> {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.favorites))
+                    .setMessage(getString(R.string.areyousureyouwanttoaddfavorites))
+                    .setIcon(R.drawable.favorites)
+                    .setPositiveButton(getString(R.string.addtofavorites),object:DialogInterface.OnClickListener{
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            Log.d(TAG, "onClick: favorilere eklendi")
+                            
+                            //temp notemodel listesindeki her bir elemanı favoritesList'e ata
+                            //her seçim yapıldığı zaman bu listeyi güncelle
+                            //daha sonra fonksiyona ver, fonksiyon silsin ve diğer tabloya eklesin
+                            //noteModel'i sil
+                            favoritesList.clear()
+                            for(i in tempNoteModels){
+                                favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
+                            }
+
+                            viewModel.addFavorites(requireContext(),favoritesList)
+
+                            setHasOptionsMenu(false)
+                            viewModel.deleteNotes(requireContext(),tempNoteModels)
+                            viewModel.getAllNotes(requireContext())
+                            noteAdapter.modelArrayListClear()
+                            noteAdapter.viewIdListSetFalse()
+                        }
+
+                    })
+                    .setNegativeButton(getString(R.string.cancel),object :DialogInterface.OnClickListener{
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                            Log.d(TAG, "onClick: favoriler ipral edildi")
+                        }
+
+
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show()
+
+
+
+            }
         }
         return true
     }
