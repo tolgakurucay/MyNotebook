@@ -28,5 +28,8 @@ interface NoteDAO {
     @Insert
         fun insertFavorites(favoriteNote:NoteFavoritesModel)
 
+        @Query("select * from NoteFavorites")
+        fun getFavorites() : List<NoteFavoritesModel>
+
 
 }

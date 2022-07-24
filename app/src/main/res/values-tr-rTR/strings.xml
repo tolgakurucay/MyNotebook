@@ -90,4 +90,5 @@
     <string name="cancel">İptal</string>
     <string name="areyousureyouwanttoaddfavorites">Seçilen Notları Favorilere Eklemek İstediğinize Emin Misiniz?</string>
     <string name="addtofavorites">Favorilere Ekle</string>
+    <string name="date">Tarih</string>
 </resources>
