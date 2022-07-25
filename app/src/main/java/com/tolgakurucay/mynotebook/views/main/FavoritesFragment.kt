@@ -30,9 +30,9 @@ class FavoritesFragment : Fragment() {
     private lateinit var binding:FragmentFavoritesBinding
     private lateinit var viewModel:FavoritesFragmentViewModel
     private val date=GetCurrentDate()
-    private var adapter=FavoritesAdapter(arrayListOf()){item,isDelete,title,desc->
+    private var adapter=FavoritesAdapter(arrayListOf()){item,process,title,desc->
 
-        if(isDelete){
+        if(process=="delete"){
             AlertDialog.Builder(requireContext())
                 .setIcon(R.drawable.ic_baseline_delete_24)
                 .setTitle(getString(R.string.deleteTitle))
@@ -54,7 +54,7 @@ class FavoritesFragment : Fragment() {
                 .create()
                 .show()
         }
-        else
+        else if(process=="update")
         {
             //update item
 
@@ -85,6 +85,12 @@ class FavoritesFragment : Fragment() {
                 .show()
 
         }
+        else if(process=="share"){
+            Log.d(TAG, "share clicked: ")
+            viewModel.shareFavorites(item.title,item.description,requireActivity())
+        }
+        
+        
 
         
 
@@ -156,6 +162,19 @@ class FavoritesFragment : Fragment() {
                 if(it){
                     Toast.makeText(requireContext(), getString(R.string.updatedsuccessfully), Toast.LENGTH_SHORT).show()
                     viewModel.getFavorites(requireContext())
+                }
+
+            }
+        })
+        viewModel.sharedMessage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it=="shared"){
+                    Toast.makeText(requireContext(), getString(R.string.updatedsuccessfully), Toast.LENGTH_SHORT).show()
+
+                }
+                else
+                {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                 }
 
             }

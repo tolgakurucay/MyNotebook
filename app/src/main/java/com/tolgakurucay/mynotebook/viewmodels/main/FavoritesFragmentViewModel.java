@@ -1,6 +1,9 @@
 package com.tolgakurucay.mynotebook.viewmodels.main;
 
+import android.accounts.AbstractAccountAuthenticator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -22,6 +25,7 @@ public class FavoritesFragmentViewModel extends ViewModel {
    public MutableLiveData<List<NoteFavoritesModel>> favoritesList=new MutableLiveData<>();
     public MutableLiveData<Boolean> deleted=new MutableLiveData<>();
     public MutableLiveData<Boolean> updated=new MutableLiveData<>();
+    public MutableLiveData<String> sharedMessage=new MutableLiveData<>();
 
 
     public void getFavorites(Context context){
@@ -123,6 +127,26 @@ public class FavoritesFragmentViewModel extends ViewModel {
             dao.updateFavoriteItem(model);
             updated.setValue(true);
         }
+
+    }
+
+    public void shareFavorites(String title, String description, Activity activity){
+        try{
+            Intent shareIntent=new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,title+"\n\n\t"+description);
+            activity.startActivity(Intent.createChooser(shareIntent,title));
+            sharedMessage.setValue("shared");
+
+        }
+        catch (Exception ex){
+            sharedMessage.setValue(ex.getLocalizedMessage());
+        }
+
+
+
+
 
     }
 

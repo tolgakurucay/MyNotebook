@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 
 
-class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion:(NoteFavoritesModel,isProcessDelete:Boolean,title:String?,description:String?)->Unit) : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>() {
+class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion:(NoteFavoritesModel,process:String,title:String?,description:String?)->Unit) : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>() {
 
     private var dateClass=GetCurrentDate()
     private lateinit var binding: FavoritesLayoutBinding
@@ -53,11 +53,15 @@ class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion
 
         binding.imageViewDeleteFavorites.setOnClickListener {
 
-            completion(favoritesList[position],true,null,null)
+            completion(favoritesList[position],"delete",null,null)
         }
 
         binding.imageViewFavoritesSave.setOnClickListener {
-            completion(favoritesList[position],false,binding.textViewFavoritesTitle.text.toString(),binding.editTextFavoritesDescription.text.toString())
+            completion(favoritesList[position],"update",binding.textViewFavoritesTitle.text.toString(),binding.editTextFavoritesDescription.text.toString())
+        }
+
+        binding.imageViewFavoritesShare.setOnClickListener {
+            completion(favoritesList[position],"share",binding.textViewFavoritesTitle.text.toString(),binding.editTextFavoritesDescription.text.toString())
         }
 
     }
