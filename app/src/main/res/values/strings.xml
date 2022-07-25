@@ -95,5 +95,8 @@
     <string name="areyousureyouwanttoaddfavorites">Are You Sure You Want To Add Selected Notes To Favorites</string>
     <string name="addtofavorites">Add To Favorites</string>
     <string name="date">Date</string>
+    <string name="areyousureyouwanttosavechanges">Are You Sure You Want To Save Changes?</string>
+    <string name="dontsave">Don\'t Save</string>
+    <string name="cancelled">Cancelled</string>
 
 </resources>

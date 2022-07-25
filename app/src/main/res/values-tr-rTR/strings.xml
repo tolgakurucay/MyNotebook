@@ -91,4 +91,7 @@
     <string name="areyousureyouwanttoaddfavorites">Seçilen Notları Favorilere Eklemek İstediğinize Emin Misiniz?</string>
     <string name="addtofavorites">Favorilere Ekle</string>
     <string name="date">Tarih</string>
+    <string name="areyousureyouwanttosavechanges">Değişiklikleri Kaydetmek İstediğine Emin Misin?</string>
+    <string name="dontsave">Kaydetme</string>
+    <string name="cancelled">İptal Edildi</string>
 </resources>

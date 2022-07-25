@@ -41,6 +41,7 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
 
     fun viewIdListSetFalse(){
         viewIdList.clear()
+        Log.d(TAG, "viewIdListSetFalse: ${viewIdList.size}")
         for(id in 0 until noteList.size){
             viewIdList.put(id,false)
         }
@@ -123,7 +124,6 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
     }
 
     fun updateNoteList(newNoteList:List<NoteModel>){
-        noteList.clear()
         noteList= ArrayList(newNoteList)
         notifyDataSetChanged()
     }

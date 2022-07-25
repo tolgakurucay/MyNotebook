@@ -41,11 +41,13 @@ class FeedFragment : Fragment() {
             setHasOptionsMenu(false)
             tempNoteModels=it
             Log.d(TAG, "${it.size}")
+            Log.d(TAG, "Listemizin içindekiler\n${it}")
 
         }
         else//menüyü göster
         {
             Log.d(TAG, "${it.size}")
+            Log.d(TAG, "Listemizin içindekiler\n${it}")
             setHasOptionsMenu(true)
             tempNoteModels=it
 
@@ -253,7 +255,7 @@ class FeedFragment : Fragment() {
                     })
                     .setNegativeButton(getString(R.string.cancel), object : DialogInterface.OnClickListener {
                         override fun onClick(p0: DialogInterface?, p1: Int) {
-
+                            //hiçbirşey silimedi
                         }
 
                     })
@@ -281,9 +283,9 @@ class FeedFragment : Fragment() {
                             }
 
                             viewModel.addFavorites(requireContext(),favoritesList)
-
                             setHasOptionsMenu(false)
                             viewModel.deleteNotes(requireContext(),tempNoteModels)
+                            tempNoteModels.clear()
                             viewModel.getAllNotes(requireContext())
                             noteAdapter.modelArrayListClear()
                             noteAdapter.viewIdListSetFalse()

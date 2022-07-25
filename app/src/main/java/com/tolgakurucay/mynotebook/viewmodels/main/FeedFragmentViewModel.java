@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -61,7 +62,6 @@ public class FeedFragmentViewModel extends ViewModel {
 
         if(db!=null){
             NoteDAO dao= db.noteDao();
-            //dao.deleteAll();
            List<NoteModel> notes = dao.getAllNotes();
            noteList.setValue(notes);
         }
@@ -97,6 +97,7 @@ public class FeedFragmentViewModel extends ViewModel {
         if(db!=null){
             NoteDAO dao =db.noteDao();
             for(int i=0;i<noteList.size();i++){
+                Log.d("bilgi", i+" "+noteList.get(i));
                 dao.deleteNote(noteList.get(i));
             }
 

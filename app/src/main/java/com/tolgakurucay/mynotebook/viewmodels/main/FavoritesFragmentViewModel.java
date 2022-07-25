@@ -91,5 +91,9 @@ public class FavoritesFragmentViewModel extends ViewModel {
         }
     }
 
+    public void saveChanges(Context context){
+
+    }
+
 
 }

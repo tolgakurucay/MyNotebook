@@ -20,7 +20,7 @@ import com.tolgakurucay.mynotebook.models.NoteModel
             if(instance==null){
                 instance=Room.databaseBuilder(context.applicationContext, NoteDatabase::class.java,"NoteDatabase")
                     .allowMainThreadQueries()
-                   // .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration()
                     .build()
             }
             return instance
