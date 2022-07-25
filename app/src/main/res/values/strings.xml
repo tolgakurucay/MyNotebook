@@ -101,5 +101,6 @@
     <string name="thereisnofavorites">There Is No Favorite Item</string>
     <string name="updatedcancelled">Updated Has Cancelled</string>
     <string name="sharedsuccessfully">Shared Successfully</string>
+    <string name="share">Share</string>
 
 </resources>

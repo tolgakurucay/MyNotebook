@@ -35,23 +35,25 @@ class FeedFragment : Fragment() {
     private var tempNoteModels=ArrayList<NoteModel>()
     private lateinit var viewModel:FeedFragmentViewModel
     private var favoritesList=ArrayList<NoteFavoritesModel>()
+
+
     private var noteAdapter= NoteAdapter(arrayListOf()){
 
         if(it.size==0){//menüyü gizle
             setHasOptionsMenu(false)
             tempNoteModels=it
-            Log.d(TAG, "${it.size}")
-            Log.d(TAG, "Listemizin içindekiler\n${it}")
-
+            menuTop?.findItem(R.id.shareItem)?.isVisible=false
+        }
+        else if(it.size==1){
+            setHasOptionsMenu(true)
+            tempNoteModels=it
+            menuTop?.findItem(R.id.shareItem)?.isVisible=true
         }
         else//menüyü göster
         {
-            Log.d(TAG, "${it.size}")
-            Log.d(TAG, "Listemizin içindekiler\n${it}")
             setHasOptionsMenu(true)
             tempNoteModels=it
-
-
+            menuTop?.findItem(R.id.shareItem)?.isVisible=false
         }
     }
     
@@ -86,33 +88,24 @@ class FeedFragment : Fragment() {
             if(it!=null){
                 binding.textViewError.visibility=View.INVISIBLE
                 if(it.isEmpty()){
-                    Log.d(TAG, "favlist: ${favoritesList.size}")
                     noteAdapter.updateNoteList(it)
                     for(i in it){
                         favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
                     }
-
                 }
                 else
                 {
-
                     noteAdapter.updateNoteList(it)
-                    Log.d(TAG, "favlist: ${favoritesList.size}")
-
                 }
-
 
             }
             else
             {
                 binding.textViewError.visibility=View.VISIBLE
-
-
             }
-            
-           
-            
+
         })
+
 
     }
     private fun init(){
@@ -271,17 +264,10 @@ class FeedFragment : Fragment() {
                     .setIcon(R.drawable.favorites)
                     .setPositiveButton(getString(R.string.addtofavorites),object:DialogInterface.OnClickListener{
                         override fun onClick(p0: DialogInterface?, p1: Int) {
-                            Log.d(TAG, "onClick: favorilere eklendi")
-                            
-                            //temp notemodel listesindeki her bir elemanı favoritesList'e ata
-                            //her seçim yapıldığı zaman bu listeyi güncelle
-                            //daha sonra fonksiyona ver, fonksiyon silsin ve diğer tabloya eklesin
-                            //noteModel'i sil
                             favoritesList.clear()
                             for(i in tempNoteModels){
                                 favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
                             }
-
                             viewModel.addFavorites(requireContext(),favoritesList)
                             setHasOptionsMenu(false)
                             viewModel.deleteNotes(requireContext(),tempNoteModels)
@@ -295,7 +281,6 @@ class FeedFragment : Fragment() {
                     .setNegativeButton(getString(R.string.cancel),object :DialogInterface.OnClickListener{
                         override fun onClick(p0: DialogInterface?, p1: Int) {
 
-                            Log.d(TAG, "onClick: favoriler ipral edildi")
                         }
 
 
@@ -307,6 +292,7 @@ class FeedFragment : Fragment() {
 
 
             }
+            R.id.shareItem->{viewModel.shareNote(tempNoteModels.first().title,tempNoteModels.first().description,requireActivity())}
         }
         return true
     }

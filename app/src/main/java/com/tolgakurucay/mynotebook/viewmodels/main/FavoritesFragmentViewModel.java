@@ -135,7 +135,7 @@ public class FavoritesFragmentViewModel extends ViewModel {
             Intent shareIntent=new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT,title+"\n\n\t"+description);
+            shareIntent.putExtra(Intent.EXTRA_TEXT,title+"\n\n"+description);
             activity.startActivity(Intent.createChooser(shareIntent,title));
             sharedMessage.setValue("shared");
 
@@ -143,9 +143,6 @@ public class FavoritesFragmentViewModel extends ViewModel {
         catch (Exception ex){
             sharedMessage.setValue(ex.getLocalizedMessage());
         }
-
-
-
 
 
     }

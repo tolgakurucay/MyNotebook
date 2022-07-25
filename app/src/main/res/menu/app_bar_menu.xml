@@ -13,5 +13,9 @@
         android:icon="@drawable/favorites"
         app:showAsAction="ifRoom"
         />
+    <item android:id="@+id/shareItem"
+        android:icon="@drawable/share"
+        android:title="share"
+        app:showAsAction="ifRoom"/>
 
 </menu>

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ public class FeedFragmentViewModel extends ViewModel {
 
 
     public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();
+
 
 
 
@@ -144,6 +146,17 @@ public class FeedFragmentViewModel extends ViewModel {
 
         }
     }
+    public void shareNote(String title, String description, Activity activity){
+
+            Intent shareIntent=new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,title+"\n\n"+description);
+            activity.startActivity(Intent.createChooser(shareIntent,title));
+
+    }
+
+
 
 
 
