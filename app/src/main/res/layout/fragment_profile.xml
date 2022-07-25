@@ -63,7 +63,7 @@
             android:id="@+id/upgradeMyPackage"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,18 +72,17 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
                 android:layout_marginLeft="4dp"
-                android:background="@drawable/chart"
-                 />
+                android:layout_weight="5"
+                android:background="@drawable/chart" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textColor="@color/white"
                 android:gravity="center"
-                android:text="@string/upgradepackage" />
+                android:text="@string/upgradepackage"
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
@@ -162,6 +161,7 @@
         android:id="@+id/editTextSurname"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
@@ -177,6 +177,7 @@
         android:id="@+id/editTextName"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"

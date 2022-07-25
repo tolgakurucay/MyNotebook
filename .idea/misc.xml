@@ -28,6 +28,7 @@
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_social_login.xml" value="0.33" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/activity_upgrade_package.xml" value="0.2894399315946986" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/custom_loading_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/favorites_layout.xml" value="0.33" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_add_note.xml" value="0.2864471996579735" />
@@ -42,7 +43,9 @@
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_reset_my_password_popup.xml" value="0.33" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_settings.xml" value="0.2864471996579735" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_upgrade_package.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/note_layout.xml" value="0.5" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/payment_rpw.xml" value="0.30012825994014536" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/menu/app_bar_menu.xml" value="0.33" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/menu/favorites_menu.xml" value="0.2963275643731532" />

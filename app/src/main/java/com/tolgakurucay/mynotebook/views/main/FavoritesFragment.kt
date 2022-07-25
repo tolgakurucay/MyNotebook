@@ -166,19 +166,7 @@ class FavoritesFragment : Fragment() {
 
             }
         })
-        viewModel.sharedMessage.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if(it=="shared"){
-                    Toast.makeText(requireContext(), getString(R.string.updatedsuccessfully), Toast.LENGTH_SHORT).show()
 
-                }
-                else
-                {
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                }
-
-            }
-        })
 
 
 

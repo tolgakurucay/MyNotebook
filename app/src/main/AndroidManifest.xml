@@ -15,7 +15,6 @@
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
 
-
     <application
         android:name=".utils.FirstClass"
         android:allowBackup="true"
@@ -26,20 +25,25 @@
         android:theme="@style/Theme.MyNotebook.WithActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".views.main.UpgradePackageActivity"
+            android:exported="false"
+            android:label="@string/title_activity_upgrade_package"
+            android:theme="@style/Theme.MyNotebook.WithActionBar.NoActionBar" />
+        <activity
             android:name=".views.login.SocialLoginActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyNotebook.NoActionBar"
-            android:exported="true" />
+            android:theme="@style/Theme.MyNotebook.NoActionBar" />
         <activity
             android:name=".views.main.MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyNotebook.WithActionBar"
-            android:exported="true" />
+            android:theme="@style/Theme.MyNotebook.WithActionBar" />
         <activity
             android:name=".views.login.LoginActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyNotebook.NoActionBar"
-            android:exported="true">
+            android:theme="@style/Theme.MyNotebook.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -98,4 +98,6 @@
     <string name="updatedcancelled">Güncelleme İşlemi İptal Edildi</string>
     <string name="sharedsuccessfully">Başarılı Bir Şekilde Paylaşıldı</string>
     <string name="share">Paylaş</string>
+    <string name="nextTab">Sonraki</string>
+    <string name="backTab">Önceki</string>
 </resources>

@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -46,6 +47,8 @@ class ProfileFragment : Fragment() {
    val TAG="bilgi"
 
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +60,9 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -80,8 +86,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun init(){
+
+
+
+
         binding= FragmentProfileBinding.inflate(layoutInflater)
-      // loadingDialog= CustomLoadingDialog()
         viewModel= ViewModelProvider(this)[ProfileFragmentViewModel::class.java]
         auth=FirebaseAuth.getInstance()
 
@@ -91,15 +100,15 @@ class ProfileFragment : Fragment() {
         when(signType){
             "email" ->  {binding.editTextMail.hint=getString(R.string.email)
                         binding.editTextName.hint=getString(R.string.name)
-                         binding.editTextName.hint=getString(R.string.surname)}
+                         binding.editTextSurname.hint=getString(R.string.surname)}
 
             "phone" -> {binding.editTextMail.hint=getString(R.string.phonenumber)
                          binding.editTextName.hint=getString(R.string.name)
-                        binding.editTextName.hint=getString(R.string.surname)}
+                        binding.editTextSurname.hint=getString(R.string.surname)}
 
             "google" -> {binding.editTextMail.hint=getString(R.string.email)
                 binding.editTextName.hint=getString(R.string.name)
-                binding.editTextName.hint=getString(R.string.surname)}
+                binding.editTextSurname.hint=getString(R.string.surname)}
 
         }
 
@@ -127,6 +136,10 @@ class ProfileFragment : Fragment() {
             fragmentChangeLanguage.show(requireFragmentManager(),null)
 
 
+        }
+        binding.upgradeMyPackage.setOnClickListener {
+            val intent=Intent(requireActivity(),UpgradePackageActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -284,11 +297,12 @@ class ProfileFragment : Fragment() {
        lifecycleScope.launch {
            viewModel.loading.filter { it!=null }.collect{
                if(it!!){
-                   loadingDialog.show(requireFragmentManager(),"started")
+                       loadingDialog.show(requireFragmentManager(),"started")
                }
                else
                {
-                   loadingDialog.dismiss()
+
+                       loadingDialog.dismiss()
                }
 
 
