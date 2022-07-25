@@ -98,5 +98,7 @@
     <string name="areyousureyouwanttosavechanges">Are You Sure You Want To Save Changes?</string>
     <string name="dontsave">Don\'t Save</string>
     <string name="cancelled">Cancelled</string>
+    <string name="thereisnofavorites">There Is No Favorite Item</string>
+    <string name="updatedcancelled">Updated Has Cancelled</string>
 
 </resources>

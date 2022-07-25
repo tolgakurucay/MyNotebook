@@ -94,4 +94,6 @@
     <string name="areyousureyouwanttosavechanges">Değişiklikleri Kaydetmek İstediğine Emin Misin?</string>
     <string name="dontsave">Kaydetme</string>
     <string name="cancelled">İptal Edildi</string>
+    <string name="thereisnofavorites">Hiç Favoriye Alınmış Notunuz Yok</string>
+    <string name="updatedcancelled">Güncelleme İşlemi İptal Edildi</string>
 </resources>

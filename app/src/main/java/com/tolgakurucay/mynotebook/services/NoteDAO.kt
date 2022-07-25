@@ -34,5 +34,8 @@ interface NoteDAO {
         @Delete
         fun deleteFavorite(favorite:NoteFavoritesModel)
 
+        @Update
+        fun updateFavoriteItem(favorite:NoteFavoritesModel)
+
 
 }

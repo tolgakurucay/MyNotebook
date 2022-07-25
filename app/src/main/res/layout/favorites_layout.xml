@@ -10,9 +10,9 @@
         android:id="@+id/textViewFavoritesTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="88dp"
+        android:layout_marginEnd="32dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/righteorus"
         android:gravity="center"
@@ -39,10 +39,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewFavoritesTitle" />
 
     <EditText
-        android:id="@+id/textView4"
+        android:id="@+id/editTextFavoritesDescription"
         android:layout_width="350dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="48dp"
         android:background="#8CFFFFFF"
         android:gravity="start"
@@ -77,8 +79,18 @@
         android:id="@+id/imageViewDeleteFavorites"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/ic_baseline_delete_24"
+        app:layout_constraintBottom_toBottomOf="@+id/textVliewFavoritesDate"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewFavoritesSave"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewFavoritesSave"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/save"
         app:layout_constraintBottom_toBottomOf="@+id/textVliewFavoritesDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
