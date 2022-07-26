@@ -9,8 +9,12 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.DisplayMetrics
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import java.io.ByteArrayOutputStream
 import java.sql.Blob
 import java.util.*
@@ -31,6 +35,19 @@ object Util {
             .create()
             .show()
     }
+
+    fun ImageView.downloadFromUri(uri: Uri?){
+        Glide.with(context)
+            .load(uri)
+            .into(this)
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:downloadImage")
+    fun downloadImageForBinding(imageView:ImageView,uri: Uri?){
+        imageView.downloadFromUri(uri)
+    }
+
 
     fun bitmapToBase64(bitmap: Bitmap?) : String?{
         if(bitmap==null){
