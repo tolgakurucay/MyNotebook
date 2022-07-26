@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.PagerAdapter.POSITION_NONE
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.PaymentRowBinding
 import com.tolgakurucay.mynotebook.models.Payment
@@ -37,7 +38,13 @@ class PaymentAdapter(var paymentList: ArrayList<Payment>) : RecyclerView.Adapter
 
 
     fun updateList(newList:ArrayList<Payment>){
+
         paymentList=newList
         notifyDataSetChanged()
+
     }
+
+
+
+
 }
