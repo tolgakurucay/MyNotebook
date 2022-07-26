@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.views.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -28,13 +29,15 @@ class UpgradePackageActivity : AppCompatActivity() {
     lateinit var loadingDialog:CustomLoadingDialog
     val TAG="bilgi"
     val paymentList=ArrayList<Payment>()
+    var tempPosition:Int=0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityUpgradePackageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-
+        initButtons()
 
         viewmodel.getImagesFromFirebase(storage)
         observeLiveData()
@@ -47,9 +50,6 @@ class UpgradePackageActivity : AppCompatActivity() {
         adapter= PaymentAdapter(arrayListOf())
         binding.paymentViewPager.adapter=adapter
         TabLayoutMediator(binding.tabLayoutPayment,binding.paymentViewPager){tab,position->
-
-
-
         }.attach()
 
         binding.paymentViewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
@@ -58,7 +58,7 @@ class UpgradePackageActivity : AppCompatActivity() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                Log.d(TAG, "onPageScrolled: $position")
+                tempPosition=position
             }
 
 
@@ -69,8 +69,8 @@ class UpgradePackageActivity : AppCompatActivity() {
     private fun observeLiveData(){
         viewmodel.uriList.observe(this, Observer {
             it?.let {
-                paymentList.add(Payment("10","50 TL",it[0]))
-                paymentList.add(Payment("20","70 TL",it[1]))
+                paymentList.add(Payment("10","50 TL",it[1]))
+                paymentList.add(Payment("20","70 TL",it[0]))
                 paymentList.add(Payment("50","100 TL",it[2]))
                 adapter.updateList(paymentList)
 
@@ -88,6 +88,37 @@ class UpgradePackageActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun initButtons(){
+
+        binding.buttonBack.setOnClickListener {
+            if(tempPosition>0){
+                tempPosition--
+                binding.paymentViewPager.currentItem=tempPosition
+            }
+        }
+        binding.buttonNext.setOnClickListener {
+           if (tempPosition<2){
+               tempPosition++
+               binding.paymentViewPager.currentItem=tempPosition
+           }
+
+        }
+        binding.buttonPay.setOnClickListener {
+            when(tempPosition){
+                0->{}
+                1->{}
+                2->{}
+            }
+        }
+
+
+
+
+
+
+
     }
 
 

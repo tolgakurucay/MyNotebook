@@ -22,6 +22,7 @@
         android:id="@+id/tabLayoutPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:tabBackground="@drawable/payment_tab_indicator"
         app:layout_constraintBottom_toBottomOf="@+id/buttonBack"
         app:layout_constraintEnd_toStartOf="@+id/buttonNext"
         app:layout_constraintStart_toEndOf="@+id/buttonBack"
@@ -33,7 +34,8 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonNext"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.06"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/pay_next_button_shape"
@@ -46,7 +48,8 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonBack"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.06"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/pay_back_button_shape"
@@ -57,15 +60,16 @@
         app:layout_constraintWidth_percent="0.25" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button2"
+        android:id="@+id/buttonPay"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@drawable/pay_button_shape"
+        android:text="@string/buy"
         android:textColor="@color/white"
-        android:text="Button"
-        app:layout_constraintWidth_percent="0.8"
         app:layout_constraintBottom_toTopOf="@+id/tabLayoutPayment"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paymentViewPager" />
+        app:layout_constraintTop_toBottomOf="@+id/paymentViewPager"
+        app:layout_constraintWidth_percent="0.8" />
 </androidx.constraintlayout.widget.ConstraintLayout>

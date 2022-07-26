@@ -113,5 +113,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="nextTab">Next</string>
     <string name="backTab">Back</string>
+    <string name="buy">Buy</string>
 
 </resources>
