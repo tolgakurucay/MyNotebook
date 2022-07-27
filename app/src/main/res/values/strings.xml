@@ -114,5 +114,6 @@
     <string name="nextTab">Next</string>
     <string name="backTab">Back</string>
     <string name="buy">Buy</string>
+    <string name="right">Right</string>
 
 </resources>

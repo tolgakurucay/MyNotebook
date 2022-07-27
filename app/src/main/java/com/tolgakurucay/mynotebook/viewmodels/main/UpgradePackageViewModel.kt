@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.*
 import com.google.common.collect.ImmutableList
 import com.google.firebase.storage.FirebaseStorage
+import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.models.Payment
 import kotlinx.coroutines.launch
 
@@ -19,16 +20,40 @@ val TAG="bilgi"
 
     val uriList=MutableLiveData<ArrayList<Uri>>()
     val loading=MutableLiveData<Boolean>()
+    val arrayList=MutableLiveData<ArrayList<Payment>>()
+    private val uriArrayList=ArrayList<Uri>()
+    val paymentListTemp=ArrayList<Payment>()
+
+
+
     private lateinit var billingClient:BillingClient
     private val purchasesUpdatedListener=
         PurchasesUpdatedListener{billingResult,purchases->
             if(billingResult.responseCode==BillingClient.BillingResponseCode.OK){
                 Log.d(TAG, "updatedListener: ")
+                if(!purchases.isNullOrEmpty()){
+                    val consumeParams=ConsumeParams.newBuilder()
+                        .setPurchaseToken(purchases?.get(0)!!.purchaseToken)
+                        .build()
+                    billingClient.consumeAsync(consumeParams,object:ConsumeResponseListener{
+                        override fun onConsumeResponse(p0: BillingResult, p1: String) {
+                            if(p0.responseCode==BillingClient.BillingResponseCode.OK){ 
+                                Log.d(TAG, "onConsumeResponse: tüketildi")
+                            }
+                            else
+                            {
+                                Log.d(TAG, "onConsumeResponse: tüketilemedi")
+                            }
+
+                        }
+
+                    })
+                }
+               
             }
             
         }
-    private val uriArrayList=ArrayList<Uri>()
-    val paymentListTemp=ArrayList<Payment>()
+
 
 
 
@@ -63,7 +88,7 @@ val TAG="bilgi"
     }
 
 
-    fun getInformations(context: Context,purchaseIdList:List<String>,uriArrayList:ArrayList<Uri>,completion:(ArrayList<Payment>)->Unit){
+    fun getInformations(context: Context,purchaseIdList:List<String>,uriArrayList:ArrayList<Uri>){
         loading.value=false
         loading.value=true
         billingClient=BillingClient.newBuilder(context)
@@ -73,7 +98,7 @@ val TAG="bilgi"
 
         billingClient.startConnection(object:BillingClientStateListener{
             override fun onBillingServiceDisconnected() {
-                getInformations(context,purchaseIdList,uriArrayList,completion)
+                getInformations(context,purchaseIdList,uriArrayList)
             }
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
@@ -110,15 +135,21 @@ val TAG="bilgi"
                         productDetailsList->
                         if(billingRes.responseCode==BillingClient.BillingResponseCode.OK){
                             //continue
+                            //viewmodelscope burada işlemlerin sırayla yapılmasını sağlar(coroutines)
+                            viewModelScope.launch {
+                                for((j, i) in productDetailsList.withIndex()){
+                                    paymentListTemp.add(Payment(i.name,i.oneTimePurchaseOfferDetails?.formattedPrice.toString(),i.description+" "+context.getString(R.string.right),uriArrayList[j],i.productId))
+                                }
 
-                            for((j, i) in productDetailsList.withIndex()){
-                                paymentListTemp.add(Payment(i.name,i.oneTimePurchaseOfferDetails?.formattedPrice.toString(),i.description,uriArrayList[j],i.productId))
+                                Log.d(TAG, "gönderilmeden önce$paymentListTemp")
+
+                                arrayList.value=paymentListTemp
+                                //completion(paymentListTemp)
+                                loading.value=false
                             }
 
-                            Log.d(TAG, "gönderilmeden önce\n\n$paymentListTemp")
 
-                            completion(paymentListTemp)
-                            loading.value=false
+                            
 
 
 
@@ -142,7 +173,7 @@ val TAG="bilgi"
     
     
     fun pay(id:String,activity:Activity){
-
+        loading.value=true
 
         billingClient.startConnection(object:BillingClientStateListener{
             override fun onBillingServiceDisconnected() {
@@ -166,26 +197,31 @@ val TAG="bilgi"
                            billingRes,
                            productDetailsList->
                        if (billingRes.responseCode==BillingClient.BillingResponseCode.OK){
-                           val productDetailsParamsList = listOf(
-                               BillingFlowParams.ProductDetailsParams.newBuilder()
-                                   .setProductDetails(productDetailsList.first())
+                           viewModelScope.launch {
+                               val productDetailsParamsList = listOf(
+                                   BillingFlowParams.ProductDetailsParams.newBuilder()
+                                       .setProductDetails(productDetailsList.first())
+                                       .build()
+                               )
+                               val billingFlowParams = BillingFlowParams.newBuilder()
+                                   .setProductDetailsParamsList(productDetailsParamsList)
                                    .build()
-                           )
-                           val billingFlowParams = BillingFlowParams.newBuilder()
-                               .setProductDetailsParamsList(productDetailsParamsList)
-                               .build()
 
+                               loading.value=false
+                               billingClient.launchBillingFlow(activity,billingFlowParams)
 
-                           billingClient.launchBillingFlow(activity,billingFlowParams)
+                           }
 
                        }
 
 
 
-
-                       
                        
                    }
+               }
+                else
+               {
+                   loading.value=false
                }
             }
 

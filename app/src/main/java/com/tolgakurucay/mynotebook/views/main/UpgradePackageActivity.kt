@@ -37,6 +37,7 @@ class UpgradePackageActivity : AppCompatActivity() {
     var tempList= arrayListOf<Payment>()
 
     //have to 3 items here
+
     private val purchaseIdList= listOf("com.mynotebook.20","com.mynotebook.50","com.mynotebook.100")
 
 
@@ -87,17 +88,8 @@ class UpgradePackageActivity : AppCompatActivity() {
         viewmodel.uriList.observe(this, Observer {
             it?.let {uriList->
 
-                Log.d(TAG, "observeLiveData: $uriList")
-               viewmodel.getInformations(this,purchaseIdList,uriList){
-
-                   lifecycleScope.launch {
-                       val newList=ArrayList<Payment>()
-                       newList.add(it[1])
-                       newList.add(it[2])
-                       newList.add(it[0])
-                       adapter.updateList(newList)
-                   }
-               }
+                //görüntülerin uri'i geldikten sonra bilgileri getir
+               viewmodel.getInformations(this,purchaseIdList,uriList)
 
 
 
@@ -113,6 +105,24 @@ class UpgradePackageActivity : AppCompatActivity() {
                 {
                     loadingDialog.dismiss()
                 }
+            }
+        })
+
+        viewmodel.arrayList.observe(this, Observer {
+            it?.let {arrayList: ArrayList<Payment> ->
+                lifecycleScope.launch {
+                    loadingDialog.show(supportFragmentManager,null)
+                    //bilgiler geldikten sonra düzenle(play storedaki purchase sırasına göre gidiyor)
+                    val newList=ArrayList<Payment>()
+                    newList.add(arrayList[1])
+                    newList.add(arrayList[2])
+                    newList.add(arrayList[0])
+
+                    adapter.updateList(newList)
+                    loadingDialog.dismiss()
+
+                }
+
             }
         })
 
