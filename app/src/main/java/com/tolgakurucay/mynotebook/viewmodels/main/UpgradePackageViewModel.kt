@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableList
 import com.google.firebase.storage.FirebaseStorage
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.models.Payment
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class UpgradePackageViewModel : ViewModel() {
 val TAG="bilgi"
@@ -25,7 +25,8 @@ val TAG="bilgi"
     val paymentListTemp=ArrayList<Payment>()
 
 
-
+    //1-alınan fiyata göre hak arttır
+    //2-ödeme bilgilerini db'ye kaydet
     private lateinit var billingClient:BillingClient
     private val purchasesUpdatedListener=
         PurchasesUpdatedListener{billingResult,purchases->
@@ -65,26 +66,33 @@ val TAG="bilgi"
         val basicPlan=storage.reference.child("basic_plan.png")
         val premiumPlan=storage.reference.child("premium_plan.png")
 
-        Log.d(TAG, "getImagesFromFirebase: $advantagePlan")
-        basicPlan.downloadUrl.addOnSuccessListener { basicPlan->
-            basicPlan?.let {bsc->
-                uriArrayList.add(bsc)
-                advantagePlan.downloadUrl.addOnSuccessListener { advantagePlan->
-                    advantagePlan?.let { adv->
-                        uriArrayList.add(adv)
-                        premiumPlan.downloadUrl.addOnSuccessListener { premiumPlan->
-                            premiumPlan?.let { prm->
-                                uriArrayList.add(prm)
+        runBlocking {//görevler tamamlanana kadar ui'ı bloklar
+            Log.d(TAG, "getImagesFromFirebase: $advantagePlan")
+            basicPlan.downloadUrl.addOnSuccessListener { basicPlan->
+                basicPlan?.let {bsc->
+                    uriArrayList.add(bsc)
+                    advantagePlan.downloadUrl.addOnSuccessListener { advantagePlan->
+                        advantagePlan?.let { adv->
+                            uriArrayList.add(adv)
+                            premiumPlan.downloadUrl.addOnSuccessListener { premiumPlan->
+                                premiumPlan?.let { prm->
+                                    uriArrayList.add(prm)
 
-                                uriList.value=uriArrayList
-                                loading.value=false
-                            }
-                        }.addOnFailureListener { loading.value=false }
-                    }
-                }.addOnFailureListener { loading.value=false }
+                                    uriList.value=uriArrayList
+                                    loading.value=false
+                                }
+                            }.addOnFailureListener { loading.value=false }
+                        }
+                    }.addOnFailureListener { loading.value=false }
 
-            }
-        }.addOnFailureListener { loading.value=false }
+                }
+            }.addOnFailureListener { loading.value=false }
+        }
+
+
+
+
+
     }
 
 
@@ -144,7 +152,6 @@ val TAG="bilgi"
                                 Log.d(TAG, "gönderilmeden önce$paymentListTemp")
 
                                 arrayList.value=paymentListTemp
-                                //completion(paymentListTemp)
                                 loading.value=false
                             }
 
