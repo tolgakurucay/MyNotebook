@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_profileFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_orderHistoryFragment"
+            app:destination="@id/orderHistoryFragment" />
     </fragment>
     <dialog
         android:id="@+id/changeLanguage2"
@@ -70,6 +73,15 @@
         <argument
             android:name="noteObject"
             app:argType="com.tolgakurucay.mynotebook.models.NoteModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderHistoryFragment"
+        android:name="com.tolgakurucay.mynotebook.views.payment.OrderHistoryFragment"
+        android:label="fragment_order_history"
+        tools:layout="@layout/fragment_order_history" >
+        <action
+            android:id="@+id/action_orderHistoryFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
 </navigation>

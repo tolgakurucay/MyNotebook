@@ -1,15 +1,13 @@
-package com.tolgakurucay.mynotebook.viewmodels.main
+package com.tolgakurucay.mynotebook.viewmodels.payment
 
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import androidx.core.util.rangeTo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.*
-import com.bumptech.glide.util.Util
 import com.google.common.collect.ImmutableList
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -51,22 +49,46 @@ val TAG="bilgi"
                     billingClient.consumeAsync(consumeParams,object:ConsumeResponseListener{
                         override fun onConsumeResponse(p0: BillingResult, p1: String) {
                             if(p0.responseCode==BillingClient.BillingResponseCode.OK){
-                                Log.d(TAG, "onConsumeResponse: ${purchases.first()}")
-                                val currentDate=GetCurrentDate()
-                                val json =JSONObject(purchases.first().originalJson)
-                                val orderID=purchases.first().orderId
-                                val productID=json.getString("productId")
-                                val purchaseToken=purchases.first().purchaseToken
-                                val price=productDetailList.first().oneTimePurchaseOfferDetails!!.formattedPrice
+                              viewModelScope.launch {
+                                  val currentDate=GetCurrentDate()
+                                  val json =JSONObject(purchases.first().originalJson)
+                                  val orderID=purchases.first().orderId
+                                  val productID=json.getString("productId")
+                                  val purchaseToken=purchases.first().purchaseToken
+                                  val price=productDetailList.first().oneTimePurchaseOfferDetails!!.formattedPrice
+                                  val packageName=productDetailList.first().name
+                                  Log.d(TAG, "denemedeneme\n\n${purchases.first()}")
 
-                                val payHistory=PaymentHistory(currentDate.currentDate(),orderID,price,auth.currentUser?.uid.toString(),productID,purchaseToken)
-                                firestore.collection("PaymentHistory").add(payHistory)
-                                    .addOnSuccessListener {
-                                        paymentStatus.value="success"
-                                    }
-                                    .addOnFailureListener {
-                                        paymentStatus.value=it.localizedMessage
-                                    }
+                                  val payHistory=PaymentHistory(currentDate.currentDate(),orderID,price,auth.currentUser?.uid.toString(),productID,purchaseToken,packageName)
+                                  var purchasedRight=0
+                                  firestore.collection("PaymentHistory").add(payHistory)
+                                      .addOnSuccessListener {
+                                          if(productID.equals("com.mynotebook.20")){
+                                              purchasedRight=20
+                                          }
+                                          else if(productID.equals("com.mynotebook.50")){
+                                              purchasedRight=50
+                                          }
+                                          else if(productID.equals("com.mynotebook.100")){
+                                              purchasedRight=100
+                                          }
+
+
+                                         increaseRightForCurrentUser(purchasedRight){
+                                             if(it){
+                                                 paymentStatus.value="success"
+                                             }
+                                             else
+                                             {
+                                                 paymentStatus.value="Network Error"
+                                             }
+                                         }
+                                      }
+                                      .addOnFailureListener {
+                                          paymentStatus.value=it.localizedMessage
+                                      }
+                              }
+
 
 
                               
@@ -88,7 +110,40 @@ val TAG="bilgi"
 
 
 
+    fun increaseRightForCurrentUser(right:Int,completion:(Boolean)->Unit){
+        firestore.collection("Right").document(auth.uid.toString()).get()
+            .addOnSuccessListener {
+                val path=it.reference.path
 
+                if(it.exists()){
+                    Log.d(TAG, "increaseRightForCurrentUser: alan var")
+                    val oldRight=it.getDouble("right")
+                    oldRight?.let { oldRght->
+                        val newRight=(oldRght+right).toInt()
+                        firestore.document(path).update("right",newRight)
+                            .addOnSuccessListener { completion(true) }
+                            .addOnFailureListener { completion(false) }
+
+                    }
+
+                }
+                else
+                {
+                    Log.d(TAG, "increaseRightForCurrentUser: alan yok")
+                    val map=HashMap<String,Int>()
+                    map.put("right",right)
+                    firestore.document(path).set(map)
+                        .addOnSuccessListener { completion(true) }
+                        .addOnFailureListener { completion(false) }
+
+
+                }
+            }
+            .addOnFailureListener {
+                completion(false)
+            }
+
+    }
 
     fun getImagesFromFirebase(storage:FirebaseStorage){
         loading.value=true

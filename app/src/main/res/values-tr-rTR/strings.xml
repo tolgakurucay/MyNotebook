@@ -105,4 +105,5 @@
     <string name="changebackground">Arka Planı Değiştir</string>
     <string name="orderhistory">Ödeme Geçmişi</string>
     <string name="remaining">Kalan:</string>
+    <string name="paymentsuccessful">Ödeme Başarıyla Tamamlandı</string>
 </resources>

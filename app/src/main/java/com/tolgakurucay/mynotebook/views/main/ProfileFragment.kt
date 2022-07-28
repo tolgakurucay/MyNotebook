@@ -17,6 +17,7 @@ import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.tolgakurucay.mynotebook.R
@@ -26,8 +27,8 @@ import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.ResetMyPasswordPopup
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.ProfileFragmentViewModel
+import com.tolgakurucay.mynotebook.views.payment.UpgradePackageActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -69,7 +70,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        viewModel.getRightForCurrentUser()
         val signType=Util.getSignType(requireActivity())
         Log.d(TAG, "onViewCreated: "+signType)
         when(signType){
@@ -142,7 +143,7 @@ class ProfileFragment : Fragment() {
 
         }
         binding.upgradeMyPackage.setOnClickListener {
-            val intent=Intent(requireActivity(),UpgradePackageActivity::class.java)
+            val intent=Intent(requireActivity(), UpgradePackageActivity::class.java)
             startActivity(intent)
         }
 
@@ -229,6 +230,11 @@ class ProfileFragment : Fragment() {
             launcher2.launch(intent)
         }
 
+        binding.orderHistory.setOnClickListener {
+            val action=ProfileFragmentDirections.actionProfileFragmentToOrderHistoryFragment()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+
 
 
 
@@ -240,6 +246,14 @@ class ProfileFragment : Fragment() {
 
 
    private fun observeFlowData(){
+
+       lifecycleScope.launch {
+           viewModel.userRight.collect{
+               it?.let {
+                   binding.textViewRemaining.setText(it)
+               }
+           }
+       }
 
        lifecycle.coroutineScope.launch{
            viewModel.savebackgroundMessage.collect{

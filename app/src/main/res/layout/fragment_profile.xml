@@ -55,7 +55,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/pencil" />
 
                 <TextView
@@ -80,7 +80,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/change_background" />
 
                 <TextView
@@ -105,7 +105,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/order_history" />
 
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/chart" />
 
                 <TextView
@@ -157,7 +157,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/language"
                     android:padding="8dp" />
 
@@ -183,7 +183,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/password" />
 
                 <TextView

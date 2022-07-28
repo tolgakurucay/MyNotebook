@@ -4,6 +4,7 @@ import android.app.Activity
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -26,12 +27,33 @@ class ProfileFragmentViewModel : ViewModel() {
     val savedPhone=MutableStateFlow<String?>(null)
     val loading= MutableStateFlow<Boolean?>(null)
     val savebackgroundMessage= MutableSharedFlow<String>()
+    val userRight= MutableStateFlow<String?>(null)
 
     val auth=FirebaseAuth.getInstance()
     val storage=FirebaseStorage.getInstance()
+    val firestore=FirebaseFirestore.getInstance()
 
 
+    fun getRightForCurrentUser(){
+        firestore.collection("Right").document(auth.uid.toString()).get()
+            .addOnSuccessListener {
 
+                val right= it.getDouble("right")?.toInt()
+                if(right!=null){
+
+                    viewModelScope.launch { userRight.emit(right.toString()) }
+                }
+                else
+                {
+                    viewModelScope.launch{userRight.emit("0")}
+                }
+
+            }
+            .addOnFailureListener {
+                viewModelScope.launch { userRight.emit(it.localizedMessage) }
+            }
+
+    }
 
     fun saveBackgroundToStorage(uri: Uri,activity: Activity){
         storage.reference.child("backgrounds").child(auth.uid.toString()).putFile(uri)

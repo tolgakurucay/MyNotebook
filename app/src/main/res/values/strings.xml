@@ -118,5 +118,6 @@
     <string name="changebackground">Change Background</string>
     <string name="orderhistory">Order History</string>
     <string name="remaining">Remaining:</string>
+    <string name="paymentsuccessful">Payment Successful</string>
 
 </resources>
