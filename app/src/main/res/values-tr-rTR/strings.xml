@@ -106,4 +106,6 @@
     <string name="orderhistory">Ödeme Geçmişi</string>
     <string name="remaining">Kalan:</string>
     <string name="paymentsuccessful">Ödeme Başarıyla Tamamlandı</string>
+    <string name="price">Fiyat</string>
+    <string name="packagename">Paket İsmi</string>
 </resources>

@@ -119,5 +119,7 @@
     <string name="orderhistory">Order History</string>
     <string name="remaining">Remaining:</string>
     <string name="paymentsuccessful">Payment Successful</string>
+    <string name="price">Price</string>
+    <string name="packagename">Package Name</string>
 
 </resources>

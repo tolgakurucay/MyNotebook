@@ -9,6 +9,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tolgakurucay.mynotebook.models.OrderHistory
+import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import kotlinx.coroutines.launch
 
 class OrderHistoryViewModel : ViewModel() {
@@ -24,7 +25,7 @@ class OrderHistoryViewModel : ViewModel() {
 
 
     fun getOrderList(){
-
+        val currentDate=GetCurrentDate()
         viewModelScope.launch {
             val orderList=ArrayList<OrderHistory>()
             firestore.collection("PaymentHistory").whereEqualTo("personUID",auth.currentUser!!.uid).get()
@@ -33,10 +34,12 @@ class OrderHistoryViewModel : ViewModel() {
                         for(history in it){
                             Log.d(TAG, "getOrderList: for başladı")
                             val date=history.getDate("orderDate")
+
                             val price=history.getString("price")
                             val packageName=history.getString("packageName")
                             if(date!=null && price!=null && packageName!=null){
-                                val obj=OrderHistory(packageName,date,price)
+                                val stringDate=currentDate.getDateFromLong(date.time)
+                                val obj=OrderHistory(packageName,stringDate,price)
                                 orderList.add(obj)
 
                             }
