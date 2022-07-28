@@ -1,6 +1,5 @@
-package com.tolgakurucay.mynotebook.viewmodels.login
+package com.tolgakurucay.mynotebook.viewmodels.signup
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

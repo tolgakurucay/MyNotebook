@@ -115,5 +115,8 @@
     <string name="backTab">Back</string>
     <string name="buy">Buy</string>
     <string name="right">Right</string>
+    <string name="changebackground">Change Background</string>
+    <string name="orderhistory">Order History</string>
+    <string name="remaining">Remaining:</string>
 
 </resources>

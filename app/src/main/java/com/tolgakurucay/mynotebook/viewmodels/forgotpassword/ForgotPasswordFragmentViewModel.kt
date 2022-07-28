@@ -1,9 +1,8 @@
-package com.tolgakurucay.mynotebook.viewmodels.login
+package com.tolgakurucay.mynotebook.viewmodels.forgotpassword
 
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordFragmentViewModel : ViewModel() {

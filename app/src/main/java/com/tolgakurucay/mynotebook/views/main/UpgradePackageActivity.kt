@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.views.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.view.get
 import androidx.lifecycle.Observer
@@ -85,6 +86,22 @@ class UpgradePackageActivity : AppCompatActivity() {
 
     private fun observeLiveData(){
         // TODO: yapılacaklar arasında liste gözlenememe işi var
+
+        viewmodel.paymentStatus.observe(this, Observer {
+            it?.let {
+                if(it.equals("success")){
+                    //payment successful
+                    Log.d(TAG, "observeLiveData: payment successfull")
+                    //Toast.makeText(, "", Toast.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
+
         viewmodel.uriList.observe(this, Observer {
             it?.let {uriList->
 

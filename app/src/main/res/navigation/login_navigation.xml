@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.tolgakurucay.mynotebook.views.login.SignUpFragment"
+        android:name="com.tolgakurucay.mynotebook.views.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.tolgakurucay.mynotebook.views.login.ForgotPasswordFragment"
+        android:name="com.tolgakurucay.mynotebook.views.forgotpassword.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" >
         <action

@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentProfileBinding
 import com.tolgakurucay.mynotebook.utils.ChangeLanguage
@@ -26,6 +27,7 @@ import com.tolgakurucay.mynotebook.utils.ResetMyPasswordPopup
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.ProfileFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +39,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding:FragmentProfileBinding
     private lateinit var viewModel:ProfileFragmentViewModel
     private lateinit var auth:FirebaseAuth
+    private lateinit var storage:FirebaseStorage
     private var imageBitmap:Bitmap?=null
     private var imageBase64:String?=null
 
@@ -93,6 +96,7 @@ class ProfileFragment : Fragment() {
         binding= FragmentProfileBinding.inflate(layoutInflater)
         viewModel= ViewModelProvider(this)[ProfileFragmentViewModel::class.java]
         auth=FirebaseAuth.getInstance()
+        storage= FirebaseStorage.getInstance()
 
         val signType=Util.getSignType(requireActivity())
         Log.d(TAG, "init: "+signType)
@@ -145,6 +149,8 @@ class ProfileFragment : Fragment() {
 
 
 
+
+
         binding.buttonProfileSave.setOnClickListener {
 
             val name=binding.editTextName.text.toString()
@@ -163,7 +169,7 @@ class ProfileFragment : Fragment() {
 
 
         }
-        ///////////////////////////////////
+        /////////////////////////////////// for pp
         var sActivityResultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult(),object:ActivityResultCallback<ActivityResult>{
             override fun onActivityResult(result: ActivityResult?) {
                 result?.let {
@@ -193,10 +199,34 @@ class ProfileFragment : Fragment() {
 
         })
         ////////////////////////////
+        //for background
+        val launcher2=registerForActivityResult(ActivityResultContracts.StartActivityForResult(),object:ActivityResultCallback<ActivityResult>{
+            override fun onActivityResult(result: ActivityResult?) {
+                result?.let {
+                    if(it.resultCode==Activity.RESULT_OK){
+                        val data=result.data
+                        data?.let {
+                            val uri=data.data
+                            uri?.let {
+                                viewModel.saveBackgroundToStorage(it,requireActivity())
+                                //storage.reference.child("backgrounds").child(auth.uid.toString()).putFile(it)
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        })
 
         binding.imageViewProfile.setOnClickListener {
             val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             sActivityResultLauncher.launch(intent)
+        }
+
+        binding.changeBackground.setOnClickListener {
+            val intent=Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            launcher2.launch(intent)
         }
 
 
@@ -210,6 +240,18 @@ class ProfileFragment : Fragment() {
 
 
    private fun observeFlowData(){
+
+       lifecycle.coroutineScope.launch{
+           viewModel.savebackgroundMessage.collect{
+               if(it.equals("success")){
+                   Log.d(TAG, "observeFlowData: başarıyla kaydedildi")
+               }
+               else
+               {
+                   Log.d(TAG, "observeFlowData: hata$it")
+               }
+           }
+       }
 
        lifecycle.coroutineScope.launch {
            viewModel.savedPhone.collect{

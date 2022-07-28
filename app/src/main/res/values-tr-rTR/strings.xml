@@ -102,4 +102,7 @@
     <string name="backTab">Önceki</string>
     <string name="buy">Satın Al</string>
     <string name="right">Hak</string>
+    <string name="changebackground">Arka Planı Değiştir</string>
+    <string name="orderhistory">Ödeme Geçmişi</string>
+    <string name="remaining">Kalan:</string>
 </resources>

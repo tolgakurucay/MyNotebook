@@ -9,11 +9,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.*
+import com.bumptech.glide.util.Util
 import com.google.common.collect.ImmutableList
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.models.Payment
+import com.tolgakurucay.mynotebook.models.PaymentHistory
+import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import kotlinx.coroutines.*
+import org.json.JSONObject
 
 class UpgradePackageViewModel : ViewModel() {
 val TAG="bilgi"
@@ -23,6 +29,11 @@ val TAG="bilgi"
     val arrayList=MutableLiveData<ArrayList<Payment>>()
     private val uriArrayList=ArrayList<Uri>()
     val paymentListTemp=ArrayList<Payment>()
+
+    val productDetailList= arrayListOf<ProductDetails>()
+    val auth=FirebaseAuth.getInstance()
+    val firestore=FirebaseFirestore.getInstance()
+    val paymentStatus=MutableLiveData<String>()
 
 
     //1-alınan fiyata göre hak arttır
@@ -36,10 +47,30 @@ val TAG="bilgi"
                     val consumeParams=ConsumeParams.newBuilder()
                         .setPurchaseToken(purchases?.get(0)!!.purchaseToken)
                         .build()
+                    
                     billingClient.consumeAsync(consumeParams,object:ConsumeResponseListener{
                         override fun onConsumeResponse(p0: BillingResult, p1: String) {
-                            if(p0.responseCode==BillingClient.BillingResponseCode.OK){ 
-                                Log.d(TAG, "onConsumeResponse: tüketildi")
+                            if(p0.responseCode==BillingClient.BillingResponseCode.OK){
+                                Log.d(TAG, "onConsumeResponse: ${purchases.first()}")
+                                val currentDate=GetCurrentDate()
+                                val json =JSONObject(purchases.first().originalJson)
+                                val orderID=purchases.first().orderId
+                                val productID=json.getString("productId")
+                                val purchaseToken=purchases.first().purchaseToken
+                                val price=productDetailList.first().oneTimePurchaseOfferDetails!!.formattedPrice
+
+                                val payHistory=PaymentHistory(currentDate.currentDate(),orderID,price,auth.currentUser?.uid.toString(),productID,purchaseToken)
+                                firestore.collection("PaymentHistory").add(payHistory)
+                                    .addOnSuccessListener {
+                                        paymentStatus.value="success"
+                                    }
+                                    .addOnFailureListener {
+                                        paymentStatus.value=it.localizedMessage
+                                    }
+
+
+                              
+
                             }
                             else
                             {
@@ -188,48 +219,57 @@ val TAG="bilgi"
             }
 
             override fun onBillingSetupFinished(p0: BillingResult) {
-               if(p0.responseCode==BillingClient.BillingResponseCode.OK){
-                   val params=QueryProductDetailsParams.newBuilder()
-                       .setProductList(
-                           ImmutableList.of(
-                               QueryProductDetailsParams.Product.newBuilder()
-                                   .setProductId(id)
-                                   .setProductType(BillingClient.ProductType.INAPP)
-                                   .build()
-                           )
 
-                       ).build()
-                   
-                   billingClient.queryProductDetailsAsync(params){
-                           billingRes,
-                           productDetailsList->
-                       if (billingRes.responseCode==BillingClient.BillingResponseCode.OK){
-                           viewModelScope.launch {
-                               val productDetailsParamsList = listOf(
-                                   BillingFlowParams.ProductDetailsParams.newBuilder()
-                                       .setProductDetails(productDetailsList.first())
-                                       .build()
-                               )
-                               val billingFlowParams = BillingFlowParams.newBuilder()
-                                   .setProductDetailsParamsList(productDetailsParamsList)
-                                   .build()
+                viewModelScope.launch {
+                    if(p0.responseCode==BillingClient.BillingResponseCode.OK){
+                        val params=QueryProductDetailsParams.newBuilder()
+                            .setProductList(
+                                ImmutableList.of(
+                                    QueryProductDetailsParams.Product.newBuilder()
+                                        .setProductId(id)
+                                        .setProductType(BillingClient.ProductType.INAPP)
+                                        .build()
+                                )
 
-                               loading.value=false
-                               billingClient.launchBillingFlow(activity,billingFlowParams)
+                            ).build()
 
-                           }
-
-                       }
+                        billingClient.queryProductDetailsAsync(params){
+                                billingRes,
+                                productDetailsList->
+                            if (billingRes.responseCode==BillingClient.BillingResponseCode.OK){
+                                viewModelScope.launch {
+                                    val productDetailsParamsList = listOf(
+                                        BillingFlowParams.ProductDetailsParams.newBuilder()
+                                            .setProductDetails(productDetailsList.first())
+                                            .build()
+                                    )
+                                    val billingFlowParams = BillingFlowParams.newBuilder()
+                                        .setProductDetailsParamsList(productDetailsParamsList)
+                                        .build()
 
 
+                                    //Log.d(TAG, "onBillingSetupFinished: ${productDetailsList.first().oneTimePurchaseOfferDetails.formattedPrice}")
+                                    productDetailList.addAll(productDetailsList)
+                                    loading.value=false
+                                    billingClient.launchBillingFlow(activity,billingFlowParams)
 
-                       
-                   }
-               }
-                else
-               {
-                   loading.value=false
-               }
+
+                                }
+
+                            }
+
+
+
+
+                        }
+                    }
+                    else
+                    {
+                        loading.value=false
+                    }
+                }
+
+
             }
 
         })

@@ -1,9 +1,8 @@
-package com.tolgakurucay.mynotebook.views.login
+package com.tolgakurucay.mynotebook.views.signup
 
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,7 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentSignUpBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
-import com.tolgakurucay.mynotebook.viewmodels.login.SignUpFragmentViewModel
+import com.tolgakurucay.mynotebook.viewmodels.signup.SignUpFragmentViewModel
 
 
 class SignUpFragment : Fragment() {
@@ -143,7 +142,8 @@ class SignUpFragment : Fragment() {
                         .setMessage(R.string.createduser)
                         .setPositiveButton(R.string.okay,object: DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
-                                val action=SignUpFragmentDirections.actionSignUpFragmentToLoginFragment()
+                                val action=
+                                    SignUpFragmentDirections.actionSignUpFragmentToLoginFragment()
                                 Navigation.findNavController(view!!).navigate(action)
                             }
 

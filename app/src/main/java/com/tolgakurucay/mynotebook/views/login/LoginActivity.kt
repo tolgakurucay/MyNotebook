@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.databinding.ActivityLoginBinding
+import com.tolgakurucay.mynotebook.views.forgotpassword.ForgotPasswordFragmentDirections
 import com.tolgakurucay.mynotebook.views.main.MainActivity
+import com.tolgakurucay.mynotebook.views.signup.SignUpFragmentDirections
 
 class LoginActivity : AppCompatActivity() {
 

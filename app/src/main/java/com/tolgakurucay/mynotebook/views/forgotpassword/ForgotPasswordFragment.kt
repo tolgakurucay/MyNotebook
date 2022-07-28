@@ -1,4 +1,4 @@
-package com.tolgakurucay.mynotebook.views.login
+package com.tolgakurucay.mynotebook.views.forgotpassword
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -15,7 +15,7 @@ import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
-import com.tolgakurucay.mynotebook.viewmodels.login.ForgotPasswordFragmentViewModel
+import com.tolgakurucay.mynotebook.viewmodels.forgotpassword.ForgotPasswordFragmentViewModel
 
 
 class ForgotPasswordFragment : Fragment() {
@@ -89,7 +89,8 @@ class ForgotPasswordFragment : Fragment() {
                         .setMessage(R.string.forgotpassword)
                         .setPositiveButton(R.string.okay,object: DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
-                                val action=ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
+                                val action=
+                                    ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
                                 Navigation.findNavController(view!!).navigate(action)
                             }
 
