@@ -113,4 +113,5 @@
     <string name="noteshassavedtofirebase">Notlar Başarıyla Firebaseye Kaydedildi</string>
     <string name="youhavenoright">Bulut\'a Kaydetmek İçin Hakkınız Yok</string>
     <string name="cloud">Bulut</string>
+    <string name="areyousureyouwanttocreatealarm">Alarm Oluşturmak İstediğinize Emin Misiniz?</string>
 </resources>

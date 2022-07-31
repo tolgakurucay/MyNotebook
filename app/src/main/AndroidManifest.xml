@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <meta-data
         android:name="com.google.android.gms.games.APP_ID"
@@ -15,6 +16,7 @@
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
+
 
     <application
         android:name=".utils.FirstClass"
@@ -25,6 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNotebook.WithActionBar"
         tools:targetApi="31">
+
+        <receiver android:name=".views.main.Notification" android:enabled="true"/>
         <activity
             android:name=".views.payment.UpgradePackageActivity"
             android:exported="false"

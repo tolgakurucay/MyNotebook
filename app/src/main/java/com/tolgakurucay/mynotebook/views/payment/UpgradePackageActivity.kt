@@ -1,6 +1,7 @@
 package com.tolgakurucay.mynotebook.views.payment
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -103,9 +104,13 @@ class UpgradePackageActivity : AppCompatActivity() {
 
         viewmodel.uriList.observe(this, Observer {
             it?.let {uriList->
+                val newList=ArrayList<Uri>()
+                newList.add(it[2])
+                newList.add(it[0])
+                newList.add(it[1])
 
                 //görüntülerin uri'i geldikten sonra bilgileri getir
-               viewmodel.getInformations(this,purchaseIdList,uriList)
+               viewmodel.getInformations(this,purchaseIdList,newList)
 
 
 

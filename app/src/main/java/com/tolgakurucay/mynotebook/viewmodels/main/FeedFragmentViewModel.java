@@ -48,6 +48,7 @@ public class FeedFragmentViewModel extends ViewModel {
     private FirebaseFirestore firestore= FirebaseFirestore.getInstance();
     private FirebaseStorage storage= FirebaseStorage.getInstance();
     public MutableLiveData<String> firebaseMessage= new MutableLiveData<>();
+    public MutableLiveData<Boolean> loading= new MutableLiveData<>();
 
     String TAG="bilgi";
 
@@ -56,6 +57,7 @@ public class FeedFragmentViewModel extends ViewModel {
 
 
     public void getAllNotes(Context context){
+        loading.setValue(true);
         NoteDatabase db = new NoteDatabase() {
             @NonNull
             @Override
@@ -86,11 +88,14 @@ public class FeedFragmentViewModel extends ViewModel {
             NoteDAO dao= db.noteDao();
            List<NoteModel> notes = dao.getAllNotes();
            noteList.setValue(notes);
+            loading.setValue(false);
         }
+        loading.setValue(false);
 
     }
 
     public void deleteNotes(Context context, ArrayList<NoteModel> noteList){
+        loading.setValue(true);
         NoteDatabase db = new NoteDatabase() {
             @NonNull
             @Override
@@ -121,14 +126,17 @@ public class FeedFragmentViewModel extends ViewModel {
             for(int i=0;i<noteList.size();i++){
                 Log.d("bilgi", i+" "+noteList.get(i));
                 dao.deleteNote(noteList.get(i));
+                loading.setValue(false);
             }
 
 
         }
+        loading.setValue(false);
 
     }
 
     public void addFavorites(Context context,ArrayList<NoteFavoritesModel> favoritesList){
+        loading.setValue(true);
         NoteDatabase db= new NoteDatabase() {
             @NonNull
             @Override
@@ -165,8 +173,10 @@ public class FeedFragmentViewModel extends ViewModel {
             }
 
         }
+        loading.setValue(false);
     }
     public void shareNote(String title, String description, Activity activity){
+        loading.setValue(true);
 
             Intent shareIntent=new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
@@ -174,9 +184,12 @@ public class FeedFragmentViewModel extends ViewModel {
             shareIntent.putExtra(Intent.EXTRA_TEXT,title+"\n\n"+description);
             activity.startActivity(Intent.createChooser(shareIntent,title));
 
+        loading.setValue(false);
+
     }
 
     public void getPPfromStorage(){
+        loading.setValue(true);
        FirebaseAuth auth=FirebaseAuth.getInstance();
        FirebaseStorage storage= FirebaseStorage.getInstance();
 
@@ -188,12 +201,14 @@ public class FeedFragmentViewModel extends ViewModel {
                         @Override
                         public void onSuccess(Uri uri) {
                             uriLiveData.setValue(uri);
+                            loading.setValue(false);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             uriLiveData.setValue(null);
+                            loading.setValue(false);
                         }
                     });
         }
@@ -201,21 +216,10 @@ public class FeedFragmentViewModel extends ViewModel {
 
     }
 
-    public void  alarmItemOrItems(ArrayList<NoteModel> notes,Activity activity){
-        // TODO: 31.07.2022 tarih ekran popup tasarla
-        // TODO: 31.07.2022 workmanager ve push notification ayarla
 
-
-
-        ArrayList<AlarmItem> list= new ArrayList<>();
-        for(int i=0;i<notes.size();i++){
-
-
-        }
-
-    }
 
     public void saveNoteToFirebase(ArrayList<NoteModel> notes,Context context){
+        loading.setValue(true);
         firestore.collection("Right").document(auth.getCurrentUser().getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -235,6 +239,7 @@ public class FeedFragmentViewModel extends ViewModel {
                                                     public void onSuccess(Void unused) {
                                                         deleteNotes(context,notes);
                                                         firebaseMessage.setValue("success");
+                                                        loading.setValue(false);
 
                                                     }
                                                 })
@@ -243,6 +248,7 @@ public class FeedFragmentViewModel extends ViewModel {
                                             public void onFailure(@NonNull Exception e) {
 
                                                 firebaseMessage.setValue(e.getLocalizedMessage());
+                                                loading.setValue(false);
                                             }
                                         });
 
@@ -252,6 +258,7 @@ public class FeedFragmentViewModel extends ViewModel {
                             {
                                 //hak yok
                                 firebaseMessage.setValue("noright");
+                                loading.setValue(false);
                             }
                             Log.d(TAG, "hakkım "+myRight);
                         }
@@ -264,6 +271,7 @@ public class FeedFragmentViewModel extends ViewModel {
                         //null döndürelim hata niyetine
                         Log.d(TAG, "onFailure: "+e.getLocalizedMessage());
                         firebaseMessage.setValue(e.getLocalizedMessage());
+                        loading.setValue(false);
 
                     }
                 });

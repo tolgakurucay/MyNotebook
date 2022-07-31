@@ -126,5 +126,6 @@
     <string name="noteshassavedtofirebase">Notes Has Saved To Firebase Successfully</string>
     <string name="youhavenoright">You Have No Right To Save</string>
     <string name="cloud">Bulut</string>
+    <string name="areyousureyouwanttocreatealarm">Are You Sure You Want To Create Alarm ?</string>
 
 </resources>

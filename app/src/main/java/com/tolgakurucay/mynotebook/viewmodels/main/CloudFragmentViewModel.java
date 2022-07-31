@@ -15,21 +15,24 @@ public class CloudFragmentViewModel extends ViewModel {
     FirebaseAuth auth= FirebaseAuth.getInstance();
     FirebaseFirestore firestore=FirebaseFirestore.getInstance();
     public MutableLiveData<QuerySnapshot> notesLiveData= new MutableLiveData<>();
+    public MutableLiveData<Boolean> loading= new MutableLiveData<>();
 
 
     public void getFavorites(){
+        loading.setValue(true);
         firestore.collection("Notes").document(auth.getCurrentUser().getUid()).collection("Notes").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                        notesLiveData.setValue(queryDocumentSnapshots);
+                       loading.setValue(false);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
 
-
+                    loading.setValue(false);
                     }
                 });
     }

@@ -14,14 +14,20 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.adapters.CloudAdapter
 import com.tolgakurucay.mynotebook.databinding.FragmentCloudBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.viewmodels.main.CloudFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CloudFragment : Fragment() {
 
     private lateinit var binding:FragmentCloudBinding
     private lateinit var viewmodel:CloudFragmentViewModel
     private lateinit var cloudAdapter:CloudAdapter
+    @Inject
+    lateinit var customLoadingDialog: CustomLoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding=FragmentCloudBinding.inflate(layoutInflater)
@@ -79,6 +85,18 @@ class CloudFragment : Fragment() {
 
 
             }
+        })
+
+        viewmodel.loading.observe(viewLifecycleOwner, Observer {
+         it?.let {
+             if(it){
+                 customLoadingDialog.show(parentFragmentManager,null)
+             }
+             else
+             {
+                 customLoadingDialog.dismiss()
+             }
+         }
         })
 
     }

@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -14,11 +16,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.adapters.NoteAdapter
@@ -26,10 +31,14 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FeedFragment : Fragment() { 
 
     private lateinit var binding:FragmentFeedBinding
@@ -37,6 +46,10 @@ class FeedFragment : Fragment() {
     private var tempNoteModels=ArrayList<NoteModel>()
     private lateinit var viewModel:FeedFragmentViewModel
     private var favoritesList=ArrayList<NoteFavoritesModel>()
+    @Inject
+     lateinit var selectDateFragment:SelectDateFragment
+     @Inject
+     lateinit var loadingDialog: CustomLoadingDialog
 
 
     private var noteAdapter= NoteAdapter(arrayListOf()){
@@ -79,13 +92,26 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
-        //viewModel.getPPfromStorage()
+        viewModel.getPPfromStorage()
         buttonClickListener()
         observeLiveData()
 
     }
 
     private fun observeLiveData(){
+
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it){
+                    loadingDialog.show(parentFragmentManager,null)
+                }
+                else
+                {
+                    loadingDialog.dismiss()
+                }
+            }
+        })
 
         viewModel.firebaseMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -135,7 +161,16 @@ class FeedFragment : Fragment() {
         viewModel.uriLiveData.observe(viewLifecycleOwner, Observer { 
             it?.let {
                 Log.d(TAG, "observeLiveData: $it")
-                Glide.with(this@FeedFragment).load(it).into(binding.backgroundImage).waitForLayout()
+                Glide.with(this@FeedFragment).asBitmap().load(it).into(object: SimpleTarget<Bitmap>(){
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val drawable=BitmapDrawable(resource)
+                        binding.constraintFeed.setBackgroundDrawable(drawable)
+                    }
+
+                })
             }
         })
 
@@ -144,6 +179,9 @@ class FeedFragment : Fragment() {
     private fun init(){
 
         auth= FirebaseAuth.getInstance()
+
+
+
         
 
         setHasOptionsMenu(false)
@@ -334,7 +372,20 @@ class FeedFragment : Fragment() {
 
             }
             R.id.shareItem->{viewModel.shareNote(tempNoteModels.first().title,tempNoteModels.first().description,requireActivity())}
-           // R.id.alarmItem->{viewModel.alarmItemOrItems(tempNoteModels,this@FeedFragment.requireActivity())}
+            R.id.alarmItem->{
+                val args=Bundle()
+                args.putSerializable("data",tempNoteModels)
+                selectDateFragment.arguments=args
+                selectDateFragment.show(parentFragmentManager,null)
+                setHasOptionsMenu(false)
+                tempNoteModels.clear()
+                viewModel.getAllNotes(requireContext())
+                noteAdapter.modelArrayListClear()
+                noteAdapter.viewIdListSetFalse()
+
+
+
+            }
            R.id.saveToFirebase->{viewModel.saveNoteToFirebase(tempNoteModels,context)}
         }
         return true

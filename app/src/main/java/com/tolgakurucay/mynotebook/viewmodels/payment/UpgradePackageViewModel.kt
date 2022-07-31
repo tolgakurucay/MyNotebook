@@ -152,8 +152,9 @@ val TAG="bilgi"
         val basicPlan=storage.reference.child("basic_plan.png")
         val premiumPlan=storage.reference.child("premium_plan.png")
 
-        runBlocking {//görevler tamamlanana kadar ui'ı bloklar
-            Log.d(TAG, "getImagesFromFirebase: $advantagePlan")
+       //görevler tamamlanana kadar ui'ı bloklar
+        runBlocking {
+            // Log.d(TAG, "getImagesFromFirebase: $advantagePlan")
             basicPlan.downloadUrl.addOnSuccessListener { basicPlan->
                 basicPlan?.let {bsc->
                     uriArrayList.add(bsc)
@@ -174,6 +175,8 @@ val TAG="bilgi"
                 }
             }.addOnFailureListener { loading.value=false }
         }
+
+
 
 
 
