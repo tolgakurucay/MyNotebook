@@ -34,6 +34,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+
+
+
+
+
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
@@ -41,11 +46,12 @@ class ProfileFragment : Fragment() {
     private lateinit var viewModel:ProfileFragmentViewModel
     private lateinit var auth:FirebaseAuth
     private lateinit var storage:FirebaseStorage
+    @Inject
+    lateinit var loadingDialog: CustomLoadingDialog
     private var imageBitmap:Bitmap?=null
     private var imageBase64:String?=null
 
-    @Inject
-      lateinit var loadingDialog: CustomLoadingDialog
+
 
 
    val TAG="bilgi"
@@ -247,6 +253,7 @@ class ProfileFragment : Fragment() {
 
    private fun observeFlowData(){
 
+
        lifecycleScope.launch {
            viewModel.userRight.collect{
                it?.let {
@@ -351,14 +358,25 @@ class ProfileFragment : Fragment() {
 
        }
        lifecycleScope.launch {
+           var bool=false
            viewModel.loading.filter { it!=null }.collect{
+               //burdaki sıkıntı birden fazla kez livedata geldiği için üst üste ekleme yapmaya çalışıyor ve crash yiyiyor
                if(it!!){
-                       loadingDialog.show(requireFragmentManager(),"started")
+
+
+                   if(!bool){
+                       loadingDialog.show(parentFragmentManager,"started")
+                       bool=true
+                   }
+
+
                }
                else
                {
 
-                       loadingDialog.dismiss()
+                            loadingDialog.dismiss()
+                          
+
                }
 
 

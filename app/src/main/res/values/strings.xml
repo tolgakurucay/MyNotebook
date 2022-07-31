@@ -75,7 +75,7 @@
     <string name="savedchanges">Saved Changes</string>
     <string name="resetmypassword">Reset My Password</string>
     <string name="changelanguage">Change Language</string>
-    <string name="upgradepackage">Upgrade Package</string>
+    <string name="upgradepackage">Buy Rights</string>
     <string name="whoami">Who Am I and Contact me</string>
     <string name="mydescription">Hi! I\'m Tolga Kuruçay. I am creating many android applications why make easier life for people. You can contact me with mynotebookapp2022@gmail.com.</string>
     <string name="turkish">Turkish</string>
@@ -121,5 +121,10 @@
     <string name="paymentsuccessful">Payment Successful</string>
     <string name="price">Price</string>
     <string name="packagename">Package Name</string>
+    <string name="alarm">Alarm</string>
+    <string name="savetocloud">Save to Cloud</string>
+    <string name="noteshassavedtofirebase">Notes Has Saved To Firebase Successfully</string>
+    <string name="youhavenoright">You Have No Right To Save</string>
+    <string name="cloud">Bulut</string>
 
 </resources>

@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_feedFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_cloudFragment"
+            app:destination="@id/cloudFragment" />
     </fragment>
     <fragment
         android:id="@+id/addNoteFragment"
@@ -82,6 +85,15 @@
         <action
             android:id="@+id/action_orderHistoryFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cloudFragment"
+        android:name="com.tolgakurucay.mynotebook.views.main.CloudFragment"
+        android:label="fragment_cloud"
+        tools:layout="@layout/fragment_cloud" >
+        <action
+            android:id="@+id/action_cloudFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
     </fragment>
 
 </navigation>

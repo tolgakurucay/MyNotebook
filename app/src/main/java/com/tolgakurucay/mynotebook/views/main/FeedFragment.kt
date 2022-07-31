@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.adapters.NoteAdapter
@@ -25,6 +26,7 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentFeedBinding
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
+import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 
@@ -77,12 +79,36 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
+        //viewModel.getPPfromStorage()
         buttonClickListener()
         observeLiveData()
 
     }
 
     private fun observeLiveData(){
+
+        viewModel.firebaseMessage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it.equals("success")){
+
+                    tempNoteModels.clear()
+                    noteAdapter.viewIdListSetFalse()
+                    noteAdapter.modelArrayListClear()
+                    setHasOptionsMenu(false)
+                    viewModel.getAllNotes(requireContext())
+                    Toast.makeText(requireContext(), getString(R.string.noteshassavedtofirebase), Toast.LENGTH_LONG).show()
+                }
+                else if(it.equals("noright")){
+                    Toast.makeText(requireContext(), getString(R.string.youhavenoright), Toast.LENGTH_LONG).show()
+                }
+                else
+                {
+                    Util.alertDialog(requireContext(),getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                }
+            }
+        })
+
+
         viewModel.noteList.observe(viewLifecycleOwner, Observer {
 
             if(it!=null){
@@ -105,12 +131,20 @@ class FeedFragment : Fragment() {
             }
 
         })
+        
+        viewModel.uriLiveData.observe(viewLifecycleOwner, Observer { 
+            it?.let {
+                Log.d(TAG, "observeLiveData: $it")
+                Glide.with(this@FeedFragment).load(it).into(binding.backgroundImage).waitForLayout()
+            }
+        })
 
 
     }
     private fun init(){
 
         auth= FirebaseAuth.getInstance()
+        
 
         setHasOptionsMenu(false)
         noteAdapter.modelArrayListEx.clear()
@@ -155,13 +189,16 @@ class FeedFragment : Fragment() {
         }
 
     }
+
+
+
     private fun buttonClickListener(){
         binding.buttonAddNote.setOnClickListener {
             navigator("addNote")
         }
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.search-> Log.d(TAG, "buttonClickListener: search")
+                R.id.cloud-> {navigator("cloud")}
                 R.id.profile->navigator("profile")
                 R.id.signOut->signOut()
                 R.id.favorites->navigator("favorites")
@@ -187,6 +224,10 @@ class FeedFragment : Fragment() {
        }
         else if(fragmentName=="addNote"){
            val direction=FeedFragmentDirections.actionFeedFragmentToAddNoteFragment()
+           Navigation.findNavController(this.requireView()).navigate(direction)
+       }
+        else if(fragmentName=="cloud"){
+            val direction=FeedFragmentDirections.actionFeedFragmentToCloudFragment()
            Navigation.findNavController(this.requireView()).navigate(direction)
        }
 
@@ -293,6 +334,8 @@ class FeedFragment : Fragment() {
 
             }
             R.id.shareItem->{viewModel.shareNote(tempNoteModels.first().title,tempNoteModels.first().description,requireActivity())}
+           // R.id.alarmItem->{viewModel.alarmItemOrItems(tempNoteModels,this@FeedFragment.requireActivity())}
+           R.id.saveToFirebase->{viewModel.saveNoteToFirebase(tempNoteModels,context)}
         }
         return true
     }

@@ -15,7 +15,18 @@
         />
     <item android:id="@+id/shareItem"
         android:icon="@drawable/share"
-        android:title="share"
+        android:title="@string/share"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/alarmItem"
+        android:icon="@drawable/alarm"
+        android:title="@string/alarm"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/saveToFirebase"
+        android:icon="@drawable/cloud_upload"
+        android:title="@string/savetocloud"
+        app:showAsAction="ifRoom"/>
+
+
+
 
 </menu>

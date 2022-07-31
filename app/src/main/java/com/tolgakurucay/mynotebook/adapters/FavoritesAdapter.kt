@@ -44,12 +44,7 @@ class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion
             holder.imageView.setImageBitmap(Util.base64ToBitmap(favoritesList[position].imageBase64))
         }
 
-        //doesn't work
-      /*  holder.imageView.setOnClickListener {
-            Log.d("bilgi", "onBindViewHolder: tıklandı")
-            completion(favoritesList[position])
 
-        }*/
 
         binding.imageViewDeleteFavorites.setOnClickListener {
 

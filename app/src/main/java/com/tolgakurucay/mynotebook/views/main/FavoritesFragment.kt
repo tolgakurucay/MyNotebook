@@ -40,14 +40,14 @@ class FavoritesFragment : Fragment() {
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.delete),object:DialogInterface.OnClickListener{
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        Log.d(TAG, "onClick: yalandan silindi")
+
                         viewModel.deleteFavorite(requireContext(),item)
                     }
 
                 })
                 .setNegativeButton(getString(R.string.cancel),object:DialogInterface.OnClickListener{
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        Log.d(TAG, "onClick: silinmedi")
+
                     }
 
                 })

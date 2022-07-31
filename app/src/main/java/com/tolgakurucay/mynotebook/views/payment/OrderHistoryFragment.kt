@@ -13,14 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.adapters.OrderHistoryAdapter
 import com.tolgakurucay.mynotebook.databinding.FragmentOrderHistoryBinding
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.viewmodels.payment.OrderHistoryViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class OrderHistoryFragment : Fragment() {
 
     private lateinit var binding:FragmentOrderHistoryBinding
     private lateinit var viewModel:OrderHistoryViewModel
     private lateinit var historyAdapter:OrderHistoryAdapter
+    @Inject lateinit var loadingDialog:CustomLoadingDialog
     val TAG="bilgi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +51,8 @@ class OrderHistoryFragment : Fragment() {
     }
 
     private fun init(){
+        Log.d(TAG, "isaddded : ${loadingDialog.isAdded}")
+       // loadingDialog.dismiss()
         viewModel=ViewModelProvider(this)[OrderHistoryViewModel::class.java]
         historyAdapter=OrderHistoryAdapter(arrayListOf())
         binding.orderHistoryRecycler.adapter=historyAdapter
@@ -59,6 +65,18 @@ class OrderHistoryFragment : Fragment() {
              it?.let {
                  historyAdapter.updateAdapter(it)
                  Log.d(TAG, "observeLiveData: $it")
+             }
+         })
+
+         viewModel.loadingLive.observe(viewLifecycleOwner, Observer {
+             it?.let {
+                 if(it){
+                     loadingDialog.show(parentFragmentManager,null)
+                 }
+                 else
+                 {
+                     loadingDialog.dismiss()
+                 }
              }
          })
      }

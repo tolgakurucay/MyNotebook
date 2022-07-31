@@ -71,7 +71,7 @@
     <string name="savedchanges">Değişiklikler Kaydedildi</string>
     <string name="resetmypassword">Şifremi Sıfırla</string>
     <string name="changelanguage">Dil Değiştir</string>
-    <string name="upgradepackage">Paketi Yükselt</string>
+    <string name="upgradepackage">Hak Satın Al</string>
     <string name="whoami">Ben Kimim ve İletişim</string>
     <string name="mydescription">" Selam, ben Tolga Kuruçay. İnsanların hayatını kolaylaştıran birçok android uygulaması yapıyorum. Benimle mynotebookapp2022@gmail.com adresinden iletişime geçebilirsiniz."</string>
     <string name="turkish">Türkçe</string>
@@ -108,4 +108,9 @@
     <string name="paymentsuccessful">Ödeme Başarıyla Tamamlandı</string>
     <string name="price">Fiyat</string>
     <string name="packagename">Paket İsmi</string>
+    <string name="alarm">Alarm</string>
+    <string name="savetocloud">Buluta Kaydet</string>
+    <string name="noteshassavedtofirebase">Notlar Başarıyla Firebaseye Kaydedildi</string>
+    <string name="youhavenoright">Bulut\'a Kaydetmek İçin Hakkınız Yok</string>
+    <string name="cloud">Bulut</string>
 </resources>

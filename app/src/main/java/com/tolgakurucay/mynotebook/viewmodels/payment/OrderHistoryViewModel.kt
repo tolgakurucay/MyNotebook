@@ -17,6 +17,7 @@ class OrderHistoryViewModel : ViewModel() {
     val auth=FirebaseAuth.getInstance()
     val firestore=FirebaseFirestore.getInstance()
     val orderListLive=MutableLiveData<ArrayList<OrderHistory>>()
+    val loadingLive=MutableLiveData<Boolean>()
     val TAG="bilgi"
 
 
@@ -25,6 +26,7 @@ class OrderHistoryViewModel : ViewModel() {
 
 
     fun getOrderList(){
+        loadingLive.value=true
         val currentDate=GetCurrentDate()
         viewModelScope.launch {
             val orderList=ArrayList<OrderHistory>()
@@ -49,14 +51,16 @@ class OrderHistoryViewModel : ViewModel() {
                             }
                         }
                         orderListLive.value=orderList
+                        loadingLive.value=false
                         Log.d(TAG, "getOrderList: for bitti")
                         Log.d(TAG, "getOrderList: dizimiz $orderList")
                     }
                     else
                     {
-
+                        loadingLive.value=false
                     }
                 }
+                .addOnFailureListener { loadingLive.value=false }
 
         }
 
