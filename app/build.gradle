@@ -104,6 +104,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     //to purchase item from google pay
     implementation("com.android.billingclient:billing-ktx:5.0.0")
+    //for facebook login
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 
 
 

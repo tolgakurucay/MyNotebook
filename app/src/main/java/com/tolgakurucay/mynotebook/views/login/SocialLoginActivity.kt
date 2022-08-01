@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import android.view.View
 import androidx.core.widget.addTextChangedListener
+import com.facebook.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
@@ -26,6 +27,12 @@ import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 import java.util.concurrent.TimeUnit
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import java.util.*
+
+
 
 class SocialLoginActivity : AppCompatActivity() {
     
@@ -37,6 +44,8 @@ class SocialLoginActivity : AppCompatActivity() {
     private lateinit var forceResendingToken:PhoneAuthProvider.ForceResendingToken
     private val TAG="bilgi"
     private var loadingDialog=CustomLoadingDialog()
+    private lateinit var callbackManager:CallbackManager
+   
     
     
     
@@ -268,8 +277,43 @@ class SocialLoginActivity : AppCompatActivity() {
 
     private fun facebookSignIn() {
 
+         callbackManager = CallbackManager.Factory.create()
+        LoginManager.getInstance()
+            .logInWithReadPermissions(this, Arrays.asList("email"))
+
+        LoginManager.getInstance().registerCallback(callbackManager,object:FacebookCallback<LoginResult>{
+            override fun onCancel() {
+                Log.d(TAG, "onCancel: ")
+            }
+
+            override fun onError(error: FacebookException) {
+                Log.d(TAG, "onError: error")
+            }
+
+            override fun onSuccess(result: LoginResult) {
+                Log.d(TAG, "onSuccess: ${result.accessToken}")
+                authWithFacebookAccessToken(result.accessToken)
+
+                    
+            }
+
+        })
 
 
+
+
+
+    }
+    
+    private fun authWithFacebookAccessToken(accessToken: AccessToken){
+        val credential=FacebookAuthProvider.getCredential(accessToken.token)
+        auth.signInWithCredential(credential)
+            .addOnSuccessListener {
+                Log.d(TAG, "authWithFacebookAccessToken: giriş yapıldı")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "authWithFacebookAccessToken: $it")
+            }
     }
 
     private fun googleSignIn() {
@@ -290,13 +334,16 @@ class SocialLoginActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+
 
         if(requestCode==58){
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
 
         }
+
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
 
     }
 
