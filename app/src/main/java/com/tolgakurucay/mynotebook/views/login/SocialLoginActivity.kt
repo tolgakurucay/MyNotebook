@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import android.view.View
+import androidx.core.view.ContentInfoCompat
 import androidx.core.widget.addTextChangedListener
 import com.facebook.*
 import com.google.android.gms.tasks.Task
@@ -284,10 +285,12 @@ class SocialLoginActivity : AppCompatActivity() {
         LoginManager.getInstance().registerCallback(callbackManager,object:FacebookCallback<LoginResult>{
             override fun onCancel() {
                 Log.d(TAG, "onCancel: ")
+                Toast.makeText(this@SocialLoginActivity, getString(R.string.registrationcancelled), Toast.LENGTH_LONG).show()
             }
 
             override fun onError(error: FacebookException) {
                 Log.d(TAG, "onError: error")
+                Toast.makeText(this@SocialLoginActivity, error.localizedMessage, Toast.LENGTH_LONG).show()
             }
 
             override fun onSuccess(result: LoginResult) {
@@ -309,10 +312,43 @@ class SocialLoginActivity : AppCompatActivity() {
         val credential=FacebookAuthProvider.getCredential(accessToken.token)
         auth.signInWithCredential(credential)
             .addOnSuccessListener {
-                Log.d(TAG, "authWithFacebookAccessToken: giriş yapıldı")
+
+                Toast.makeText(this@SocialLoginActivity, getString(R.string.signinsuccessful), Toast.LENGTH_LONG).show()
+
+
+                isUserSavedToFirebase {
+                    if(it){
+                        val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        Util.saveSignType(this,"facebook")
+                        startActivity(intent)
+                        this@SocialLoginActivity.finish()
+                    }
+                    else
+                    {
+                        saveToFirebase {
+                            if(it){
+                                val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                Util.saveSignType(this,"facebook")
+                                startActivity(intent)
+                                this@SocialLoginActivity.finish()
+                            }
+                            else{
+                                Log.d(TAG, "authWithFacebookAccessToken: hata var kayıt olunamadı")
+                            }
+                        }
+                    }
+                }
+
             }
             .addOnFailureListener {
-                Log.d(TAG, "authWithFacebookAccessToken: $it")
+
+                Toast.makeText(this@SocialLoginActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
+                val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                this@SocialLoginActivity.finish()
             }
     }
 

@@ -114,4 +114,7 @@
     <string name="youhavenoright">Bulut\'a Kaydetmek İçin Hakkınız Yok</string>
     <string name="cloud">Bulut</string>
     <string name="areyousureyouwanttocreatealarm">Alarm Oluşturmak İstediğinize Emin Misiniz?</string>
+    <string name="registrationcancelled">Giriş İşlemi İptal Edildi</string>
+    <string name="Registration">Giriş İşlemi</string>
+    <string name="signinsuccessful">Giriş Başarılı</string>
 </resources>

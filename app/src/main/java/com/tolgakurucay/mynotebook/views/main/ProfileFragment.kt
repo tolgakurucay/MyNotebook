@@ -88,6 +88,12 @@ class ProfileFragment : Fragment() {
 
             "google" -> {binding.resetMyPassword.visibility=View.GONE
                         viewModel.getFromMail(auth.currentUser!!)}
+            "facebook"->{
+                binding.resetMyPassword.visibility=View.GONE
+                viewModel.getFromMail(auth.currentUser!!)
+
+
+            }
         }
 
 
@@ -118,6 +124,9 @@ class ProfileFragment : Fragment() {
                         binding.editTextSurname.hint=getString(R.string.surname)}
 
             "google" -> {binding.editTextMail.hint=getString(R.string.email)
+                binding.editTextName.hint=getString(R.string.name)
+                binding.editTextSurname.hint=getString(R.string.surname)}
+            "facebook"->{binding.editTextMail.hint=getString(R.string.email)
                 binding.editTextName.hint=getString(R.string.name)
                 binding.editTextSurname.hint=getString(R.string.surname)}
 
@@ -172,6 +181,9 @@ class ProfileFragment : Fragment() {
             }
             else if(signType=="phone"){
                 viewModel.setPhone(name,surname,imageBase64,auth.currentUser!!)
+            }
+            else if(signType=="facebook"){
+                viewModel.setMail(name,surname,imageBase64,auth.currentUser!!)
             }
 
 
@@ -373,8 +385,7 @@ class ProfileFragment : Fragment() {
                }
                else
                {
-
-                            loadingDialog.dismiss()
+                   loadingDialog.dismiss()
                           
 
                }

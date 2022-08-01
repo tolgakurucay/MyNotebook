@@ -131,7 +131,9 @@
     <string name="facebook_app_id" translatable="false">780850023107206</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb780850023107206</string>
     <string name="facebook_client_token" translatable="false">a3e36a1626a38302bb944010ecf3f235</string>
-
+    <string name="registrationcancelled">Registration Has Cancelled</string>
+    <string name="Registration">Registration</string>
+    <string name="signinsuccessful">Sign In Sucessfull</string>
 
 
 </resources>

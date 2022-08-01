@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.views.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.ActivityMainBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: mainactivity")
 
         Util.setLocale(Util.getLanguage(this),this)
+        val auth=FirebaseAuth.getInstance()
+
+        //Log.d(TAG, "onCreate: ${auth.currentUser!!.uid} ${auth.currentUser!!.email} ${auth.currentUser!!.displayName}")
 
 
     }
