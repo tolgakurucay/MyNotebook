@@ -1,17 +1,13 @@
 package com.tolgakurucay.mynotebook.models
 
-import android.graphics.Bitmap
-import android.net.Uri
+
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.firebase.Timestamp
-import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
-import java.util.*
 
-@Parcelize
+
 @Entity(tableName = "Notes")
  data class NoteModel(
     @ColumnInfo(name="Title")
@@ -24,7 +20,7 @@ import java.util.*
     var imageBase64: String?,
 
     @ColumnInfo(name="Date")
-    var date: Long):Parcelable
+    var date: Long):Serializable
 {
     @PrimaryKey(autoGenerate = true)
     var id:Int=0

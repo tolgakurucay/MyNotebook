@@ -17,8 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.clearFragmentResultListener
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -36,6 +39,7 @@ import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -373,15 +377,28 @@ class FeedFragment : Fragment() {
             }
             R.id.shareItem->{viewModel.shareNote(tempNoteModels.first().title,tempNoteModels.first().description,requireActivity())}
             R.id.alarmItem->{
-                val args=Bundle()
-                args.putSerializable("data",tempNoteModels)
-                selectDateFragment.arguments=args
-                selectDateFragment.show(parentFragmentManager,null)
-                setHasOptionsMenu(false)
-                tempNoteModels.clear()
-                viewModel.getAllNotes(requireContext())
-                noteAdapter.modelArrayListClear()
-                noteAdapter.viewIdListSetFalse()
+
+                lifecycleScope.launch {
+                    Log.d(TAG, "onOptionsItemSelected: ")
+                    val args=Bundle()
+                    args.putSerializable("data",tempNoteModels[0])
+                    setHasOptionsMenu(false)
+
+                    viewModel.getAllNotes(requireContext())
+                    tempNoteModels.clear()
+                    noteAdapter.modelArrayListClear()
+                    noteAdapter.viewIdListSetFalse()
+
+                    Log.d(TAG, "onOptionsItemSelected: $tempNoteModels")
+                    selectDateFragment.arguments=args
+                    selectDateFragment.show(parentFragmentManager,null)
+
+
+
+
+                    }
+                    
+
 
 
 

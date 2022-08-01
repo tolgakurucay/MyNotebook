@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.views.main
 import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
@@ -12,16 +13,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
 import com.tolgakurucay.mynotebook.DataBinderMapperImpl
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentSelectDateBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
-import com.tolgakurucay.mynotebook.services.channelID
-import com.tolgakurucay.mynotebook.services.messageExtra
-import com.tolgakurucay.mynotebook.services.notificationID
-import com.tolgakurucay.mynotebook.services.titleExtra
+import com.tolgakurucay.mynotebook.services.*
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -29,14 +32,17 @@ import kotlin.collections.ArrayList
 
 class SelectDateFragment @Inject constructor() : DialogFragment() {
 
-    private var arrayList=ArrayList<NoteModel>()
+    private lateinit var noteModel:NoteModel
     private lateinit var binding:FragmentSelectDateBinding
+    private lateinit var alarmManager:AlarmManager
     val TAG="bilgi"
     
     override fun onCreate(savedInstanceState: Bundle?) {
         arguments?.let { 
-           arrayList= it.getSerializable("data") as ArrayList<NoteModel> 
+           noteModel= it.getSerializable("data") as NoteModel
         }
+
+
         binding= FragmentSelectDateBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
 
@@ -51,31 +57,41 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         createNotificationChannel()
         binding.button2.setOnClickListener {
             showAlert()
         }
-        //Log.d(TAG, "onViewCreated: $arrayList")
+
     }
 
     private fun scheduleNotification() {
-        val intent= Intent(requireActivity().applicationContext,Notification::class.java)
-        val title=arrayList[0].title
-        val message=arrayList[0].description
-        intent.putExtra (messageExtra,message)
-        intent.putExtra(titleExtra,title)
+        Log.d(TAG, "scheduleNotification: ")
+        lifecycleScope.launch{
+            val intent= Intent(requireActivity().applicationContext,AlarmReceiver::class.java)
+            val title=noteModel.title
+            val message=noteModel.description
+            Log.d(TAG, "scheduleNotification: $title ------ $message")
+            intent.putExtra ("message",message)
+            intent.putExtra("title",title)
 
-        val pendingIntent=PendingIntent.getBroadcast(requireContext().applicationContext, notificationID,intent,PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager=requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val time=getTime()
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            time,
-            pendingIntent
-        )
-        this.dismiss()
-       // showAlert(time,title,desc)
+            val pendingIntent=PendingIntent.getBroadcast(requireContext().applicationContext, notificationID,intent,PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            val alarmManager=requireActivity().getSystemService(ALARM_SERVICE) as AlarmManager
+            val time=getTime()
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                time,
+                pendingIntent
+            )
+
+
+            this@SelectDateFragment.dismiss()
+        }
+
+       
     }
+
+
 
     private fun showAlert() {
         AlertDialog.Builder(requireContext())
@@ -86,6 +102,7 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
             .setPositiveButton(getString(R.string.yes),object:DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                    scheduleNotification()
+
                 }
 
             })
