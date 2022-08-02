@@ -125,7 +125,7 @@
     <string name="savetocloud">Save to Cloud</string>
     <string name="noteshassavedtofirebase">Notes Has Saved To Firebase Successfully</string>
     <string name="youhavenoright">You Have No Right To Save</string>
-    <string name="cloud">Bulut</string>
+    <string name="cloud">Cloud</string>
     <string name="areyousureyouwanttocreatealarm">Are You Sure You Want To Create Alarm ?</string>
 
     <string name="facebook_app_id" translatable="false">780850023107206</string>
@@ -134,6 +134,7 @@
     <string name="registrationcancelled">Registration Has Cancelled</string>
     <string name="Registration">Registration</string>
     <string name="signinsuccessful">Sign In Sucessfull</string>
+    <string name="noclouditemtoshow">No Cloud Item To Show</string>
 
 
 </resources>

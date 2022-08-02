@@ -224,11 +224,13 @@ public class FeedFragmentViewModel extends ViewModel {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot!=null){
+                        Log.d(TAG, "onSuccess: success girildi");
+                        if (documentSnapshot!=null && documentSnapshot.exists()){
+                            Log.d(TAG, "onSuccess: döküman var ve null değil");
                             DocumentReference reference=documentSnapshot.getReference();
                             Double myRight=documentSnapshot.getDouble("right");
                             Integer myRightAsInt= myRight.intValue();
-                            if(notes.size()<myRightAsInt){
+                            if(notes.size()<=myRightAsInt){
                                 for(int i=0;i<notes.size();i++){
                                     firestore.collection("Notes").document(auth.getCurrentUser().getUid()).collection("Notes").add(notes.get(i));
                                 }
@@ -262,6 +264,12 @@ public class FeedFragmentViewModel extends ViewModel {
                             }
                             Log.d(TAG, "hakkım "+myRight);
                         }
+                        else
+                        {
+                            loading.setValue(false);
+                            firebaseMessage.setValue("noright");
+                        }
+
 
                     }
                 })

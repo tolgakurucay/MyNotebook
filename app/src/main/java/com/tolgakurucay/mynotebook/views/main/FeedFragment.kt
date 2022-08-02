@@ -62,17 +62,20 @@ class FeedFragment : Fragment() {
             setHasOptionsMenu(false)
             tempNoteModels=it
             menuTop?.findItem(R.id.shareItem)?.isVisible=false
+            menuTop?.findItem(R.id.alarmItem)?.isVisible=false
         }
         else if(it.size==1){
             setHasOptionsMenu(true)
             tempNoteModels=it
             menuTop?.findItem(R.id.shareItem)?.isVisible=true
+            menuTop?.findItem(R.id.alarmItem)?.isVisible=true
         }
         else//menüyü göster
         {
             setHasOptionsMenu(true)
             tempNoteModels=it
             menuTop?.findItem(R.id.shareItem)?.isVisible=false
+            menuTop?.findItem(R.id.alarmItem)?.isVisible=false
         }
     }
     
@@ -130,10 +133,21 @@ class FeedFragment : Fragment() {
                 }
                 else if(it.equals("noright")){
                     Toast.makeText(requireContext(), getString(R.string.youhavenoright), Toast.LENGTH_LONG).show()
+                    tempNoteModels.clear()
+                    noteAdapter.viewIdListSetFalse()
+                    noteAdapter.modelArrayListClear()
+
+                    setHasOptionsMenu(false)
+                    viewModel.getAllNotes(requireContext())
                 }
                 else
                 {
                     Util.alertDialog(requireContext(),getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                    tempNoteModels.clear()
+                    noteAdapter.viewIdListSetFalse()
+                    noteAdapter.modelArrayListClear()
+                    setHasOptionsMenu(false)
+                    viewModel.getAllNotes(requireContext())
                 }
             }
         })

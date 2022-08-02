@@ -24,9 +24,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: mainactivity")
 
         Util.setLocale(Util.getLanguage(this),this)
-        val auth=FirebaseAuth.getInstance()
 
-        //Log.d(TAG, "onCreate: ${auth.currentUser!!.uid} ${auth.currentUser!!.email} ${auth.currentUser!!.displayName}")
 
 
     }

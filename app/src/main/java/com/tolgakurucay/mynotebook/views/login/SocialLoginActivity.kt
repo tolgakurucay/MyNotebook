@@ -379,7 +379,10 @@ class SocialLoginActivity : AppCompatActivity() {
         }
 
         super.onActivityResult(requestCode, resultCode, data)
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+
+        if(::callbackManager.isInitialized){
+            callbackManager.onActivityResult(requestCode, resultCode, data)
+        }
 
     }
 

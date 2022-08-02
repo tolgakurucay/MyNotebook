@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.adapters.CloudAdapter
@@ -58,10 +62,10 @@ class CloudFragment : Fragment() {
 
     private fun observeLiveData(){
         val notes=ArrayList<NoteModel>()
-        viewmodel.notesLiveData.observe(viewLifecycleOwner, Observer {
-            it?.let {
+        viewmodel.notesLiveData.observe(viewLifecycleOwner, Observer {querySnapshot->
+            if(querySnapshot!=null && !querySnapshot.isEmpty){
                 lifecycleScope.launch {
-                    for(i in it){
+                    for(i in querySnapshot){
                         val title=i.getString("title")
                         val description=i.getString("description")
                         val dateAsDouble=i.getDouble("date")
@@ -77,12 +81,16 @@ class CloudFragment : Fragment() {
 
                         }
                     }
-                    Log.d("bakbakalim", "observeLiveData: $notes")
+
                     cloudAdapter.updateAdapter(notes)
                 }
 
-
-
+            }
+            else{
+                val navigation=CloudFragmentDirections.actionCloudFragmentToFeedFragment()
+                Navigation.findNavController(requireView()).navigate(navigation)
+                Toast.makeText(requireContext(), getString(R.string.noclouditemtoshow), Toast.LENGTH_SHORT).show()
+                
 
             }
         })

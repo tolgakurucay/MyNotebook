@@ -142,7 +142,7 @@
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="3dp"
-        android:layout_height="21dp"
+        android:layout_height="18.5dp"
         android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
