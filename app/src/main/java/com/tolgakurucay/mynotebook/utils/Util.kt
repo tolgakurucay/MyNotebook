@@ -14,6 +14,7 @@ import android.util.DisplayMetrics
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import java.io.ByteArrayOutputStream
 import java.sql.Blob
@@ -22,8 +23,24 @@ import java.util.*
 
 object Util {
 
-    fun alertDialog(context: Context,title:String,message:String,iconId:Int,buttonName:String){
-        AlertDialog.Builder(context)
+
+
+    fun Fragment.showAlertDialog(title:String,message:String,iconId:Int,buttonName:String){
+        AlertDialog.Builder(this.requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setIcon(iconId)
+            .setPositiveButton(buttonName,object:DialogInterface.OnClickListener{
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                }
+
+            })
+            .create()
+            .show()
+    }
+
+    fun Activity.showAlertDialog(title:String,message:String,iconId:Int,buttonName:String ){
+        AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
             .setIcon(iconId)

@@ -17,6 +17,7 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentSignUpBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.viewmodels.signup.SignUpFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -148,7 +149,7 @@ class SignUpFragment : Fragment() {
                         })
                         .create()
                         .show()
-                        "fail" -> Util.alertDialog(this.context!!,getString(R.string.emailexistTitle),getString(R.string.emailexist),R.drawable.email,getString(R.string.okay))
+                        "fail" -> showAlertDialog(getString(R.string.emailexistTitle),getString(R.string.emailexist),R.drawable.email,getString(R.string.okay))
                 }
             }
         })

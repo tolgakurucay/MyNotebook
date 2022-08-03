@@ -39,7 +39,15 @@ import com.tolgakurucay.mynotebook.services.NoteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class FeedFragmentViewModel extends ViewModel {
+
+    @Inject
+    FeedFragmentViewModel(){}
 
 
     public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();

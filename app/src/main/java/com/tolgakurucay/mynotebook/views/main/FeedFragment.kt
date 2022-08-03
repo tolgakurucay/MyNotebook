@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.clearFragmentResultListener
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +37,7 @@ import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,12 +50,10 @@ class FeedFragment : Fragment() {
     private lateinit var binding:FragmentFeedBinding
     private var menuTop:Menu?=null
     private var tempNoteModels=ArrayList<NoteModel>()
-    private lateinit var viewModel:FeedFragmentViewModel
+    private val viewModel:FeedFragmentViewModel by viewModels()
     private var favoritesList=ArrayList<NoteFavoritesModel>()
-    @Inject
-     lateinit var selectDateFragment:SelectDateFragment
-     @Inject
-     lateinit var loadingDialog: CustomLoadingDialog
+    @Inject lateinit var selectDateFragment:SelectDateFragment
+    @Inject lateinit var loadingDialog: CustomLoadingDialog
 
 
     private var noteAdapter= NoteAdapter(arrayListOf()){
@@ -142,7 +142,7 @@ class FeedFragment : Fragment() {
                 }
                 else
                 {
-                    Util.alertDialog(requireContext(),getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                    showAlertDialog(getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
                     tempNoteModels.clear()
                     noteAdapter.viewIdListSetFalse()
                     noteAdapter.modelArrayListClear()
@@ -210,8 +210,6 @@ class FeedFragment : Fragment() {
 
         binding.recyclerView.layoutManager=GridLayoutManager(this.requireContext(),2,GridLayoutManager.VERTICAL,false)
         binding.recyclerView.adapter=noteAdapter
-
-        viewModel=ViewModelProvider(this).get(FeedFragmentViewModel::class.java)
 
         binding.bottomNavigationView.background=null
         binding.bottomNavigationView.menu.getItem(2).isEnabled=false

@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -29,18 +30,21 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentNoteBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.viewmodels.main.NoteFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import io.grpc.okhttp.internal.Util
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class NoteFragment : Fragment() {
 
     private lateinit var binding:FragmentNoteBinding
     private var model:NoteModel?=null
     private val args by navArgs<NoteFragmentArgs>()
     private var imageBitmap: Bitmap?=null
-    private val currDate=GetCurrentDate()
-    private lateinit var viewModel:NoteFragmentViewModel
+    @Inject lateinit var currDate:GetCurrentDate
+    private val viewModel:NoteFragmentViewModel by viewModels()
 
 
 
@@ -65,7 +69,6 @@ class NoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel= ViewModelProvider(this)[NoteFragmentViewModel::class.java]
         loadObject()
         clickListeners()
         textChangeListeners()
@@ -194,7 +197,7 @@ class NoteFragment : Fragment() {
                 }
                 else
                 {
-                    com.tolgakurucay.mynotebook.utils.Util.alertDialog(this.requireContext(),getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                    showAlertDialog(getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
                 }
             }
         })
@@ -239,7 +242,7 @@ class NoteFragment : Fragment() {
                 }
                 else
                 {
-                    com.tolgakurucay.mynotebook.utils.Util.alertDialog(requireContext(),getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                    showAlertDialog(getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
                 }
             }
         })

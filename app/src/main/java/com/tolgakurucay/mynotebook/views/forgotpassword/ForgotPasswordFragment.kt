@@ -17,6 +17,7 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.viewmodels.forgotpassword.ForgotPasswordFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -101,7 +102,7 @@ class ForgotPasswordFragment : Fragment() {
                         .show()
 
                     "error" ->
-                        Util.alertDialog(this.context!!,getString(R.string.nousertitle),getString(R.string.nouser),R.drawable.password,getString(R.string.okay))
+                        showAlertDialog(getString(R.string.nousertitle),getString(R.string.nouser),R.drawable.password,getString(R.string.okay))
 
 
                 }

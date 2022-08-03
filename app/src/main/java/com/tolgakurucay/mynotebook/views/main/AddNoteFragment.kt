@@ -18,6 +18,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -36,23 +37,18 @@ import kotlin.math.log
 class AddNoteFragment : Fragment() {
 
     private lateinit var binding:FragmentAddNoteBinding
-    private lateinit var viewModel:AddNoteFragmentViewModel
-    @Inject
-    lateinit var customDialog:CustomLoadingDialog
+    private val viewModel:AddNoteFragmentViewModel by viewModels()
+    @Inject lateinit var customDialog:CustomLoadingDialog
     private var imageUri:Uri?=null
-    private var imageBitmap:Bitmap?=null
     val TAG="bilgi"
-    val currentDate=GetCurrentDate()
+    @Inject lateinit var currentDate:GetCurrentDate
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding=FragmentAddNoteBinding.inflate(inflater)
         return binding.root
@@ -61,7 +57,6 @@ class AddNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
-        init()
         textChangeListeners()
         observeLiveData()
        binding.imageViewUpload.setOnClickListener {
@@ -99,10 +94,7 @@ class AddNoteFragment : Fragment() {
 
     }
 
-    private fun init(){
-        viewModel=ViewModelProvider(this)[AddNoteFragmentViewModel::class.java]
 
-    }
 
 
 

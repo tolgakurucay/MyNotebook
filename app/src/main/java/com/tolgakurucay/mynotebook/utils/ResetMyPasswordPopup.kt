@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentResetMyPasswordPopupBinding
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 
 
@@ -104,7 +105,7 @@ class ResetMyPasswordPopup : DialogFragment() {
                         this.dismiss()
                     }
                     .addOnFailureListener {
-                        Util.alertDialog(this.requireContext(),getString(R.string.error),it.localizedMessage,R.drawable.error,getString(R.string.okay))
+                        showAlertDialog(getString(R.string.error),it.localizedMessage,R.drawable.error,getString(R.string.okay))
                         startActivity(Intent(this.requireActivity(),LoginActivity::class.java))
                         requireActivity().finish()
                     }

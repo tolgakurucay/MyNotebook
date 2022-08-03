@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,15 +22,18 @@ import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.viewmodels.main.FavoritesFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
     
 
 
     private lateinit var binding:FragmentFavoritesBinding
-    private lateinit var viewModel:FavoritesFragmentViewModel
-    private val date=GetCurrentDate()
+    private val viewModel:FavoritesFragmentViewModel by viewModels()
+    @Inject lateinit var date:GetCurrentDate
     private var adapter=FavoritesAdapter(arrayListOf()){item,process,title,desc->
 
         if(process=="delete"){
@@ -102,7 +106,6 @@ class FavoritesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=FragmentFavoritesBinding.inflate(layoutInflater)
-        viewModel=ViewModelProvider(this)[FavoritesFragmentViewModel::class.java]
     }
 
     override fun onCreateView(

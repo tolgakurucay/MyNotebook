@@ -135,6 +135,7 @@
     <string name="Registration">Registration</string>
     <string name="signinsuccessful">Sign In Sucessfull</string>
     <string name="noclouditemtoshow">No Cloud Item To Show</string>
+    <string name="background">Background has updated</string>
 
 
 </resources>

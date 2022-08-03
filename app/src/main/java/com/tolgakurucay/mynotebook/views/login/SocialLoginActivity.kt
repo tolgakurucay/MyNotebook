@@ -31,10 +31,11 @@ import java.util.concurrent.TimeUnit
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
-
-
+@AndroidEntryPoint
 class SocialLoginActivity : AppCompatActivity() {
     
     private lateinit var binding:ActivitySocialLoginBinding
@@ -44,7 +45,7 @@ class SocialLoginActivity : AppCompatActivity() {
     private lateinit var phoneCallBacks:PhoneAuthProvider.OnVerificationStateChangedCallbacks
     private lateinit var forceResendingToken:PhoneAuthProvider.ForceResendingToken
     private val TAG="bilgi"
-    private var loadingDialog=CustomLoadingDialog()
+    @Inject lateinit var loadingDialog:CustomLoadingDialog
     private lateinit var callbackManager:CallbackManager
    
     
@@ -185,7 +186,6 @@ class SocialLoginActivity : AppCompatActivity() {
                                     Log.d(TAG, auth.currentUser!!.phoneNumber!!)
                                     Toast.makeText(this@SocialLoginActivity,getString(R.string.verificationsuccessful),Toast.LENGTH_SHORT).show()
                                     val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                                    //SignType.signType="phone"
                                     Util.saveSignType(this,"phone")
                                     startActivity(intent)
                                     finish()
@@ -512,7 +512,7 @@ class SocialLoginActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val intent=Intent(this,LoginActivity::class.java)
         startActivity(intent)
-       // super.onBackPressed()
+
     }
 
 

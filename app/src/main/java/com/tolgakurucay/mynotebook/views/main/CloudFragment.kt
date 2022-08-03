@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,10 +29,9 @@ import javax.inject.Inject
 class CloudFragment : Fragment() {
 
     private lateinit var binding:FragmentCloudBinding
-    private lateinit var viewmodel:CloudFragmentViewModel
+    private val viewmodel:CloudFragmentViewModel by viewModels()
     private lateinit var cloudAdapter:CloudAdapter
-    @Inject
-    lateinit var customLoadingDialog: CustomLoadingDialog
+    @Inject lateinit var customLoadingDialog: CustomLoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding=FragmentCloudBinding.inflate(layoutInflater)
@@ -42,7 +42,7 @@ class CloudFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -54,7 +54,6 @@ class CloudFragment : Fragment() {
     }
 
     private fun init(){
-        viewmodel=ViewModelProvider(this)[CloudFragmentViewModel::class.java]
         cloudAdapter= CloudAdapter(arrayListOf())
         binding.cloudAdapter.adapter=cloudAdapter
 

@@ -20,7 +20,15 @@ import com.tolgakurucay.mynotebook.services.NoteDatabase_Impl;
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class AddNoteFragmentViewModel extends ViewModel {
+
+    @Inject
+    AddNoteFragmentViewModel(){}
 
     public MutableLiveData<String> titleMessage=new MutableLiveData<>();
     public MutableLiveData<String> descriptionMessage=new MutableLiveData<>();

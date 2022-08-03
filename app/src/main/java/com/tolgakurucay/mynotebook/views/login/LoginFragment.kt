@@ -16,6 +16,7 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -162,13 +163,13 @@ class LoginFragment : Fragment() {
                }
                 else if(signMessage=="notverified"){
 
-                    Util.alertDialog(this.context!!,getString(R.string.emailnotverifiedlabel),getString(R.string.emailnotverified),R.drawable.email,getString(R.string.okay))
+                    showAlertDialog(getString(R.string.emailnotverifiedlabel),getString(R.string.emailnotverified),R.drawable.email,getString(R.string.okay))
 
                }
                 else
                {
+                    showAlertDialog(getString(R.string.mailpasswordwronglabel),getString(R.string.mailpasswordwrong),R.drawable.ic_baseline_person_24,getString(R.string.okay))
 
-                   Util.alertDialog(this.context!!,getString(R.string.mailpasswordwronglabel),getString(R.string.mailpasswordwrong),R.drawable.ic_baseline_person_24,getString(R.string.okay))
 
 
                }

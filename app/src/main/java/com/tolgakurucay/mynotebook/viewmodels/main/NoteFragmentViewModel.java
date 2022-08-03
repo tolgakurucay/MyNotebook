@@ -12,8 +12,15 @@ import com.tolgakurucay.mynotebook.models.NoteModel;
 import com.tolgakurucay.mynotebook.services.NoteDAO;
 import com.tolgakurucay.mynotebook.services.NoteDatabase;
 
+import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class NoteFragmentViewModel extends ViewModel {
+
+    @Inject
+    NoteFragmentViewModel(){}
 
 
     public MutableLiveData<String> updated= new MutableLiveData<>();

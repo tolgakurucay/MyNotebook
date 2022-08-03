@@ -19,8 +19,15 @@ import com.tolgakurucay.mynotebook.services.NoteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class FavoritesFragmentViewModel extends ViewModel {
 
+    @Inject
+    FavoritesFragmentViewModel(){}
 
    public MutableLiveData<List<NoteFavoritesModel>> favoritesList=new MutableLiveData<>();
     public MutableLiveData<Boolean> deleted=new MutableLiveData<>();

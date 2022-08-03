@@ -26,6 +26,7 @@ import com.tolgakurucay.mynotebook.utils.ChangeLanguage
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.ResetMyPasswordPopup
 import com.tolgakurucay.mynotebook.utils.Util
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import com.tolgakurucay.mynotebook.viewmodels.main.ProfileFragmentViewModel
 import com.tolgakurucay.mynotebook.views.payment.UpgradePackageActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,11 +44,10 @@ import javax.inject.Inject
 class ProfileFragment : Fragment() {
 
     private lateinit var binding:FragmentProfileBinding
-    private lateinit var viewModel:ProfileFragmentViewModel
+    private val viewModel:ProfileFragmentViewModel by viewModels()
     private lateinit var auth:FirebaseAuth
     private lateinit var storage:FirebaseStorage
-    @Inject
-    lateinit var loadingDialog: CustomLoadingDialog
+    @Inject lateinit var loadingDialog: CustomLoadingDialog
     private var imageBitmap:Bitmap?=null
     private var imageBase64:String?=null
 
@@ -107,7 +107,6 @@ class ProfileFragment : Fragment() {
 
 
         binding= FragmentProfileBinding.inflate(layoutInflater)
-        viewModel= ViewModelProvider(this)[ProfileFragmentViewModel::class.java]
         auth=FirebaseAuth.getInstance()
         storage= FirebaseStorage.getInstance()
 
@@ -141,14 +140,13 @@ class ProfileFragment : Fragment() {
     private fun buttonClickListeners(){
 
         binding.resetMyPassword.setOnClickListener {
-            Log.d(TAG, "buttonClickListeners: resetmypassword")
             val resetMyPasswordPopup=ResetMyPasswordPopup()
             resetMyPasswordPopup.show(requireFragmentManager(),null)
         }
 
 
         binding.whoAmI.setOnClickListener {
-            Util.alertDialog(this.requireContext(),"Tolga Kuruçay",getString(R.string.mydescription),R.drawable.pencil_black,getString(R.string.okay))
+            showAlertDialog("Tolga Kuruçay",getString(R.string.mydescription),R.drawable.pencil_black,getString(R.string.okay))
         }
 
         binding.changeLanguage.setOnClickListener {
@@ -228,7 +226,7 @@ class ProfileFragment : Fragment() {
                             val uri=data.data
                             uri?.let {
                                 viewModel.saveBackgroundToStorage(it,requireActivity())
-                                //storage.reference.child("backgrounds").child(auth.uid.toString()).putFile(it)
+
                             }
                         }
                     }
@@ -277,11 +275,11 @@ class ProfileFragment : Fragment() {
        lifecycle.coroutineScope.launch{
            viewModel.savebackgroundMessage.collect{
                if(it.equals("success")){
-                   Log.d(TAG, "observeFlowData: başarıyla kaydedildi")
+                   Toast.makeText(requireContext(), getText(R.string.background), Toast.LENGTH_SHORT).show()
                }
                else
                {
-                   Log.d(TAG, "observeFlowData: hata$it")
+                   Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
                }
            }
        }
@@ -294,7 +292,7 @@ class ProfileFragment : Fragment() {
                    }
                    else
                    {
-                       Util.alertDialog(this@ProfileFragment.requireContext(),getString(R.string.error),it,
+                       showAlertDialog(getString(R.string.error),it,
                            com.google.android.material.R.drawable.mtrl_ic_error,getString(R.string.okay))
                    }
                }
@@ -337,7 +335,6 @@ class ProfileFragment : Fragment() {
                    binding.editTextSurname.setText(it.surname)
                    binding.editTextMail.setText(it.mail)
                    if(it.photo!="null"){
-                       Log.d("bilgi","setimage alındı : ")
                        val bitmap=Util.base64ToBitmap(it.photo)
                        imageBitmap=bitmap
                        imageBase64=Util.bitmapToBase64(imageBitmap)
@@ -363,7 +360,7 @@ class ProfileFragment : Fragment() {
                }
                else
                {
-                   Util.alertDialog(this@ProfileFragment.requireContext(),getString(R.string.error),it, com.google.android.material.R.drawable.mtrl_ic_error,getString(R.string.okay))
+                   showAlertDialog(getString(R.string.error),it, com.google.android.material.R.drawable.mtrl_ic_error,getString(R.string.okay))
                }
            }
 

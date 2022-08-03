@@ -14,10 +14,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.models.CreateUserModel
 import com.tolgakurucay.mynotebook.models.CreateUserWithPhone
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileFragmentViewModel : ViewModel() {
+@HiltViewModel
+class ProfileFragmentViewModel @Inject constructor(): ViewModel() {
 
     val TAG="bilgi"
 
