@@ -16,10 +16,13 @@ import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.models.Payment
 import com.tolgakurucay.mynotebook.models.PaymentHistory
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import org.json.JSONObject
+import javax.inject.Inject
 
-class UpgradePackageViewModel : ViewModel() {
+@HiltViewModel
+class UpgradePackageViewModel @Inject constructor(): ViewModel() {
 val TAG="bilgi"
 
     val uriList=MutableLiveData<ArrayList<Uri>>()

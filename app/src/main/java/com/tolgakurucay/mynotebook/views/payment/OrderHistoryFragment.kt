@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class OrderHistoryFragment : Fragment() {
 
     private lateinit var binding:FragmentOrderHistoryBinding
-    private lateinit var viewModel:OrderHistoryViewModel
+    private val viewModel:OrderHistoryViewModel by viewModels()
     private lateinit var historyAdapter:OrderHistoryAdapter
     @Inject lateinit var loadingDialog:CustomLoadingDialog
     val TAG="bilgi"
@@ -35,7 +36,7 @@ class OrderHistoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         return binding.root
@@ -51,9 +52,7 @@ class OrderHistoryFragment : Fragment() {
     }
 
     private fun init(){
-        Log.d(TAG, "isaddded : ${loadingDialog.isAdded}")
-       // loadingDialog.dismiss()
-        viewModel=ViewModelProvider(this)[OrderHistoryViewModel::class.java]
+
         historyAdapter=OrderHistoryAdapter(arrayListOf())
         binding.orderHistoryRecycler.adapter=historyAdapter
         binding.orderHistoryRecycler.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)

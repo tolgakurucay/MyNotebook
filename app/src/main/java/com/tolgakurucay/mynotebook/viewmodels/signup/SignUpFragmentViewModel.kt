@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tolgakurucay.mynotebook.models.CreateUserModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignUpFragmentViewModel : ViewModel() {
+@HiltViewModel
+class SignUpFragmentViewModel @Inject constructor() : ViewModel() {
 
     private val auth=FirebaseAuth.getInstance()
     private val firestore=FirebaseFirestore.getInstance()
@@ -18,6 +21,8 @@ class SignUpFragmentViewModel : ViewModel() {
     val password=MutableLiveData<String>()
     val createMessage=MutableLiveData<String>()
     val loadingDialog=MutableLiveData<Boolean>()
+
+
 
 
     fun validateName(name:String){

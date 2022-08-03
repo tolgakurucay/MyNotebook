@@ -10,18 +10,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tolgakurucay.mynotebook.models.OrderHistory
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OrderHistoryViewModel : ViewModel() {
+@HiltViewModel
+class OrderHistoryViewModel @Inject constructor(): ViewModel() {
 
     val auth=FirebaseAuth.getInstance()
     val firestore=FirebaseFirestore.getInstance()
     val orderListLive=MutableLiveData<ArrayList<OrderHistory>>()
     val loadingLive=MutableLiveData<Boolean>()
     val TAG="bilgi"
-
-
-
 
 
 

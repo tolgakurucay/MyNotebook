@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,14 +27,12 @@ import javax.inject.Inject
 class UpgradePackageActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityUpgradePackageBinding
-    private lateinit var viewmodel: UpgradePackageViewModel
+    private val viewmodel: UpgradePackageViewModel by viewModels()
     private lateinit var storage:FirebaseStorage
     private lateinit var adapter:PaymentAdapter
-    @Inject
-    lateinit var loadingDialog:CustomLoadingDialog
+    @Inject lateinit var loadingDialog:CustomLoadingDialog
     val TAG="bilgi"
     var tempPosition:Int=0
-    var tempList= arrayListOf<Payment>()
 
     //have to 3 items here
 
@@ -44,6 +43,7 @@ class UpgradePackageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityUpgradePackageBinding.inflate(layoutInflater)
+        overridePendingTransition(R.anim.from_left,R.anim.to_right)
         setContentView(binding.root)
         init()
         initButtons()
@@ -57,7 +57,6 @@ class UpgradePackageActivity : AppCompatActivity() {
     }
 
     private fun init(){
-        viewmodel=ViewModelProvider(this).get(UpgradePackageViewModel::class.java)
         storage= FirebaseStorage.getInstance()
         adapter= PaymentAdapter(arrayListOf())
         binding.paymentViewPager.adapter=adapter
@@ -77,13 +76,11 @@ class UpgradePackageActivity : AppCompatActivity() {
 
         })
 
-       // adapter.updateList(arrayListOf(Payment("sdasdasd","fiyat","100","https://firebasestorage.googleapis.com/v0/b/my-notebook-39613.appspot.com/o/advantage_plan.png?alt=media&token=50ab5642-edf1-4694-a31d-8e595dc30180".toUri(),"idddd")))
-
 
     }
 
     private fun observeLiveData(){
-        // TODO: yapılacaklar arasında liste gözlenememe işi var
+
 
         viewmodel.paymentStatus.observe(this, Observer {
             it?.let {
@@ -109,7 +106,6 @@ class UpgradePackageActivity : AppCompatActivity() {
                 newList.add(it[0])
                 newList.add(it[1])
 
-                //görüntülerin uri'i geldikten sonra bilgileri getir
                viewmodel.getInformations(this,purchaseIdList,newList)
 
 
@@ -179,6 +175,14 @@ class UpgradePackageActivity : AppCompatActivity() {
 
 
 
+
+    }
+
+    override fun onBackPressed() {
+
+        val intent=Intent(this,MainActivity::class.java)
+        intent.putExtra("from","buy")
+        startActivity(intent)
 
     }
 

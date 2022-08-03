@@ -4,8 +4,11 @@ import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ForgotPasswordFragmentViewModel : ViewModel() {
+@HiltViewModel
+class ForgotPasswordFragmentViewModel @Inject constructor(): ViewModel() {
 
     val emailMessage=MutableLiveData<String>()
     val forgotPasswordMessage=MutableLiveData<String>()
@@ -18,10 +21,10 @@ class ForgotPasswordFragmentViewModel : ViewModel() {
         if(email.isEmpty()){
             emailMessage.value="Enter An Mail"
         }
-        else if(email.equals("")){
+        else if(email == ""){
             emailMessage.value="Enter An Mail"
         }
-        else if(Patterns.EMAIL_ADDRESS.matcher(email).matches()!=true){
+        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailMessage.value="Invalid Email"
         }
         else{

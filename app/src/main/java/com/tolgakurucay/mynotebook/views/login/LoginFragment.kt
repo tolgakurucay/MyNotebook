@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -17,28 +18,24 @@ import com.tolgakurucay.mynotebook.databinding.FragmentLoginBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.viewmodels.login.LoginFragmentViewModel
 import com.tolgakurucay.mynotebook.views.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private lateinit var binding:FragmentLoginBinding
-    private lateinit var viewModel: LoginFragmentViewModel
-    private var loadingDialog=CustomLoadingDialog()
+    private val viewModel: LoginFragmentViewModel by viewModels()
 
+    @Inject lateinit var loadingDialog:CustomLoadingDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding=FragmentLoginBinding.inflate(inflater)
-        viewModel=ViewModelProvider(this)[LoginFragmentViewModel::class.java]
         return binding.root
     }
 
@@ -83,9 +80,8 @@ class LoginFragment : Fragment() {
             val intent=Intent(this.activity,SocialLoginActivity::class.java)
             intent.putExtra("signType","phoneSignIn")
             startActivity(intent)
-            this.activity?.let {
-                it.finish()
-            }
+            requireActivity().finish()
+
         }
         binding.imageViewFacebookSign.setOnClickListener {
 
@@ -93,18 +89,16 @@ class LoginFragment : Fragment() {
             val intent=Intent(this.activity,SocialLoginActivity::class.java)
             intent.putExtra("signType","facebookSignIn")
             startActivity(intent)
-            this.activity?.let {
-                it.finish()
-            }
+            requireActivity().finish()
+
         }
         binding.imageViewGoogleSign.setOnClickListener {
 
             val intent=Intent(this.activity,SocialLoginActivity::class.java)
             intent.putExtra("signType","googleSignIn")
             startActivity(intent)
-            this.activity?.let {
-                it.finish()
-            }
+            requireActivity().finish()
+
         }
 
 

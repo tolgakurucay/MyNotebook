@@ -16,10 +16,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.Exception
+import javax.inject.Inject
 
-
-class LoginFragmentViewModel : ViewModel() {
+@HiltViewModel
+class LoginFragmentViewModel @Inject constructor(): ViewModel() {
 
     private var auth=FirebaseAuth.getInstance()
     private lateinit var googleSignInClient :GoogleSignInClient

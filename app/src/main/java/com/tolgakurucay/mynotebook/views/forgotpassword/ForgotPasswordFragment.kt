@@ -9,33 +9,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
+import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.viewmodels.forgotpassword.ForgotPasswordFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class ForgotPasswordFragment : Fragment() {
 
     private lateinit var binding:FragmentForgotPasswordBinding
-    private lateinit var viewModel: ForgotPasswordFragmentViewModel
+    private val viewModel: ForgotPasswordFragmentViewModel by viewModels()
+    @Inject lateinit var loadingDialog:CustomLoadingDialog
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding=FragmentForgotPasswordBinding.inflate(inflater)
-        viewModel=ViewModelProvider(this)[ForgotPasswordFragmentViewModel::class.java]
+
+        /*the code line of this deprecated to added the hilt(dependency injection)
+        viewModel=ViewModelProvider(this)[ForgotPasswordFragmentViewModel::class.java]*/
         return binding.root
     }
 
@@ -81,10 +83,10 @@ class ForgotPasswordFragment : Fragment() {
         viewModel.forgotPasswordMessage.observe(viewLifecycleOwner, Observer {
             it?.let { forgotPasswordMessage->
                 when(forgotPasswordMessage){
-                    "true" ->
 
+                    "true" ->
                     AlertDialog.Builder(this.context)
-                        .setIcon(R.drawable.password)
+                        .setIcon(R.drawable.password_black)
                         .setTitle(R.string.forgotpasswordtitle)
                         .setMessage(R.string.forgotpassword)
                         .setPositiveButton(R.string.okay,object: DialogInterface.OnClickListener{
@@ -98,7 +100,6 @@ class ForgotPasswordFragment : Fragment() {
                         .create()
                         .show()
 
-
                     "error" ->
                         Util.alertDialog(this.context!!,getString(R.string.nousertitle),getString(R.string.nouser),R.drawable.password,getString(R.string.okay))
 
@@ -110,11 +111,12 @@ class ForgotPasswordFragment : Fragment() {
         viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
-                    binding.progressBarForgotPassword.visibility=View.VISIBLE
+                    loadingDialog.show(parentFragmentManager,null)
                 }
                 else
                 {
-                    binding.progressBarForgotPassword.visibility=View.INVISIBLE
+                    loadingDialog.dismiss()
+
                 }
             }
         })

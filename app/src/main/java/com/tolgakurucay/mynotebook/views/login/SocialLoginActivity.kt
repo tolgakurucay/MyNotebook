@@ -60,6 +60,7 @@ class SocialLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySocialLoginBinding.inflate(layoutInflater)
+        overridePendingTransition(R.anim.from_left,R.anim.to_right)
         setContentView(binding.root)
         auth= FirebaseAuth.getInstance()
         auth.signOut()
@@ -506,6 +507,12 @@ class SocialLoginActivity : AppCompatActivity() {
 
             }
 
+    }
+
+    override fun onBackPressed() {
+        val intent=Intent(this,LoginActivity::class.java)
+        startActivity(intent)
+       // super.onBackPressed()
     }
 
 

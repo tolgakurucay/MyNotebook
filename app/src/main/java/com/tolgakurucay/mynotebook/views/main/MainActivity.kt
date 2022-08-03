@@ -20,6 +20,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
+        if(intent.getStringExtra("from")=="buy"){
+            overridePendingTransition(R.anim.from_right,R.anim.to_left)
+        }
+        else
+        {
+            overridePendingTransition(R.anim.from_left,R.anim.to_right)
+        }
         setContentView(binding.root)
         Log.d(TAG, "onCreate: mainactivity")
 

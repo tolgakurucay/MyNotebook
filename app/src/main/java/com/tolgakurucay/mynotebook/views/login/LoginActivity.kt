@@ -9,11 +9,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.ActivityLoginBinding
 import com.tolgakurucay.mynotebook.views.forgotpassword.ForgotPasswordFragmentDirections
 import com.tolgakurucay.mynotebook.views.main.MainActivity
 import com.tolgakurucay.mynotebook.views.signup.SignUpFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewBinding:ActivityLoginBinding
@@ -22,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding= ActivityLoginBinding.inflate(layoutInflater)
+        overridePendingTransition(R.anim.from_right,R.anim.to_left)
         setContentView(viewBinding.root)
 
         val auth=FirebaseAuth.getInstance()
