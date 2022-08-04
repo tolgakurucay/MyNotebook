@@ -114,6 +114,7 @@ val TAG="bilgi"
 
 
     fun increaseRightForCurrentUser(right:Int,completion:(Boolean)->Unit){
+        loading.value=true
         firestore.collection("Right").document(auth.uid.toString()).get()
             .addOnSuccessListener {
                 val path=it.reference.path
@@ -128,6 +129,7 @@ val TAG="bilgi"
                             .addOnFailureListener { completion(false) }
 
                     }
+                    loading.value=false
 
                 }
                 else
@@ -139,11 +141,13 @@ val TAG="bilgi"
                         .addOnSuccessListener { completion(true) }
                         .addOnFailureListener { completion(false) }
 
+                    loading.value=false
 
                 }
             }
             .addOnFailureListener {
                 completion(false)
+                loading.value=false
             }
 
     }

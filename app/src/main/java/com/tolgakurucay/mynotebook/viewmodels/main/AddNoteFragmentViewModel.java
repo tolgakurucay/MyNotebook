@@ -12,6 +12,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 
+import com.tolgakurucay.mynotebook.dependencyinjection.AppModule;
 import com.tolgakurucay.mynotebook.services.NoteDAO;
 import com.tolgakurucay.mynotebook.services.NoteDatabase;
 import com.tolgakurucay.mynotebook.models.NoteModel;
@@ -23,6 +24,8 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.CoroutineScope;
 
 @HiltViewModel
 public class AddNoteFragmentViewModel extends ViewModel {
@@ -63,7 +66,7 @@ public class AddNoteFragmentViewModel extends ViewModel {
         try{
 
 
-            NoteDatabase db = new NoteDatabase() {
+           /* NoteDatabase db = new NoteDatabase() {
                 @NonNull
                 @Override
                 protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
@@ -93,6 +96,11 @@ public class AddNoteFragmentViewModel extends ViewModel {
                 dao.insertNote(note);
                 addingMessage.setValue("added");
             }
+*/
+            NoteDAO dao=AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+            dao.insertNote(note);
+            addingMessage.setValue("added");
+
 
 
 

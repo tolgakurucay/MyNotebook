@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
 
-@Database(entities = [NoteModel::class,NoteFavoritesModel::class], version = 3)
+@Database(entities = [NoteModel::class,NoteFavoritesModel::class], version = 5)
  abstract class NoteDatabase : RoomDatabase(){
 
     abstract fun noteDao(): NoteDAO
@@ -15,7 +15,12 @@ import com.tolgakurucay.mynotebook.models.NoteModel
 
 
 
-       private var instance: NoteDatabase?=null
+
+    private var instance: NoteDatabase?=null
+
+
+
+
         fun getBookDatabase(context:Context) : NoteDatabase?{
             if(instance==null){
                 instance=Room.databaseBuilder(context.applicationContext, NoteDatabase::class.java,"NoteDatabase")
@@ -29,6 +34,8 @@ import com.tolgakurucay.mynotebook.models.NoteModel
         fun destroyInstance(){
             instance=null
         }
+
+
 
 
 

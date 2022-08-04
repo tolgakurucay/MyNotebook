@@ -12,6 +12,7 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.tolgakurucay.mynotebook.dependencyinjection.AppModule;
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel;
 import com.tolgakurucay.mynotebook.services.NoteDAO;
 import com.tolgakurucay.mynotebook.services.NoteDatabase;
@@ -36,7 +37,7 @@ public class FavoritesFragmentViewModel extends ViewModel {
 
     public void getFavorites(Context context){
 
-        NoteDatabase db= new NoteDatabase() {
+       /* NoteDatabase db= new NoteDatabase() {
             @NonNull
             @Override
             public NoteDAO noteDao() {
@@ -64,13 +65,16 @@ public class FavoritesFragmentViewModel extends ViewModel {
             NoteDAO dao= db.noteDao();
             List<NoteFavoritesModel> notes= dao.getFavorites();
             favoritesList.setValue(notes);
-        }
+        }*/
+        NoteDAO dao=AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+        List<NoteFavoritesModel> notes=dao.getFavorites();
+        favoritesList.setValue(notes);
 
     }
 
 
     public void deleteFavorite(Context context,NoteFavoritesModel model){
-        NoteDatabase db= new NoteDatabase() {
+        /*NoteDatabase db= new NoteDatabase() {
             @NonNull
             @Override
             public NoteDAO noteDao() {
@@ -99,11 +103,20 @@ public class FavoritesFragmentViewModel extends ViewModel {
             NoteDAO dao=db.noteDao();
             dao.deleteFavorite(model);
             deleted.setValue(true);
+        }*/
+        try{
+            NoteDAO dao=AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+            dao.deleteFavorite(model);
+            deleted.setValue(true);
         }
+        catch (Exception ex){
+            deleted.setValue(false);
+        }
+
     }
 
     public void updateFavorites(Context context,NoteFavoritesModel model){
-        NoteDatabase db= new NoteDatabase() {
+       /* NoteDatabase db= new NoteDatabase() {
             @NonNull
             @Override
             public NoteDAO noteDao() {
@@ -132,7 +145,16 @@ public class FavoritesFragmentViewModel extends ViewModel {
             NoteDAO dao=db.noteDao();
             dao.updateFavoriteItem(model);
             updated.setValue(true);
+        }*/
+        try{
+            NoteDAO dao=AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+            dao.updateFavoriteItem(model);
+            updated.setValue(true);
         }
+        catch (Exception ex){
+            updated.setValue(false);
+        }
+
 
     }
 

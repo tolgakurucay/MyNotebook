@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.FeedFragment"
-        android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" >
+        android:label="@string/mynotes"
+        tools:layout="@layout/fragment_feed">
 
         <action
             android:id="@+id/action_feedFragment_to_addNoteFragment"
@@ -52,8 +52,8 @@
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.AddNoteFragment"
-        android:label="fragment_add_note"
-        tools:layout="@layout/fragment_add_note" >
+        android:label="@string/addnote"
+        tools:layout="@layout/fragment_add_note">
         <action
             android:id="@+id/action_addNoteFragment_to_feedFragment"
             app:destination="@id/feedFragment"
@@ -65,8 +65,8 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.FavoritesFragment"
-        android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" >
+        android:label="@string/myfavorites"
+        tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_favoritesFragment_to_feedFragment"
             app:destination="@id/feedFragment"
@@ -78,8 +78,8 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        android:label="@string/myprofile"
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_feedFragment"
             app:destination="@id/feedFragment"
@@ -98,8 +98,7 @@
     <dialog
         android:id="@+id/changeLanguage2"
         android:name="com.tolgakurucay.mynotebook.utils.ChangeLanguage"
-        android:label="fragment_change_language"
-        tools:layout="@layout/fragment_change_language" >
+        tools:layout="@layout/fragment_change_language">
         <action
             android:id="@+id/action_changeLanguage2_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -107,7 +106,7 @@
     <fragment
         android:id="@+id/noteFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.NoteFragment"
-        android:label="NoteFragment" >
+        android:label="@string/mynote">
         <action
             android:id="@+id/action_noteFragment_to_feedFragment"
             app:destination="@id/feedFragment"
@@ -122,8 +121,8 @@
     <fragment
         android:id="@+id/orderHistoryFragment"
         android:name="com.tolgakurucay.mynotebook.views.payment.OrderHistoryFragment"
-        android:label="fragment_order_history"
-        tools:layout="@layout/fragment_order_history" >
+        android:label="@string/orderhistory"
+        tools:layout="@layout/fragment_order_history">
         <action
             android:id="@+id/action_orderHistoryFragment_to_profileFragment"
             app:destination="@id/profileFragment"
@@ -135,8 +134,8 @@
     <fragment
         android:id="@+id/cloudFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.CloudFragment"
-        android:label="fragment_cloud"
-        tools:layout="@layout/fragment_cloud" >
+        android:label="@string/mycloud"
+        tools:layout="@layout/fragment_cloud">
         <action
             android:id="@+id/action_cloudFragment_to_feedFragment"
             app:destination="@id/feedFragment"

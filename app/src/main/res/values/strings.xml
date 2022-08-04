@@ -15,10 +15,10 @@
     <string name="surname">Surname</string>
     <string name="forgotpasswordlabel">FORGOT PASSWORD</string>
     <string name="sendcodetomail">Sent Code To Mail</string>
-    <string name="enteranmail">Enter An Mail</string>
-    <string name="enteranpassword">Enter An Password</string>
-    <string name="enteranname">Enter An Name</string>
-    <string name="enteransurname">Enter An Surname</string>
+    <string name="enteranmail">Enter a Mail</string>
+    <string name="enteranpassword">Enter a Password</string>
+    <string name="enteranname">Enter a Name</string>
+    <string name="enteransurname">Enter a Surname</string>
     <string name="invalidemail">Invalid E-mail</string>
     <string name="minimum8character">Minimum 8 Character</string>
     <string name="blankfields">Please Do Not Leave The Fields Blank</string>
@@ -35,7 +35,7 @@
     <string name="emailexistTitle">Email Is Already Exist</string>
     <string name="emailexist">You Have To Use Another E-Mail To Sign Up</string>
     <string name="mailpasswordwrong">Or There Is No User With This Mail</string>
-    <string name="enteranphone">Enter An Phone Number</string>
+    <string name="enteranphone">Enter a Phone Number</string>
     <string name="sentcode">Send Code</string>
     <string name="verify">Verify The Code</string>
     <string name="codedidntsent">Code Didn\'t Sent? Try It</string>
@@ -136,6 +136,12 @@
     <string name="signinsuccessful">Sign In Sucessfull</string>
     <string name="noclouditemtoshow">No Cloud Item To Show</string>
     <string name="background">Background has updated</string>
+    <string name="myfavorites">My Favorites</string>
+    <string name="myprofile">My Profile</string>
+    <string name="mycloud">My Cloud</string>
+    <string name="mynotes">My Notes</string>
+    <string name="mynote">My Note</string>
+    <string name="addnote">Add Note</string>
 
 
 </resources>

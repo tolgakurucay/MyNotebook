@@ -4,7 +4,7 @@
     <string name="signin">GİRİŞ YAP</string>
     <string name="email">E-Posta</string>
     <string name="password">Şifre</string>
-    <string name="forgotyourpassword">Şifreni mi Unuttun?</string>
+    <string name="forgotyourpassword">Şifreni mi unuttun?</string>
     <string name="signinnow">Şimdi Giriş Yap</string>
     <string name="donthaveanaccount">Bir Hesabın Yok Mu?</string>
     <string name="register">Kayıt Ol</string>
@@ -117,4 +117,12 @@
     <string name="registrationcancelled">Giriş İşlemi İptal Edildi</string>
     <string name="Registration">Giriş İşlemi</string>
     <string name="signinsuccessful">Giriş Başarılı</string>
+    <string name="background">Arkaplan güncellendi</string>
+    <string name="noclouditemtoshow">Bututa kaydedilmiş bir not yok</string>
+    <string name="myfavorites">Favorilerim</string>
+    <string name="myprofile">Profilim</string>
+    <string name="mycloud">Bulutum</string>
+    <string name="mynotes">Notlarım</string>
+    <string name="mynote">Notum</string>
+    <string name="addnote">Not Ekle</string>
 </resources>

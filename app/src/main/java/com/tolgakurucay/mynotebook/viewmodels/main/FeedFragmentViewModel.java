@@ -65,6 +65,7 @@ public class FeedFragmentViewModel extends ViewModel {
 
 
     public void getAllNotes(Context context){
+
         loading.setValue(true);
         NoteDatabase db = new NoteDatabase() {
             @NonNull
