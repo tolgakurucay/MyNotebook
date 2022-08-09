@@ -18,6 +18,8 @@ import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentForgotPasswordBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithFuncs
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithOneButtonFunc
 import com.tolgakurucay.mynotebook.viewmodels.forgotpassword.ForgotPasswordFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,9 +36,8 @@ class ForgotPasswordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding=FragmentForgotPasswordBinding.inflate(inflater)
 
+        binding=FragmentForgotPasswordBinding.inflate(inflater)
         /*the code line of this deprecated to added the hilt(dependency injection)
         viewModel=ViewModelProvider(this)[ForgotPasswordFragmentViewModel::class.java]*/
         return binding.root
@@ -85,24 +86,16 @@ class ForgotPasswordFragment : Fragment() {
             it?.let { forgotPasswordMessage->
                 when(forgotPasswordMessage){
 
-                    "true" ->
-                    AlertDialog.Builder(this.context)
-                        .setIcon(R.drawable.password_black)
-                        .setTitle(R.string.forgotpasswordtitle)
-                        .setMessage(R.string.forgotpassword)
-                        .setPositiveButton(R.string.okay,object: DialogInterface.OnClickListener{
-                            override fun onClick(p0: DialogInterface?, p1: Int) {
-                                val action=
-                                    ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
-                                Navigation.findNavController(view!!).navigate(action)
-                            }
+                    "true" ->{
+                        showAlertDialogWithOneButtonFunc(getString(R.string.forgotpasswordtitle),getString(R.string.forgotpassword),R.drawable.password_black,getString(R.string.okay)) {
+                            val action= ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
+                            Navigation.findNavController(requireView()).navigate(action)
+                        }
 
-                        })
-                        .create()
-                        .show()
+                    }
 
                     "error" ->
-                        showAlertDialog(getString(R.string.nousertitle),getString(R.string.nouser),R.drawable.password,getString(R.string.okay))
+                        showAlertDialog(getString(R.string.nousertitle),getString(R.string.nouser),R.drawable.password_black,getString(R.string.okay))
 
 
                 }

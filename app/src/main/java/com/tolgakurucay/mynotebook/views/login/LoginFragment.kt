@@ -27,7 +27,6 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding:FragmentLoginBinding
     private val viewModel: LoginFragmentViewModel by viewModels()
-
     @Inject lateinit var loadingDialog:CustomLoadingDialog
 
 
@@ -35,21 +34,18 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         binding=FragmentLoginBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-       textChangeListener()
+        textChangeListener()
         buttonClickListener()
         observeLiveData()
 
-
     }
-
-
 
 
 
@@ -151,9 +147,7 @@ class LoginFragment : Fragment() {
             it?.let { signMessage->
                if(signMessage=="okay"){
                    //Intent
-
                    val intent=Intent(activity, MainActivity::class.java)
-                   //SignType.signType="email"
                    Util.saveSignType(requireActivity(),"email")
                    startActivity(intent)
                    this.activity?.let {
@@ -180,7 +174,7 @@ class LoginFragment : Fragment() {
         viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
-                    loadingDialog.show(requireFragmentManager(),"started")
+                    loadingDialog.show(childFragmentManager,"started")
                 }
                 else
                 {

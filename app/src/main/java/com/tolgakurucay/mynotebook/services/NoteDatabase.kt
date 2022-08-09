@@ -14,40 +14,4 @@ import com.tolgakurucay.mynotebook.models.NoteModel
 
 
 
-
-
-    private var instance: NoteDatabase?=null
-
-
-
-
-        fun getBookDatabase(context:Context) : NoteDatabase?{
-            if(instance==null){
-                instance=Room.databaseBuilder(context.applicationContext, NoteDatabase::class.java,"NoteDatabase")
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build()
-            }
-            return instance
-        }
-
-        fun destroyInstance(){
-            instance=null
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

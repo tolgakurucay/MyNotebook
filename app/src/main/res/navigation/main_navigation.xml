@@ -61,6 +61,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_addNoteFragment_to_getImageFromAPIFragment"
+            app:destination="@id/getImageFromAPIFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -143,6 +146,15 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/getImageFromAPIFragment"
+        android:name="com.tolgakurucay.mynotebook.views.main.GetImageFromAPIFragment"
+        android:label="fragment_get_image_from_a_p_i"
+        tools:layout="@layout/fragment_get_image_from_a_p_i" >
+        <action
+            android:id="@+id/action_getImageFromAPIFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment" />
     </fragment>
 
 </navigation>

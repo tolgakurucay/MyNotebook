@@ -1,7 +1,6 @@
 package com.tolgakurucay.mynotebook.views.signup
 
-import android.app.AlertDialog
-import android.content.DialogInterface
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,13 +10,12 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
-import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.databinding.FragmentSignUpBinding
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithOneButtonFunc
 import com.tolgakurucay.mynotebook.viewmodels.signup.SignUpFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -50,8 +48,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun textChangeListener(){
-        binding.
-            emailSignUpInput.addTextChangedListener {
+        binding.emailSignUpInput.addTextChangedListener {
             viewModel.validateMail(binding.emailSignUpInput.text.toString())
         }
         binding.nameSignUpInput.addTextChangedListener {
@@ -135,20 +132,12 @@ class SignUpFragment : Fragment() {
         viewModel.createMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when(it){
-                    "success" -> AlertDialog.Builder(this.context)
-                        .setIcon(R.drawable.ic_baseline_person_add_surname)
-                        .setTitle(R.string.createduserlabel)
-                        .setMessage(R.string.createduser)
-                        .setPositiveButton(R.string.okay,object: DialogInterface.OnClickListener{
-                            override fun onClick(p0: DialogInterface?, p1: Int) {
-                                val action=
-                                    SignUpFragmentDirections.actionSignUpFragmentToLoginFragment()
-                                Navigation.findNavController(view!!).navigate(action)
-                            }
-
-                        })
-                        .create()
-                        .show()
+                    "success" -> {
+                        showAlertDialogWithOneButtonFunc(getString(R.string.createduserlabel),getString(R.string.createduser),R.drawable.ic_baseline_person_add_surname,getString(R.string.okay)){
+                            val action= SignUpFragmentDirections.actionSignUpFragmentToLoginFragment()
+                            Navigation.findNavController(requireView()).navigate(action)
+                        }
+                    }
                         "fail" -> showAlertDialog(getString(R.string.emailexistTitle),getString(R.string.emailexist),R.drawable.email,getString(R.string.okay))
                 }
             }
@@ -157,7 +146,7 @@ class SignUpFragment : Fragment() {
         viewModel.loadingDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
-                    loadingDialog.show(requireFragmentManager(),"started")
+                    loadingDialog.show(childFragmentManager,"started")
                 }
                 else
                 {

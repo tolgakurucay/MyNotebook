@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ColorFilter
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -28,6 +30,7 @@ import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.utils.Util
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithFuncs
 import com.tolgakurucay.mynotebook.viewmodels.main.AddNoteFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -53,16 +56,27 @@ class AddNoteFragment : Fragment() {
         binding=FragmentAddNoteBinding.inflate(inflater)
         return binding.root
     }
+    
+    fun intentFromGallery(){
+        val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        sActivityResultLauncher.launch(intent)
+    }
+    fun toAPIPage(){
+        val action=AddNoteFragmentDirections.actionAddNoteFragmentToGetImageFromAPIFragment()
+        Navigation.findNavController(requireView()).navigate(action)
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
         textChangeListeners()
         observeLiveData()
        binding.imageViewUpload.setOnClickListener {
+           
+           showAlertDialogWithFuncs(getString(R.string.pickimage),getString(R.string.wheredoyouwantpickfrom),R.drawable.image,getString(R.string.internet),getString(R.string.gallery),{toAPIPage()},{intentFromGallery()})
 
-           val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-           sActivityResultLauncher.launch(intent)
+
 
        }
 
@@ -72,7 +86,7 @@ class AddNoteFragment : Fragment() {
             if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
 
                 if(imageUri!=null){
-                    scaled=Util.makeSmallerBitmap(MediaStore.Images.Media.getBitmap(this.activity!!.contentResolver,imageUri),200)
+                    scaled=Util.makeSmallerBitmap(MediaStore.Images.Media.getBitmap(this.requireActivity().contentResolver,imageUri),200)
 
                 }
 

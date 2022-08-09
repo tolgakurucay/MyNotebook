@@ -3,6 +3,7 @@
 package com.tolgakurucay.mynotebook.views.login
 
 import android.content.Intent
+import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -31,6 +32,10 @@ import java.util.concurrent.TimeUnit
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -47,6 +52,7 @@ class SocialLoginActivity : AppCompatActivity() {
     private val TAG="bilgi"
     @Inject lateinit var loadingDialog:CustomLoadingDialog
     private lateinit var callbackManager:CallbackManager
+    private lateinit var signInRequest:BeginSignInRequest
    
     
     
@@ -55,6 +61,10 @@ class SocialLoginActivity : AppCompatActivity() {
     private var isCode6=false
     private var phoneNumber=""
     private var verificationId=""
+
+    init {
+        auth= FirebaseAuth.getInstance()
+    }
     
     
     
@@ -63,8 +73,6 @@ class SocialLoginActivity : AppCompatActivity() {
         binding= ActivitySocialLoginBinding.inflate(layoutInflater)
         overridePendingTransition(R.anim.from_left,R.anim.to_right)
         setContentView(binding.root)
-        auth= FirebaseAuth.getInstance()
-        auth.signOut()
         binding.baseConstraint.visibility=View.INVISIBLE
 
 
@@ -75,14 +83,6 @@ class SocialLoginActivity : AppCompatActivity() {
             "phoneSignIn" -> phoneSignIn()
         }
         
-        
-        
-        
-        
-
-
-
-
 
     }
     
@@ -320,7 +320,7 @@ class SocialLoginActivity : AppCompatActivity() {
                 isUserSavedToFirebase {
                     if(it){
                         val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         Util.saveSignType(this,"facebook")
                         startActivity(intent)
                         this@SocialLoginActivity.finish()
@@ -330,7 +330,7 @@ class SocialLoginActivity : AppCompatActivity() {
                         saveToFirebase {
                             if(it){
                                 val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                 Util.saveSignType(this,"facebook")
                                 startActivity(intent)
                                 this@SocialLoginActivity.finish()
@@ -347,36 +347,151 @@ class SocialLoginActivity : AppCompatActivity() {
 
                 Toast.makeText(this@SocialLoginActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
                 val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
                 this@SocialLoginActivity.finish()
             }
     }
 
+    private lateinit var oneTapClient: SignInClient
     private fun googleSignIn() {
-        loadingDialog.show(supportFragmentManager,"started")
-        gso=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        mGoogleSignInClient=GoogleSignIn.getClient(this,gso)
 
-        val signInIntent: Intent =mGoogleSignInClient.signInIntent
+        loadingDialog.show(supportFragmentManager,null)
+        oneTapClient = Identity.getSignInClient(this)
 
-        startActivityForResult(signInIntent,58)
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                .setSupported(true)
+                .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(getString(R.string.default_web_client_id))
+                    .setFilterByAuthorizedAccounts(false)
+                    .build()
+            ).build()
+
+        oneTapClient.beginSignIn(signInRequest)
+            .addOnSuccessListener { result->
+                try {
+                    startIntentSenderForResult(result.pendingIntent.intentSender,REQ_ONE_TAP,null,0,0,0,null)
+                }
+                catch (ex:IntentSender.SendIntentException){
+                    showAlertDialog(getString(R.string.error),ex.localizedMessage!!.toString(),R.drawable.error,getString(R.string.okay)){
+                        val intent=Intent(this,LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(intent)
+                        finish()
+                    }
+
+                }
+                finally {
+                    loadingDialog.dismiss()
+                }
+
+            }
+            .addOnFailureListener { exception->
+                exception.localizedMessage?.let { exception.localizedMessage?.let { it1 ->
+                    showAlertDialog(getString(R.string.error),
+                        it1,R.drawable.error,getString(R.string.okay)){
+                        val intent=Intent(this,LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        loadingDialog.dismiss()
+                        startActivity(intent)
+                        finish()
+                    }
+                   }
+                }
+            }
 
 
 
 
     }
 
+
+
+    private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
+        Log.d(TAG, "onActivityResult: $requestCode")
 
-        if(requestCode==58){
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleResult(task)
+         if(requestCode==REQ_ONE_TAP){
+            try {
+                loadingDialog.show(supportFragmentManager,null)
+                val credential=oneTapClient.getSignInCredentialFromIntent(data)
+                val idToken = credential.googleIdToken
+                if(!idToken.isNullOrEmpty()){
+                    val firebaseCredential= GoogleAuthProvider.getCredential(idToken,null)
+                    auth.signInWithCredential(firebaseCredential)
+                        .addOnSuccessListener {
+                            isUserSavedToFirebase {
+                                if(!it){
+                                    saveToFirebase {
+                                        if(it){
+                                            Toast.makeText(this, getString(R.string.signinsuccessful), Toast.LENGTH_SHORT).show()
+                                            val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                            Util.saveSignType(this,"google")
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                        else
+                                        {
+                                            showAlertDialog(getString(R.string.error),getString(R.string.somethingwentwrong),R.drawable.error,getString(R.string.okay)){
+                                                val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                    Util.saveSignType(this,"google")
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            }
 
+
+                        }
+                        .addOnFailureListener {
+                            showAlertDialog(getString(R.string.error),it.localizedMessage!!.toString(),R.drawable.error,getString(R.string.okay)){
+                                val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
+                }
+                else
+                {
+                    showAlertDialog(getString(R.string.error),getString(R.string.somethingwentwrong),R.drawable.error,getString(R.string.okay)){
+                        val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+            catch (ex:Exception){
+
+                showAlertDialog(getString(R.string.error),ex.localizedMessage!!.toString(),R.drawable.error,getString(R.string.okay)){
+                    val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+            finally {
+                loadingDialog.dismiss()
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -387,25 +502,7 @@ class SocialLoginActivity : AppCompatActivity() {
 
     }
 
-    private fun handleResult(completedTask:Task<GoogleSignInAccount>) {
 
-        try{
-            val account: GoogleSignInAccount?=completedTask.getResult(ApiException::class.java)
-            if(account!=null){
-                updateUI(account)
-
-            }
-            else
-            {
-
-            }
-        }
-        catch (e: ApiException){
-
-
-        }
-
-    }
 
 
     private fun saveToFirebase(completion:(isTrue:Boolean)->Unit){
@@ -462,58 +559,11 @@ class SocialLoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(account: GoogleSignInAccount) {
-
-
-
-        val credential = GoogleAuthProvider.getCredential(account.idToken,null)
-        auth.signInWithCredential(credential)
-            .addOnSuccessListener {
-
-                isUserSavedToFirebase {
-                    if(!it){
-
-                        saveToFirebase {
-
-                            if(it){
-
-                                val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                                Log.d(TAG, auth.currentUser!!.email!!)
-
-                                Util.saveSignType(this,"google")
-                                startActivity(intent)
-                                finish()
-                            }
-                            else
-                            {
-                                Toast.makeText(this,"Error",Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }
-                    else{
-
-                        val intent=Intent(this@SocialLoginActivity,MainActivity::class.java)
-                        Util.saveSignType(this,"google")
-                        startActivity(intent)
-                        finish()
-                    }
-                }
-
-
-
-            }
-            .addOnFailureListener {
-
-
-            }
-
-    }
 
     override fun onBackPressed() {
         val intent=Intent(this,LoginActivity::class.java)
         startActivity(intent)
 
     }
-
 
 }

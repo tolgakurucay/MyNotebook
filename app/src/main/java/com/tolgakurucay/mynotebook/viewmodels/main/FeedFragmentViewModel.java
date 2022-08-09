@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.ktx.FirebaseStorageKtxRegistrar;
+import com.tolgakurucay.mynotebook.dependencyinjection.AppModule;
 import com.tolgakurucay.mynotebook.models.AlarmItem;
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel;
 import com.tolgakurucay.mynotebook.models.NoteModel;
@@ -67,7 +68,7 @@ public class FeedFragmentViewModel extends ViewModel {
     public void getAllNotes(Context context){
 
         loading.setValue(true);
-        NoteDatabase db = new NoteDatabase() {
+      /*  NoteDatabase db = new NoteDatabase() {
             @NonNull
             @Override
             public NoteDAO noteDao() {
@@ -98,14 +99,17 @@ public class FeedFragmentViewModel extends ViewModel {
            List<NoteModel> notes = dao.getAllNotes();
            noteList.setValue(notes);
             loading.setValue(false);
-        }
+        }*/
+        NoteDAO dao= AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+        List<NoteModel> notes=dao.getAllNotes();
+        noteList.setValue(notes);
         loading.setValue(false);
 
     }
 
     public void deleteNotes(Context context, ArrayList<NoteModel> noteList){
         loading.setValue(true);
-        NoteDatabase db = new NoteDatabase() {
+       /* NoteDatabase db = new NoteDatabase() {
             @NonNull
             @Override
             public NoteDAO noteDao() {
@@ -139,6 +143,10 @@ public class FeedFragmentViewModel extends ViewModel {
             }
 
 
+        }*/
+        NoteDAO dao=AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+        for(int i=0;i<noteList.size();i++){
+            dao.deleteNote(noteList.get(i));
         }
         loading.setValue(false);
 
@@ -146,7 +154,7 @@ public class FeedFragmentViewModel extends ViewModel {
 
     public void addFavorites(Context context,ArrayList<NoteFavoritesModel> favoritesList){
         loading.setValue(true);
-        NoteDatabase db= new NoteDatabase() {
+      /*  NoteDatabase db= new NoteDatabase() {
             @NonNull
             @Override
             public NoteDAO noteDao() {
@@ -181,6 +189,11 @@ public class FeedFragmentViewModel extends ViewModel {
                 dao.insertFavorites(favoritesList.get(i));
             }
 
+        }*/
+        NoteDAO dao=AppModule.INSTANCE.injectRoomDatabase(context).noteDao();
+        for(int i=0;i<favoritesList.size();i++){
+
+            dao.insertFavorites(favoritesList.get(i));
         }
         loading.setValue(false);
     }

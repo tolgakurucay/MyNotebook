@@ -28,11 +28,7 @@ class LoginActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.from_right,R.anim.to_left)
         setContentView(viewBinding.root)
 
-        val auth=FirebaseAuth.getInstance()
-        auth.currentUser?.let {
-            startActivity(Intent(this,MainActivity::class.java))
-            finish()
-        }
+
 
 
     }
