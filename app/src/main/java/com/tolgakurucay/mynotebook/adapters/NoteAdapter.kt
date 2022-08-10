@@ -1,10 +1,13 @@
 package com.tolgakurucay.mynotebook.adapters
 
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.NoteLayoutBinding
@@ -26,12 +29,10 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
 
 
 
+    class NoteViewHolder(val view:NoteLayoutBinding): RecyclerView.ViewHolder(view.root)
 
 
-    class NoteViewHolder(view:NoteLayoutBinding): RecyclerView.ViewHolder(view.root){
 
-
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater=LayoutInflater.from(parent.context)
         binding=NoteLayoutBinding.inflate(inflater)
@@ -51,27 +52,18 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
 
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder,position: Int) {
+    @SuppressLint("ResourceAsColor")
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         if(!okay){
             okay=true
-            /*
-            for(id in 0 until noteList.size){
-                viewIdList.put(holder.adapterPosition,false)
-            }*/
             viewIdListSetFalse()
-
             Log.d(TAG, "onBindViewHolder: girildiiiiiiiiii")
-
         }
 
 
-
-
-
-
-
-        binding.textViewTitle.setText(noteList[position].title)
-        binding.textViewDate.setText(dateClass.getDateFromLong(noteList[position].date))
+        binding.textViewTitle.text = noteList[position].title
+        binding.textViewDate.text = dateClass.getDateFromLong(noteList[position].date)
        if(noteList[position].imageBase64!=null){
            noteList[position].imageBase64?.let {
                binding.imageViewImage.setImageBitmap(Util.base64ToBitmap(it))
@@ -86,31 +78,34 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
         }
 
 
+
+
        holder.itemView.setOnLongClickListener { p0 ->
            p0?.let { view ->
 
 
 
                if(viewIdList.get(holder.adapterPosition)==true){//seçilmişse
+                  /* viewIdList.put(holder.adapterPosition,false)
+                   modelArrayListEx.remove(noteList[position])
+                   holder.itemView.setBackgroundColor(android.R.color.transparent)*/
                    viewIdList.put(holder.adapterPosition,false)
                    modelArrayListEx.remove(noteList[position])
-                   holder.itemView.setBackgroundColor(android.R.color.transparent)
-
+                   holder.view.noteBackground.setBackgroundResource(R.drawable.note_background)
                }
                else//seçilmemişse
                {
+                  /*
                    holder.itemView.setBackgroundColor(R.color.purple_500)
+                   modelArrayListEx.add(noteList[position])
+                   viewIdList.put(holder.adapterPosition,true)*/
+
+                   holder.view.noteBackground.setBackgroundResource(R.drawable.selected_note_background)
                    modelArrayListEx.add(noteList[position])
                    viewIdList.put(holder.adapterPosition,true)
 
-
-
                }
-
-
-
                 completion(modelArrayListEx)
-
            }
            true
        }

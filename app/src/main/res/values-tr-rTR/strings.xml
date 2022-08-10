@@ -132,4 +132,9 @@
     <string name="next">Sonraki</string>
     <string name="previous">Önceki</string>
     <string name="somethingwentwrong">Birşeyler ters gitti</string>
+    <string name="permissionneeded">İzin verilmesi gerekli</string>
+    <string name="givepermission">İzin ver</string>
+    <string name="deleteaccount">Hesabı sil</string>
+    <string name="areyousureyouwanttodeleteaccount">Hesabı silmek istediğinize emin misiniz?</string>
+    <string name="accountdeleted">Hesap başarıyla silindi</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.api.LogDescriptor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,11 +32,47 @@ class ProfileFragmentViewModel @Inject constructor(): ViewModel() {
     val loading= MutableStateFlow<Boolean?>(null)
     val savebackgroundMessage= MutableSharedFlow<String>()
     val userRight= MutableStateFlow<String?>(null)
+    val deleteAccount= MutableStateFlow<String?>(null)
 
     val auth=FirebaseAuth.getInstance()
     val storage=FirebaseStorage.getInstance()
     val firestore=FirebaseFirestore.getInstance()
 
+
+
+    fun deleteAccountInformations(){
+        val tempUID=auth.currentUser!!.uid
+        auth.currentUser!!.delete()
+            .addOnSuccessListener {
+                storage.reference.child("backgrounds").child(tempUID).delete()
+                firestore.collection("Users").document(tempUID).delete()
+                firestore.collection("Right").document(tempUID).delete()
+                firestore.collection("Notes").document(tempUID).delete()
+                firestore.collection("PaymentHistory").whereEqualTo("personUID",tempUID).get()
+                    .addOnSuccessListener {
+                        viewModelScope.launch {
+                            if(!it.isEmpty){
+                                for(i in it){
+                                    firestore.document(i.reference.path).delete()
+                                }
+                            }
+                            deleteAccount.emit("deleted")
+                        }
+
+
+                    }
+        }
+            .addOnFailureListener {
+                Log.d(TAG, "deleteAccountInformations: ${it.localizedMessage}")
+                viewModelScope.launch { deleteAccount.emit("notdeleted") }
+            }
+
+
+
+        
+    }
+    
+    
 
     fun getRightForCurrentUser(){
         firestore.collection("Right").document(auth.uid.toString()).get()

@@ -197,6 +197,8 @@ object Util {
         return sharedPreferences.getString("signType","google").toString()
     }
 
+    var byteArray:ByteArray?=null
+
 
 
 

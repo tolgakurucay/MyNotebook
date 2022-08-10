@@ -28,9 +28,20 @@ class LoginActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.from_right,R.anim.to_left)
         setContentView(viewBinding.root)
 
+        checkUserLoggedIn()
 
 
 
+
+    }
+
+    fun checkUserLoggedIn(){
+        val auth=FirebaseAuth.getInstance()
+        auth.currentUser?.let {
+            val intent=Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onBackPressed() {

@@ -24,9 +24,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +40,8 @@ import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithFuncs
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithOneButtonFunc
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,11 +59,14 @@ class FeedFragment : Fragment() {
     @Inject lateinit var selectDateFragment:SelectDateFragment
     @Inject lateinit var loadingDialog: CustomLoadingDialog
 
+    private var imageByteArrey:ByteArray?=null
+
 
     private var noteAdapter= NoteAdapter(arrayListOf()){
 
         if(it.size==0){//menüyü gizle
             setHasOptionsMenu(false)
+
             tempNoteModels=it
             menuTop?.findItem(R.id.shareItem)?.isVisible=false
             menuTop?.findItem(R.id.alarmItem)?.isVisible=false
@@ -91,15 +98,13 @@ class FeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding=FragmentFeedBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
-        viewModel.getPPfromStorage()
         buttonClickListener()
         observeLiveData()
 
@@ -111,11 +116,17 @@ class FeedFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it){
-                    loadingDialog.show(parentFragmentManager,null)
+                    if (loadingDialog.isAdded){
+                        loadingDialog.show(parentFragmentManager,null)
+                    }
+
                 }
                 else
                 {
-                    loadingDialog.dismiss()
+                    if(loadingDialog.isAdded){
+                        loadingDialog.dismiss()
+                    }
+
                 }
             }
         })
@@ -175,15 +186,34 @@ class FeedFragment : Fragment() {
             }
 
         })
+
+        viewModel.byteArray.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Util.byteArray=it
+                Glide.with(this).asBitmap().load(it).into(object:SimpleTarget<Bitmap>(){
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val drawable=BitmapDrawable(resource)
+                        binding.constraintFeed.setBackgroundDrawable(drawable)
+                    }
+
+                })
+            }
+        })
         
         viewModel.uriLiveData.observe(viewLifecycleOwner, Observer { 
             it?.let {
+
+
                 Log.d(TAG, "observeLiveData: $it")
                 Glide.with(this@FeedFragment).asBitmap().load(it).into(object: SimpleTarget<Bitmap>(){
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
+
                         val drawable=BitmapDrawable(resource)
                         binding.constraintFeed.setBackgroundDrawable(drawable)
                     }
@@ -197,10 +227,26 @@ class FeedFragment : Fragment() {
     private fun init(){
 
         auth= FirebaseAuth.getInstance()
+        if(Util.byteArray!=null){
+            Log.d(TAG, "init: boş değil yüklüyor")
+            Glide.with(this).asBitmap().load(Util.byteArray).into(object:SimpleTarget<Bitmap>(){
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: Transition<in Bitmap>?
+                ) {
+                    val drawable=BitmapDrawable(resource)
+                    binding.constraintFeed.setBackgroundDrawable(drawable)
+                }
 
+            })
+        }
+        else
+        {
 
+            Log.d(TAG, "init: boş, internetten çekildi")
+            viewModel.getPPfromStorage()
+        }
 
-        
 
         setHasOptionsMenu(false)
         noteAdapter.modelArrayListEx.clear()
@@ -223,23 +269,30 @@ class FeedFragment : Fragment() {
     private fun requestPermissions(){
         if(ContextCompat.checkSelfPermission(this.requireContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
-            Snackbar.make(this.requireView(),"Permission Needed",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission",object: View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(this@FeedFragment.requireActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)){
-                        ActivityCompat.requestPermissions(this@FeedFragment.requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
-                    }
-                    else
-                    {
-                        val intent=Intent()
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        val uri= Uri.fromParts("package",this@FeedFragment.requireActivity().packageName,null)
-                        intent.setData(uri)
-                        startActivity(intent)
-                    }
-
+            Snackbar.make(this.requireView(),getString(R.string.permissionneeded),Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.givepermission)
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this@FeedFragment.requireActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this@FeedFragment.requireActivity(),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        1
+                    )
+                } else {
+                    val intent = Intent()
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts(
+                        "package",
+                        this@FeedFragment.requireActivity().packageName,
+                        null
+                    )
+                    intent.setData(uri)
+                    startActivity(intent)
                 }
-
-            }).show()
+            }.show()
         }
 
     }
@@ -314,6 +367,13 @@ class FeedFragment : Fragment() {
 
     }
 
+    private fun refreshCurrentFragment(){
+        val id = requireView().findNavController().currentDestination?.id
+        requireView().findNavController().popBackStack(id!!,true)
+        requireView().findNavController().navigate(id)
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.app_bar_menu,menu)
         menuTop=menu
@@ -323,66 +383,35 @@ class FeedFragment : Fragment() {
 
     }
 
+
+
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.deleteItems->  {
-               AlertDialog.Builder(requireContext())
-                    .setTitle(getString(R.string.delete))
-                    .setMessage(getString(R.string.youwantdelete))
-                    .setIcon(R.drawable.ic_baseline_delete_24)
-                    .setPositiveButton(getString(R.string.delete),object:DialogInterface.OnClickListener{
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            viewModel.deleteNotes(requireContext(),tempNoteModels)
-                            tempNoteModels.clear()
-                            noteAdapter.viewIdListSetFalse()
-                            noteAdapter.modelArrayListClear()
-                            setHasOptionsMenu(false)
-                            viewModel.getAllNotes(requireContext())
-                        }
-
-                    })
-                    .setNegativeButton(getString(R.string.cancel), object : DialogInterface.OnClickListener {
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            //hiçbirşey silimedi
-                        }
-
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show()
-
+                showAlertDialogWithFuncs(getString(R.string.delete),getString(R.string.youwantdelete),R.drawable.ic_baseline_delete_24,getString(R.string.delete),getString(R.string.cancel),{
+                    viewModel.deleteNotes(requireContext(),tempNoteModels)
+                    setHasOptionsMenu(false)
+                    noteAdapter.viewIdListSetFalse()
+                    noteAdapter.modelArrayListClear()
+                    refreshCurrentFragment()
+                                                                                                                                                                                             },{})
             }
             R.id.favoriteItems-> {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(getString(R.string.favorites))
-                    .setMessage(getString(R.string.areyousureyouwanttoaddfavorites))
-                    .setIcon(R.drawable.favorites)
-                    .setPositiveButton(getString(R.string.addtofavorites),object:DialogInterface.OnClickListener{
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            favoritesList.clear()
-                            for(i in tempNoteModels){
-                                favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
-                            }
-                            viewModel.addFavorites(requireContext(),favoritesList)
-                            setHasOptionsMenu(false)
-                            viewModel.deleteNotes(requireContext(),tempNoteModels)
-                            tempNoteModels.clear()
-                            viewModel.getAllNotes(requireContext())
-                            noteAdapter.modelArrayListClear()
-                            noteAdapter.viewIdListSetFalse()
-                        }
+                showAlertDialogWithFuncs(getString(R.string.favorites),getString(R.string.areyousureyouwanttoaddfavorites),R.drawable.favorites,getString(R.string.addtofavorites),getString(R.string.cancel),{
+                    favoritesList.clear()
+                    for(i in tempNoteModels){
+                        favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
+                    }
+                    viewModel.addFavorites(requireContext(),favoritesList)
+                    setHasOptionsMenu(false)
+                    viewModel.deleteNotes(requireContext(),tempNoteModels)
+                    noteAdapter.modelArrayListClear()
+                    noteAdapter.viewIdListSetFalse()
+                    refreshCurrentFragment()
 
-                    })
-                    .setNegativeButton(getString(R.string.cancel),object :DialogInterface.OnClickListener{
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                },{})
 
-                        }
-
-
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show()
 
 
 
@@ -401,18 +430,11 @@ class FeedFragment : Fragment() {
                     noteAdapter.modelArrayListClear()
                     noteAdapter.viewIdListSetFalse()
 
-                    Log.d(TAG, "onOptionsItemSelected: $tempNoteModels")
                     selectDateFragment.arguments=args
                     selectDateFragment.show(parentFragmentManager,null)
-
-
-
+                    refreshCurrentFragment()
 
                     }
-                    
-
-
-
 
             }
            R.id.saveToFirebase->{viewModel.saveNoteToFirebase(tempNoteModels,context)}

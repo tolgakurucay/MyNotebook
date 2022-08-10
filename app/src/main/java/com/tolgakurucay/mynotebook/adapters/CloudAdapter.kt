@@ -1,10 +1,12 @@
 package com.tolgakurucay.mynotebook.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tolgakurucay.mynotebook.R
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.tolgakurucay.mynotebook.databinding.CloudRowBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.GetCurrentDate
@@ -22,6 +24,7 @@ class CloudAdapter(var arrayList:ArrayList<NoteModel>) : RecyclerView.Adapter<Cl
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CloudHolder, position: Int) {
         val date=GetCurrentDate()
        holder.binding.textViewCloudTitle.setText(arrayList[position].title)

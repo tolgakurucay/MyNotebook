@@ -1,10 +1,13 @@
 package com.tolgakurucay.mynotebook.adapters
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.tolgakurucay.mynotebook.databinding.FavoritesLayoutBinding
 import com.tolgakurucay.mynotebook.databinding.FragmentFavoritesBinding
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
@@ -35,6 +38,7 @@ class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion
         return FavoritesHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FavoritesHolder, position: Int) {
         holder.date.setText(dateClass.getDateFromLong(favoritesList[position].date))
         holder.description.setText(favoritesList[position].description)
@@ -65,6 +69,7 @@ class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion
         return favoritesList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newFavoritesList:List<NoteFavoritesModel>){
         favoritesList=newFavoritesList
         notifyDataSetChanged()

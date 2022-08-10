@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.views.main
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
@@ -27,7 +29,9 @@ import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
 import com.tolgakurucay.mynotebook.utils.ResetMyPasswordPopup
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.utils.Util.showAlertDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithFuncs
 import com.tolgakurucay.mynotebook.viewmodels.main.ProfileFragmentViewModel
+import com.tolgakurucay.mynotebook.views.login.LoginActivity
 import com.tolgakurucay.mynotebook.views.payment.UpgradePackageActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filter
@@ -74,6 +78,7 @@ class ProfileFragment : Fragment() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.getRightForCurrentUser()
@@ -188,6 +193,7 @@ class ProfileFragment : Fragment() {
         }
         /////////////////////////////////// for pp
         var sActivityResultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult(),object:ActivityResultCallback<ActivityResult>{
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onActivityResult(result: ActivityResult?) {
                 result?.let {
 
@@ -217,24 +223,21 @@ class ProfileFragment : Fragment() {
         })
         ////////////////////////////
         //for background
-        val launcher2=registerForActivityResult(ActivityResultContracts.StartActivityForResult(),object:ActivityResultCallback<ActivityResult>{
-            override fun onActivityResult(result: ActivityResult?) {
-                result?.let {
-                    if(it.resultCode==Activity.RESULT_OK){
-                        val data=result.data
-                        data?.let {
-                            val uri=data.data
-                            uri?.let {
-                                viewModel.saveBackgroundToStorage(it,requireActivity())
+        val launcher2=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            result?.let {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data = result.data
+                    data?.let {
+                        val uri = data.data
+                        uri?.let {
+                            viewModel.saveBackgroundToStorage(it, requireActivity())
 
-                            }
                         }
                     }
                 }
             }
-
-
-        })
+        }
 
         binding.imageViewProfile.setOnClickListener {
             val intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -250,6 +253,11 @@ class ProfileFragment : Fragment() {
             val action=ProfileFragmentDirections.actionProfileFragmentToOrderHistoryFragment()
             Navigation.findNavController(binding.root).navigate(action)
         }
+        binding.deleteAccount.setOnClickListener {
+            showAlertDialogWithFuncs(getString(R.string.deleteaccount),getString(R.string.areyousureyouwanttodeleteaccount),R.drawable.delete_account_black,getString(R.string.delete),getString(R.string.cancel),{
+                viewModel.deleteAccountInformations()
+            },{})
+        }
 
 
 
@@ -261,25 +269,42 @@ class ProfileFragment : Fragment() {
 
 
 
+   @RequiresApi(Build.VERSION_CODES.O)
    private fun observeFlowData(){
+
+       lifecycleScope.launch {
+           viewModel.deleteAccount.filter { it!=null }.collect{
+               if(it=="deleted"){
+                   Log.d(TAG, "observeFlowData: deleteddd")
+                   Toast.makeText(requireContext(),getString(R.string.accountdeleted),Toast.LENGTH_LONG).show()
+                   startActivity(Intent(requireActivity(),LoginActivity::class.java))
+                   requireActivity().finish()
+               }
+               else if(it=="notdeleted"){
+                   Log.d(TAG, "observeFlowData: hesap silinemedi")
+               }
+
+           }
+       }
 
 
        lifecycleScope.launch {
            viewModel.userRight.collect{
                it?.let {
-                   binding.textViewRemaining.setText(it)
+                   binding.textViewRemaining.text = it
                }
            }
        }
 
        lifecycle.coroutineScope.launch{
            viewModel.savebackgroundMessage.collect{
-               if(it.equals("success")){
-                   Toast.makeText(requireContext(), getText(R.string.background), Toast.LENGTH_SHORT).show()
+               if(it == "success"){
+                   Toast.makeText(requireContext(), getString(R.string.background), Toast.LENGTH_SHORT).show()
+                   Util.byteArray=null
                }
                else
                {
-                   Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                   Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                }
            }
        }
@@ -288,7 +313,7 @@ class ProfileFragment : Fragment() {
            viewModel.savedPhone.collect{
                it?.let {
                    if(it=="saved"){
-                       Toast.makeText(this@ProfileFragment.requireContext(),getString(R.string.savedchanges,Toast.LENGTH_SHORT),Toast.LENGTH_SHORT).show()
+                       Toast.makeText(this@ProfileFragment.requireContext(),getString(R.string.savedchanges),Toast.LENGTH_SHORT).show()
                    }
                    else
                    {
@@ -316,7 +341,8 @@ class ProfileFragment : Fragment() {
                }
                else
                {
-                binding.imageViewProfile.setImageResource(R.drawable.ic_baseline_person_24)
+                //image yok birşey koyma
+
                }
 
 
@@ -340,9 +366,11 @@ class ProfileFragment : Fragment() {
                        imageBase64=Util.bitmapToBase64(imageBitmap)
                        binding.imageViewProfile.setImageBitmap(bitmap)
                        binding.imageViewProfile.background=null
+
                    }
                    else
                    {
+                       //image yok birşey koyma
                        Log.d("bilgi","setimage alınamadı")
 
                    }

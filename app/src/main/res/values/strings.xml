@@ -147,6 +147,11 @@
     <string name="gallery">Gallery</string>
     <string name="internet">Internet</string>
     <string name="somethingwentwrong">Something went wrong</string>
+    <string name="permissionneeded">Permission needed</string>
+    <string name="givepermission">Give permission</string>
+    <string name="deleteaccount">Delete account</string>
+    <string name="areyousureyouwanttodeleteaccount">Are you sure you want to delete account?</string>
+    <string name="accountdeleted">Account successfully deleted</string>
 
 
 </resources>

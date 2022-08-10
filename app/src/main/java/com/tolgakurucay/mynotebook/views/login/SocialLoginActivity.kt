@@ -310,6 +310,7 @@ class SocialLoginActivity : AppCompatActivity() {
     }
     
     private fun authWithFacebookAccessToken(accessToken: AccessToken){
+        loadingDialog.show(supportFragmentManager,null)
         val credential=FacebookAuthProvider.getCredential(accessToken.token)
         auth.signInWithCredential(credential)
             .addOnSuccessListener {
@@ -336,7 +337,12 @@ class SocialLoginActivity : AppCompatActivity() {
                                 this@SocialLoginActivity.finish()
                             }
                             else{
-                                Log.d(TAG, "authWithFacebookAccessToken: hata var kayıt olunamadı")
+                                showAlertDialog(getString(R.string.error),getString(R.string.somethingwentwrong),R.drawable.error,getString(R.string.okay)){
+                                    val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                    this@SocialLoginActivity.finish()
+                                }
                             }
                         }
                     }
@@ -344,12 +350,14 @@ class SocialLoginActivity : AppCompatActivity() {
 
             }
             .addOnFailureListener {
+                showAlertDialog(getString(R.string.error),it.localizedMessage!!.toString(),R.drawable.error,getString(R.string.okay)){
+                    val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    this@SocialLoginActivity.finish()
+                }
 
-                Toast.makeText(this@SocialLoginActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
-                val intent=Intent(this@SocialLoginActivity,LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-                this@SocialLoginActivity.finish()
+
             }
     }
 

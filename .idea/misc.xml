@@ -27,6 +27,7 @@
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/plus.xml" value="0.3505" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/reset_password_background.xml" value="0.3495" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/save.xml" value="0.3675" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/selected_note_background.xml" value="0.3665" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/sign_button_gradient.xml" value="0.244" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/sign_button_shape.xml" value="0.1895" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/drawable/title.xml" value="0.3505" />
@@ -57,7 +58,7 @@
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_settings.xml" value="0.2864471996579735" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/fragment_upgrade_package.xml" value="0.3009833262077811" />
-        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/note_layout.xml" value="0.75" />
+        <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/note_layout.xml" value="1.1" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/order_history_row.xml" value="0.5" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/payment_row.xml" value="0.18" />
         <entry key="..\:/Users/Tolga/AndroidStudioProjects/MyNotebook/app/src/main/res/layout/payment_rpw.xml" value="0.30012825994014536" />
