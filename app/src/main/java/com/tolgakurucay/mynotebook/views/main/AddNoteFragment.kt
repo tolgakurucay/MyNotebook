@@ -3,7 +3,6 @@ package com.tolgakurucay.mynotebook.views.main
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.ColorFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,11 +17,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.FragmentAddNoteBinding
@@ -34,7 +31,6 @@ import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithFuncs
 import com.tolgakurucay.mynotebook.viewmodels.main.AddNoteFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.math.log
 
 @AndroidEntryPoint
 class AddNoteFragment : Fragment() {
@@ -82,7 +78,8 @@ class AddNoteFragment : Fragment() {
         sActivityResultLauncher.launch(intent)
     }
     fun toAPIPage(){
-        val action=AddNoteFragmentDirections.actionAddNoteFragmentToGetImageFromAPIFragment()
+        val action=
+           AddNoteFragmentDirections.actionAddNoteFragmentToGetImageFromAPIFragment()
         Navigation.findNavController(requireView()).navigate(action)
     }
 
@@ -209,7 +206,8 @@ class AddNoteFragment : Fragment() {
             it?.let {
                 if(it=="added"){
                     Toast.makeText(this.requireContext(),getString(R.string.addedNote),Toast.LENGTH_LONG).show()
-                    val action=AddNoteFragmentDirections.actionAddNoteFragmentToFeedFragment()
+                    val action=
+                        AddNoteFragmentDirections.actionAddNoteFragmentToFeedFragment()
                     Navigation.findNavController(this.requireView()).navigate(action)
                 }
                 else

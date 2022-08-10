@@ -1,13 +1,19 @@
 package com.tolgakurucay.mynotebook.views.login
 
 import android.content.Intent
+import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.auth.FirebaseAuth
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.ActivityLoginBinding
@@ -27,13 +33,52 @@ class LoginActivity : AppCompatActivity() {
         viewBinding= ActivityLoginBinding.inflate(layoutInflater)
         overridePendingTransition(R.anim.from_right,R.anim.to_left)
         setContentView(viewBinding.root)
-
+        checkUpdate()
         checkUserLoggedIn()
 
 
 
 
     }
+    private lateinit var mAppUpdateManager: AppUpdateManager
+
+    private fun checkUpdate() {
+        mAppUpdateManager= AppUpdateManagerFactory.create(this)
+        mAppUpdateManager.appUpdateInfo
+                .addOnSuccessListener {
+                      it?.let {appUpdateInfo ->
+                          if(appUpdateInfo.updateAvailability()== UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(
+                        AppUpdateType.IMMEDIATE)){
+                       try {
+                     //   Log.d(TAG, "onStart: güncelleme var")
+                        mAppUpdateManager.startUpdateFlowForResult(
+                                appUpdateInfo,
+                                AppUpdateType.IMMEDIATE,
+                                this,
+                                58
+                         )
+                    } catch (e: IntentSender.SendIntentException) {
+                        e.printStackTrace()
+
+                    }
+                }
+                else
+                {
+                 //   Log.d(TAG, "no update here")
+                }
+
+            }
+        }
+            .addOnFailureListener {
+            it?.let { exception ->
+
+                 //   Toast.makeText(binding.root.context,exception.localizedMessage,Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+    }
+
 
     fun checkUserLoggedIn(){
         val auth=FirebaseAuth.getInstance()
