@@ -58,7 +58,6 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
         if(!okay){
             okay=true
             viewIdListSetFalse()
-            Log.d(TAG, "onBindViewHolder: girildiiiiiiiiii")
         }
 
 
@@ -86,20 +85,12 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
 
 
                if(viewIdList.get(holder.adapterPosition)==true){//seçilmişse
-                  /* viewIdList.put(holder.adapterPosition,false)
-                   modelArrayListEx.remove(noteList[position])
-                   holder.itemView.setBackgroundColor(android.R.color.transparent)*/
                    viewIdList.put(holder.adapterPosition,false)
                    modelArrayListEx.remove(noteList[position])
                    holder.view.noteBackground.setBackgroundResource(R.drawable.note_background)
                }
                else//seçilmemişse
                {
-                  /*
-                   holder.itemView.setBackgroundColor(R.color.purple_500)
-                   modelArrayListEx.add(noteList[position])
-                   viewIdList.put(holder.adapterPosition,true)*/
-
                    holder.view.noteBackground.setBackgroundResource(R.drawable.selected_note_background)
                    modelArrayListEx.add(noteList[position])
                    viewIdList.put(holder.adapterPosition,true)

@@ -53,8 +53,28 @@ class AddNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+
+
         binding=FragmentAddNoteBinding.inflate(inflater)
         return binding.root
+
+
+    }
+
+    private fun loadUrl(){
+        arguments?.let {
+            val uri=it.getString("argumentUri")
+            uri?.let {
+                Util.urlStringToBitmap(it,requireContext()){
+                    it?.let {
+
+                        scaled=it
+                        binding.imageViewUpload.setImageBitmap(scaled)
+                        binding.imageViewUpload.background=null
+                    }
+                }
+            }
+        }
     }
     
     fun intentFromGallery(){
@@ -66,8 +86,11 @@ class AddNoteFragment : Fragment() {
         Navigation.findNavController(requireView()).navigate(action)
     }
 
+    var scaled:Bitmap?=null
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadUrl()
 
 
         textChangeListeners()
@@ -77,11 +100,10 @@ class AddNoteFragment : Fragment() {
            showAlertDialogWithFuncs(getString(R.string.pickimage),getString(R.string.wheredoyouwantpickfrom),R.drawable.image,getString(R.string.internet),getString(R.string.gallery),{toAPIPage()},{intentFromGallery()})
 
 
-
        }
 
         binding.buttonSave.setOnClickListener {
-            var scaled:Bitmap?=null
+
             customDialog.show(requireFragmentManager(),null)
             if(binding.titleLayout.helperText==null && binding.descriptionLayout.helperText==null){
 

@@ -330,7 +330,7 @@ class FeedFragment : Fragment() {
            Navigation.findNavController(this.requireView()).navigate(direction)
        }
         else if(fragmentName=="addNote"){
-           val direction=FeedFragmentDirections.actionFeedFragmentToAddNoteFragment()
+           val direction=FeedFragmentDirections.actionFeedFragmentToAddNoteFragment(null)
            Navigation.findNavController(this.requireView()).navigate(direction)
        }
         else if(fragmentName=="cloud"){

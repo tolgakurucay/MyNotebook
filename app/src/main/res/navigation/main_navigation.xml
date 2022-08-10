@@ -64,6 +64,10 @@
         <action
             android:id="@+id/action_addNoteFragment_to_getImageFromAPIFragment"
             app:destination="@id/getImageFromAPIFragment" />
+        <argument
+            android:name="argumentUri"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
