@@ -154,8 +154,8 @@
     <fragment
         android:id="@+id/getImageFromAPIFragment"
         android:name="com.tolgakurucay.mynotebook.views.main.GetImageFromAPIFragment"
-        android:label="fragment_get_image_from_a_p_i"
-        tools:layout="@layout/fragment_get_image_from_a_p_i" >
+        android:label="Select Image"
+        tools:layout="@layout/fragment_get_image_from_a_p_i">
         <action
             android:id="@+id/action_getImageFromAPIFragment_to_addNoteFragment"
             app:destination="@id/addNoteFragment" />

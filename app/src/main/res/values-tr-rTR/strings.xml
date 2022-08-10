@@ -137,4 +137,5 @@
     <string name="deleteaccount">Hesabı sil</string>
     <string name="areyousureyouwanttodeleteaccount">Hesabı silmek istediğinize emin misiniz?</string>
     <string name="accountdeleted">Hesap başarıyla silindi</string>
+    <string name="enteraword">Aramak için kelime seçiniz</string>
 </resources>
