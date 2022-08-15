@@ -54,7 +54,7 @@ class CloudFragment : Fragment() {
     }
 
     private fun init(){
-        cloudAdapter= CloudAdapter(arrayListOf())
+        cloudAdapter= CloudAdapter()
         binding.cloudAdapter.adapter=cloudAdapter
 
     }
@@ -81,7 +81,8 @@ class CloudFragment : Fragment() {
                         }
                     }
 
-                    cloudAdapter.updateAdapter(notes)
+                   // cloudAdapter.updateAdapter(notes)
+                    cloudAdapter.noteList=notes
                 }
 
             }

@@ -59,10 +59,9 @@ class FeedFragment : Fragment() {
     @Inject lateinit var selectDateFragment:SelectDateFragment
     @Inject lateinit var loadingDialog: CustomLoadingDialog
 
-    private var imageByteArrey:ByteArray?=null
 
 
-    private var noteAdapter= NoteAdapter(arrayListOf()){
+    private var noteAdapter= NoteAdapter(){
 
         if(it.size==0){//menüyü gizle
             setHasOptionsMenu(false)
@@ -169,14 +168,15 @@ class FeedFragment : Fragment() {
             if(it!=null){
                 binding.textViewError.visibility=View.INVISIBLE
                 if(it.isEmpty()){
-                    noteAdapter.updateNoteList(it)
+                  //  noteAdapter.updateNoteList(it)
+                    noteAdapter.noteList=it
                     for(i in it){
                         favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
                     }
                 }
                 else
                 {
-                    noteAdapter.updateNoteList(it)
+                    noteAdapter.noteList=it
                 }
 
             }

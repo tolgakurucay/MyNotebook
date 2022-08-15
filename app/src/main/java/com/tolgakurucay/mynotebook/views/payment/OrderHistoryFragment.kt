@@ -53,7 +53,7 @@ class OrderHistoryFragment : Fragment() {
 
     private fun init(){
 
-        historyAdapter=OrderHistoryAdapter(arrayListOf())
+        historyAdapter=OrderHistoryAdapter()
         binding.orderHistoryRecycler.adapter=historyAdapter
         binding.orderHistoryRecycler.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
 
@@ -62,7 +62,7 @@ class OrderHistoryFragment : Fragment() {
      fun observeLiveData(){
          viewModel.orderListLive.observe(viewLifecycleOwner, Observer {
              it?.let {
-                 historyAdapter.updateAdapter(it)
+                 historyAdapter.arrayList=it
                  Log.d(TAG, "observeLiveData: $it")
              }
          })

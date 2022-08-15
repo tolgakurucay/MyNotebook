@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import com.tolgakurucay.mynotebook.databinding.FavoritesLayoutBinding
 import com.tolgakurucay.mynotebook.databinding.FragmentFavoritesBinding
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
@@ -19,10 +21,36 @@ import javax.inject.Inject
 
 
 
-class FavoritesAdapter(var favoritesList:List<NoteFavoritesModel>,val completion:(NoteFavoritesModel,process:String,title:String?,description:String?)->Unit) : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>() {
+class FavoritesAdapter(val completion:(NoteFavoritesModel,process:String,title:String?,description:String?)->Unit) : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>() {
 
     private var dateClass=GetCurrentDate()
     private lateinit var binding: FavoritesLayoutBinding
+
+    var favoritesList : List<NoteFavoritesModel>
+    get() =recyclerListDiffer.currentList
+    set(value) = recyclerListDiffer.submitList(value)
+
+    private val diffUtil= object :  DiffUtil.ItemCallback<NoteFavoritesModel>(){
+        override fun areItemsTheSame(
+            oldItem: NoteFavoritesModel,
+            newItem: NoteFavoritesModel
+        ): Boolean {
+            return oldItem==newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: NoteFavoritesModel,
+            newItem: NoteFavoritesModel
+        ): Boolean {
+            return oldItem==newItem
+        }
+
+    }
+
+    private val recyclerListDiffer =AsyncListDiffer(this,diffUtil)
+
+
+
 
 
     class FavoritesHolder(binding:FavoritesLayoutBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -2,19 +2,36 @@ package com.tolgakurucay.mynotebook.adapters
 
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.viewpager.widget.PagerAdapter.POSITION_NONE
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.PaymentRowBinding
 import com.tolgakurucay.mynotebook.models.Payment
 
-class PaymentAdapter(var paymentList: ArrayList<Payment>) : RecyclerView.Adapter<PaymentAdapter.PaymentHolder>() {
+class PaymentAdapter : RecyclerView.Adapter<PaymentAdapter.PaymentHolder>() {
 
-    class PaymentHolder(val binding:PaymentRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class PaymentHolder(val binding:PaymentRowBinding) : RecyclerView.ViewHolder(binding.root)
+
+    private val diffCallback = object : DiffUtil.ItemCallback<Payment>(){
+        override fun areItemsTheSame(oldItem: Payment, newItem: Payment): Boolean {
+            return oldItem==newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Payment, newItem: Payment): Boolean {
+           return oldItem==newItem
+        }
 
     }
+
+    private val asyncListDiffer=AsyncListDiffer(this,diffCallback)
+
+    var paymentList: List<Payment>
+    get() = asyncListDiffer.currentList
+    set(value) = asyncListDiffer.submitList(value)
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentHolder {
         val inflater=LayoutInflater.from(parent.context)
@@ -37,12 +54,6 @@ class PaymentAdapter(var paymentList: ArrayList<Payment>) : RecyclerView.Adapter
     }
 
 
-    fun updateList(newList:ArrayList<Payment>){
-
-        paymentList=newList
-        notifyDataSetChanged()
-
-    }
 
 
 

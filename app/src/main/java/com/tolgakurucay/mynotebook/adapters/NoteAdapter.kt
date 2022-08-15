@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.databinding.NoteLayoutBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
@@ -16,7 +18,7 @@ import com.tolgakurucay.mynotebook.utils.GetCurrentDate
 import com.tolgakurucay.mynotebook.utils.Util
 import com.tolgakurucay.mynotebook.views.main.FeedFragmentDirections
 
-class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:ArrayList<NoteModel>)->Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(var completion:(noteList:ArrayList<NoteModel>)->Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private lateinit var binding:NoteLayoutBinding
     private val dateClass= GetCurrentDate()
@@ -26,10 +28,26 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
     var okay=false
 
 
-
-
-
     class NoteViewHolder(val view:NoteLayoutBinding): RecyclerView.ViewHolder(view.root)
+
+    val diffUtil = object : DiffUtil.ItemCallback<NoteModel>(){
+        override fun areItemsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {
+            return oldItem==newItem
+        }
+
+        override fun areContentsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {
+            return oldItem==newItem
+        }
+
+    }
+
+    val recyclerListDiffer = AsyncListDiffer(this,diffUtil)
+
+    var noteList:List<NoteModel>
+    get() = recyclerListDiffer.currentList
+    set(value) = recyclerListDiffer.submitList(value)
+
+
 
 
 
@@ -109,10 +127,7 @@ class NoteAdapter(var noteList:ArrayList<NoteModel>,var completion:(noteList:Arr
         return noteList.size
     }
 
-    fun updateNoteList(newNoteList:List<NoteModel>){
-        noteList= ArrayList(newNoteList)
-        notifyDataSetChanged()
-    }
+
 
 
 

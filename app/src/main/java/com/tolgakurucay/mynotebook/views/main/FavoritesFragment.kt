@@ -34,7 +34,7 @@ class FavoritesFragment : Fragment() {
     private lateinit var binding:FragmentFavoritesBinding
     private val viewModel:FavoritesFragmentViewModel by viewModels()
     @Inject lateinit var date:GetCurrentDate
-    private var adapter=FavoritesAdapter(arrayListOf()){item,process,title,desc->
+    private var adapter=FavoritesAdapter(){item,process,title,desc->
 
         if(process=="delete"){
             AlertDialog.Builder(requireContext())
@@ -42,19 +42,10 @@ class FavoritesFragment : Fragment() {
                 .setTitle(getString(R.string.deleteTitle))
                 .setMessage(getString(R.string.youwantdelete))
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.delete),object:DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-
-                        viewModel.deleteFavorite(requireContext(),item)
-                    }
-
-                })
-                .setNegativeButton(getString(R.string.cancel),object:DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-
-                    }
-
-                })
+                .setPositiveButton(getString(R.string.delete)
+                ) { p0, p1 -> viewModel.deleteFavorite(requireContext(), item) }
+                .setNegativeButton(getString(R.string.cancel)
+                ) { p0, p1 -> }
                 .create()
                 .show()
         }
@@ -111,7 +102,7 @@ class FavoritesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         init()
         return binding.root
@@ -137,7 +128,8 @@ class FavoritesFragment : Fragment() {
                it?.let {
                    if(!it.isEmpty()){
                        Log.d(TAG, "observeLiveData: ${it.size}")
-                       adapter.updateList(it)
+                       adapter.favoritesList=it
+                       //adapter.updateList(it)
                    }
                    else
                    {

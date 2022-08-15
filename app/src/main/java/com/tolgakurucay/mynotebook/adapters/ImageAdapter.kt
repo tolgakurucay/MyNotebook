@@ -1,14 +1,10 @@
 package com.tolgakurucay.mynotebook.adapters
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.tolgakurucay.mynotebook.databinding.ImageRowBinding
 import com.tolgakurucay.mynotebook.models.ImageResponse
 import com.tolgakurucay.mynotebook.utils.Util
@@ -18,6 +14,8 @@ import com.tolgakurucay.mynotebook.views.main.GetImageFromAPIFragmentDirections
 
 class ImageAdapter(var imageResponse: ImageResponse) : RecyclerView.Adapter<ImageAdapter.ImageHolder>() {
     class ImageHolder(val binding:ImageRowBinding) : RecyclerView.ViewHolder(binding.root)
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
         val inflater=LayoutInflater.from(parent.context)

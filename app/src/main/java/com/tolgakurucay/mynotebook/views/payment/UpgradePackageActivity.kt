@@ -58,7 +58,7 @@ class UpgradePackageActivity : AppCompatActivity() {
 
     private fun init(){
         storage= FirebaseStorage.getInstance()
-        adapter= PaymentAdapter(arrayListOf())
+        adapter= PaymentAdapter()
         binding.paymentViewPager.adapter=adapter
 
         TabLayoutMediator(binding.tabLayoutPayment,binding.paymentViewPager){tab,position->
@@ -135,7 +135,7 @@ class UpgradePackageActivity : AppCompatActivity() {
                     newList.add(arrayList[2])
                     newList.add(arrayList[0])
 
-                    adapter.updateList(newList)
+                    adapter.paymentList=newList
                     loadingDialog.dismiss()
 
                 }

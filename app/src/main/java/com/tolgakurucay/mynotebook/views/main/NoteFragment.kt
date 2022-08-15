@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -75,6 +77,7 @@ class NoteFragment : Fragment() {
         observeLiveData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun loadObject(){
         binding.titleInputUpdate.setText(model?.title)
         binding.descriptionInputUpdate.setText(model?.description)
@@ -99,7 +102,7 @@ class NoteFragment : Fragment() {
                     val uri = it.data
                     uri?.let {
                         val imageUri = it
-                        val bitmap=MediaStore.Images.Media.getBitmap(this.activity!!.contentResolver,imageUri)
+                        val bitmap=MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,imageUri)
                         imageBitmap=com.tolgakurucay.mynotebook.utils.Util.makeSmallerBitmap(bitmap,200)
                         binding.imageViewUpdate.setImageBitmap(imageBitmap)
 
@@ -168,6 +171,7 @@ class NoteFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveObject(){
 
         if(binding.titleLayoutUpdate.helperText==null && binding.descriptionLayoutUpdate.helperText==null){
