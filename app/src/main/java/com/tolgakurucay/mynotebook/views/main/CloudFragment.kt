@@ -14,12 +14,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.tolgakurucay.mynotebook.R
 import com.tolgakurucay.mynotebook.adapters.CloudAdapter
 import com.tolgakurucay.mynotebook.databinding.FragmentCloudBinding
 import com.tolgakurucay.mynotebook.models.NoteModel
 import com.tolgakurucay.mynotebook.utils.CustomLoadingDialog
+import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithFuncs
 import com.tolgakurucay.mynotebook.viewmodels.main.CloudFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -32,6 +35,27 @@ class CloudFragment : Fragment() {
     private val viewmodel:CloudFragmentViewModel by viewModels()
     private lateinit var cloudAdapter:CloudAdapter
     @Inject lateinit var customLoadingDialog: CustomLoadingDialog
+/*
+    private val swipeCallBack = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.UP){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            showAlertDialogWithFuncs(getString(R.string.delete),getString(R.string.youwantdelete),R.drawable.delete,getString(R.string.okay),getString(R.string.cancel),{
+                  *//* val position=viewHolder.layoutPosition
+                   val selectedCloudNote=cloudAdapter.noteList[position]*//*
+
+
+
+            },{})
+        }
+
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding=FragmentCloudBinding.inflate(layoutInflater)
@@ -56,6 +80,7 @@ class CloudFragment : Fragment() {
     private fun init(){
         cloudAdapter= CloudAdapter()
         binding.cloudAdapter.adapter=cloudAdapter
+
 
     }
 

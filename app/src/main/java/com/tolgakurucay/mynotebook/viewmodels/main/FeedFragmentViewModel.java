@@ -27,7 +27,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class FeedFragmentViewModel extends ViewModel {
 
     @Inject
-    FeedFragmentViewModel(){}
+    public FeedFragmentViewModel(){}
 
 
     public MutableLiveData<List<NoteModel>> noteList= new MutableLiveData<>();

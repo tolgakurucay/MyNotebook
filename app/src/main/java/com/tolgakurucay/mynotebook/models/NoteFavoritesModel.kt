@@ -5,11 +5,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.IgnoredOnParcel
 
 
-
-
-    @Parcelize
+@Parcelize
     @Entity(tableName = "NoteFavorites")
     data class NoteFavoritesModel(
         @ColumnInfo(name="Title")
@@ -22,11 +21,12 @@ import kotlinx.android.parcel.Parcelize
         var imageBase64: String?,
 
         @ColumnInfo(name="Date")
-        var date: Long): Parcelable
-    {
+        var date: Long,
+
         @PrimaryKey(autoGenerate = true)
-        var id:Int=0
-    }
+        var id:Int?=null
+        ): Parcelable
+
 
 
 
