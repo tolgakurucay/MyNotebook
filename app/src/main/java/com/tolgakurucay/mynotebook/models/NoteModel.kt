@@ -19,8 +19,10 @@ import java.io.Serializable
     var imageBase64: String?,
 
     @ColumnInfo(name="Date")
-    var date: Long):Serializable
-{
+    var date: Long,
+
     @PrimaryKey(autoGenerate = true)
-    var id:Int=0
-}
+    var id:Int?=null
+
+    ):Serializable
+

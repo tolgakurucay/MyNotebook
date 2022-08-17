@@ -36,9 +36,6 @@ interface NoteDAO {
     @Query("select * from NoteFavorites")
     fun getFavorites(): List<NoteFavoritesModel>
 
-    @Query("select * from NoteFavorites")
-    fun getFavoritesLiveData() : LiveData<List<NoteFavoritesModel>>
-
     @Delete
     fun deleteFavorite(favorite: NoteFavoritesModel)
 
