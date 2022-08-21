@@ -138,4 +138,6 @@
     <string name="areyousureyouwanttodeleteaccount">Hesabı silmek istediğinize emin misiniz?</string>
     <string name="accountdeleted">Hesap başarıyla silindi</string>
     <string name="enteraword">Aramak için kelime seçiniz</string>
+    <string name="iagree">Kabul ediyorum</string>
+    <string name="linktoprivacypolicy">Gizlilik politikası linki</string>
 </resources>

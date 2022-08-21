@@ -6,9 +6,8 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-class LiveDataUtil {
-    /* Copyright 2019 Google LLC.
-   SPDX-License-Identifier: Apache-2.0 */
+
+
 
     fun <T> LiveData<T>.getOrAwaitValueTest(
         time: Long = 2,
@@ -35,4 +34,3 @@ class LiveDataUtil {
         return data as T
     }
 
-}

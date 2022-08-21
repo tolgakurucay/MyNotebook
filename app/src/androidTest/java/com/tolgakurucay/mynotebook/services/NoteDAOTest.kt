@@ -8,12 +8,17 @@ import com.google.common.truth.Truth.assertThat
 import com.google.firebase.Timestamp
 import com.tolgakurucay.mynotebook.models.NoteFavoritesModel
 import com.tolgakurucay.mynotebook.models.NoteModel
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
+import javax.inject.Named
 
+@HiltAndroidTest
 @SmallTest
 @ExperimentalCoroutinesApi
 class NoteDAOTest {
@@ -22,23 +27,35 @@ class NoteDAOTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Named("testDatabase")
+    @Inject
+    lateinit var database : NoteDatabase
+
 
     private lateinit var dao : NoteDAO
-    private lateinit var db : NoteDatabase
+    //private lateinit var db : NoteDatabase
 
     @Before
     fun setup(){
+
+        hiltRule.inject()
+        /*
         db= Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext()
         ,NoteDatabase::class.java)
             .allowMainThreadQueries()
-            .build()
+            .build()*/
 
-        dao= db.noteDao()
+        dao= database.noteDao()
+
+
     }
 
     @After
     fun tearDown(){
-        db.close()
+        database.close()
     }
 
     @Test

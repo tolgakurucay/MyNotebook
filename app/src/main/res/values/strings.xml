@@ -153,6 +153,8 @@
     <string name="areyousureyouwanttodeleteaccount">Are you sure you want to delete account?</string>
     <string name="accountdeleted">Account successfully deleted</string>
     <string name="enteraword">Enter any word to search</string>
+    <string name="iagree">I Agree</string>
+    <string name="linktoprivacypolicy">Link to privacy policy</string>
 
 
 </resources>

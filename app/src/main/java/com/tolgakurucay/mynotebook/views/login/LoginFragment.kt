@@ -23,10 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment @Inject constructor(): Fragment() {
 
     private lateinit var binding:FragmentLoginBinding
-    private val viewModel: LoginFragmentViewModel by viewModels()
+    lateinit var viewModel: LoginFragmentViewModel
     @Inject lateinit var loadingDialog:CustomLoadingDialog
 
 
@@ -40,6 +40,8 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModel=ViewModelProvider(this)[LoginFragmentViewModel::class.java]
 
         textChangeListener()
         buttonClickListener()
@@ -143,16 +145,14 @@ class LoginFragment : Fragment() {
             }
         })
 
-        viewModel.signMessage.observe(viewLifecycleOwner, Observer {
+        viewModel.signMessageLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { signMessage->
                if(signMessage=="okay"){
                    //Intent
                    val intent=Intent(activity, MainActivity::class.java)
                    Util.saveSignType(requireActivity(),"email")
                    startActivity(intent)
-                   this.activity?.let {
-                       it.finish()
-                   }
+                   this.activity?.finish()
 
                }
                 else if(signMessage=="notverified"){

@@ -3,6 +3,7 @@ package com.tolgakurucay.mynotebook.viewmodels.login
 
 
 import android.util.Patterns
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,10 +16,12 @@ class LoginFragmentViewModel @Inject constructor(): ViewModel() {
 
     private var auth=FirebaseAuth.getInstance()
 
-    val emailMessage=MutableLiveData<String>()
-    val passwordMessage=MutableLiveData<String>()
-    val signMessage=MutableLiveData<String>()
-    val loadingDialog=MutableLiveData<Boolean>()
+    var emailMessage=MutableLiveData<String>()
+    var passwordMessage=MutableLiveData<String>()
+     val signMessage=MutableLiveData<String>()
+    val signMessageLiveData : LiveData<String>
+    get() = signMessage
+    var loadingDialog=MutableLiveData<Boolean>()
 
 
 
@@ -30,7 +33,7 @@ class LoginFragmentViewModel @Inject constructor(): ViewModel() {
         else if(email.equals("")){
             emailMessage.value="Enter An Mail"
         }
-        else if(Patterns.EMAIL_ADDRESS.matcher(email).matches()!=true){
+        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailMessage.value="Invalid Email"
         }
         else{
@@ -60,7 +63,7 @@ class LoginFragmentViewModel @Inject constructor(): ViewModel() {
             .addOnSuccessListener {
                 auth.currentUser?.let { user->
                     if(user.isEmailVerified){
-                        signMessage.value="okay"
+                        signMessage.postValue("okay")
                         loadingDialog.value=false
                     }
                     else
