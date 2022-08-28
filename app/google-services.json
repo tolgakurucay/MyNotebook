@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "426433673716-8umh73oatub8nfcmppgnp1lhp5g8duok.apps.googleusercontent.com",
+          "client_id": "426433673716-1bc6en34hfj7v03c7fn14m847a0tcg64.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tolgakurucay.mynotebook",
             "certificate_hash": "fb874de205089a2377ed6ee2c3e7823853d0f856"
+          }
+        },
+        {
+          "client_id": "426433673716-8q35b9sv30t3dsips0mrbvq2dij6gaq1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tolgakurucay.mynotebook",
+            "certificate_hash": "22c369f94abb7bc1ceab255a5debfacc12a5e76c"
+          }
+        },
+        {
+          "client_id": "426433673716-clmc3nja2vgk3sd04u1vtvl68etkffol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tolgakurucay.mynotebook",
+            "certificate_hash": "a58b2945e7965a56abb1d42f4f956af3f7a369d3"
           }
         },
         {
