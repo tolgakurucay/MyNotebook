@@ -57,58 +57,57 @@ class LoginFragment @Inject constructor() :
 
     private fun listenEvents() {
         viewModel.emailMessage.observe(viewLifecycleOwner) {
-            it?.let { mailMessage ->
-                when (mailMessage) {
-                    "Enter An Mail" -> binding.tilEmail.helperText =
-                        resources.getText(R.string.enteranmail)
+            when (it) {
+                LoginFragmentValidateType.ENTER_AN_EMAIL -> binding.tilEmail.helperText =
+                    resources.getText(R.string.enteranmail)
 
-                    "validated" -> binding.tilEmail.helperText = null
-                    "Invalid Email" -> binding.tilEmail.helperText =
-                        resources.getText(R.string.invalidemail)
+                LoginFragmentValidateType.VALIDATED -> binding.tilEmail.helperText = null
+                LoginFragmentValidateType.INVALID_EMAIL -> binding.tilEmail.helperText =
+                    resources.getText(R.string.invalidemail)
 
-                }
-
+                else -> {}
             }
         }
 
         viewModel.passwordMessage.observe(viewLifecycleOwner) {
             it?.let { passwordMessage ->
                 when (passwordMessage) {
-                    "Enter An Password" -> binding.passwordSignInLayout.helperText =
+                    LoginFragmentValidateType.ENTER_AN_PASSWORD -> binding.passwordSignInLayout.helperText =
                         resources.getText(R.string.enteranpassword)
 
-                    "validated" -> binding.passwordSignInLayout.helperText = null
+                    LoginFragmentValidateType.VALIDATED -> binding.passwordSignInLayout.helperText =
+                        null
+
+                    else -> {}
                 }
 
             }
         }
 
         viewModel.signMessageLiveData.observe(viewLifecycleOwner) { signMessage ->
-            if (signMessage == "okay") {
-                //Intent
-                val intent = Intent(activity, MainActivity::class.java)
-                Util.saveSignType(requireActivity(), "email")
-                startActivity(intent)
-                this.activity?.finish()
-
-            } else if (signMessage == "notverified") {
-
-                showAlertDialog(
-                    getString(R.string.emailnotverifiedlabel),
-                    getString(R.string.emailnotverified),
-                    R.drawable.email,
-                    getString(R.string.okay)
-                )
-
-            } else {
-                showAlertDialog(
-                    getString(R.string.mailpasswordwronglabel),
-                    getString(R.string.mailpasswordwrong),
-                    R.drawable.ic_baseline_person_24,
-                    getString(R.string.okay)
-                )
-
-
+            when(signMessage){
+                LoginFragmentValidateType.OKAY->{
+                    val intent = Intent(activity, MainActivity::class.java)
+                    Util.saveSignType(requireActivity(), "email")
+                    startActivity(intent)
+                    this.activity?.finish()
+                }
+                LoginFragmentValidateType.NOT_VERIFIED->{
+                    showAlertDialog(
+                        getString(R.string.emailnotverifiedlabel),
+                        getString(R.string.emailnotverified),
+                        R.drawable.email,
+                        getString(R.string.okay)
+                    )
+                }
+                else->{
+                    showAlertDialog(
+                        getString(R.string.mailpasswordwronglabel),
+                        getString(R.string.mailpasswordwrong),
+                        R.drawable.ic_baseline_person_24,
+                        getString(R.string.okay)
+                    )
+                }
             }
 
         }
@@ -167,6 +166,5 @@ class LoginFragment @Inject constructor() :
 
         }
     }
-
 
 }
