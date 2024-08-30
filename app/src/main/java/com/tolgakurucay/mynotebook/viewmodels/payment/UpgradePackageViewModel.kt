@@ -62,7 +62,7 @@ val TAG="bilgi"
                                   val packageName=productDetailList.first().name
                                   Log.d(TAG, "denemedeneme\n\n${purchases.first()}")
 
-                                  val payHistory=PaymentHistory(currentDate.currentDate(),orderID,price,auth.currentUser?.uid.toString(),productID,purchaseToken,packageName)
+                                  val payHistory=PaymentHistory(currentDate.currentDate(),orderID.orEmpty(),price,auth.currentUser?.uid.toString(),productID,purchaseToken,packageName)
                                   var purchasedRight=0
                                   firestore.collection("PaymentHistory").add(payHistory)
                                       .addOnSuccessListener {
