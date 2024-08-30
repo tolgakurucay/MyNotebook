@@ -5,7 +5,7 @@
     <string name="email">E-Mail</string>
     <string name="password">Password</string>
     <string name="forgotyourpassword">Forgot Your Password?</string>
-    <string name="signinnow">Sign In Now</string>
+    <string name="sign_in_now">Sign In Now</string>
     <string name="donthaveanaccount">Don\'t Have An Account?</string>
     <string name="register">Register</string>
     <string name="orsigninwith">Or Sign In With</string>
@@ -155,6 +155,10 @@
     <string name="enteraword">Enter any word to search</string>
     <string name="iagree">I Agree</string>
     <string name="linktoprivacypolicy">Link to privacy policy</string>
+    <string name="content_desc_sign_in_background">Sign In Background</string>
+    <string name="content_desc_google_sign_in">Google Sign In</string>
+    <string name="content_desc_phone_sign_ın">Phone Sign In</string>
+    <string name="content_desc_facebook_sign_in">Facebook Sign In\n</string>
 
 
 </resources>

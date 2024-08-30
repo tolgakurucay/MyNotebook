@@ -5,7 +5,7 @@
     <string name="email">E-Posta</string>
     <string name="password">Şifre</string>
     <string name="forgotyourpassword">Şifreni mi unuttun?</string>
-    <string name="signinnow">Şimdi Giriş Yap</string>
+    <string name="sign_in_now">Şimdi Giriş Yap</string>
     <string name="donthaveanaccount">Bir Hesabın Yok Mu?</string>
     <string name="register">Kayıt Ol</string>
     <string name="orsigninwith">Ya da</string>
@@ -140,4 +140,7 @@
     <string name="enteraword">Aramak için kelime seçiniz</string>
     <string name="iagree">Kabul ediyorum</string>
     <string name="linktoprivacypolicy">Gizlilik politikası linki</string>
+    <string name="content_desc_google_sign_in">Google Sign In</string>
+    <string name="content_desc_phone_sign_ın">Phone Sign In</string>
+    <string name="content_desc_facebook_sign_in">Facebook Sign In\n</string>
 </resources>

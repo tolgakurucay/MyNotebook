@@ -1,3 +1,31 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Margins -->
+    <dimen name="extra_small_margin">4dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="large_margin">32dp</dimen>
+    <dimen name="extra_large_margin">64dp</dimen>
+
+    <!-- Paddings -->
+    <dimen name="extra_small_padding">2dp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="medium_padding">8dp</dimen>
+    <dimen name="large_padding">16dp</dimen>
+    <dimen name="extra_large_padding">32dp</dimen>
+
+    <!-- Image Sizes -->
+    <dimen name="image_size_extra_small">4dp</dimen>
+    <dimen name="image_size_small">8dp</dimen>
+    <dimen name="image_size_medium">16dp</dimen>
+    <dimen name="image_size_large">32dp</dimen>
+    <dimen name="image_size_extra_large">64dp</dimen>
+
+    <!-- Customs -->
+    <dimen name="login_pages_title_margin">128dp</dimen>
+    <dimen name="divider_thickness">1dp</dimen>
+
+
+
 </resources>
