@@ -21,18 +21,17 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class GetImageFromAPIFragment : Fragment() {
 
-    private lateinit var binding:FragmentGetImageFromAPIBinding
-    private val viewModel:GetImageViewModel by viewModels()
-    val TAG="bilgi"
-    private lateinit var adapter:ImageAdapter
-
+    private lateinit var binding: FragmentGetImageFromAPIBinding
+    private val viewModel: GetImageViewModel by viewModels()
+    val TAG = "bilgi"
+    private lateinit var adapter: ImageAdapter
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding=FragmentGetImageFromAPIBinding.inflate(layoutInflater)
+        binding = FragmentGetImageFromAPIBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -42,14 +41,14 @@ class GetImageFromAPIFragment : Fragment() {
         observeLiveData()
     }
 
-    private fun buttonChangeListener(){
+    private fun buttonChangeListener() {
         binding.ImageNameText.addTextChangedListener {
             Log.d(TAG, "buttonChangeListener: ${it.toString()}")
             viewModel.getImages(it.toString())
         }
     }
 
-    private fun observeLiveData(){
+    private fun observeLiveData() {
         viewModel.responseFromAPI.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d(TAG, "observeLiveData: $it")
@@ -58,9 +57,10 @@ class GetImageFromAPIFragment : Fragment() {
         })
     }
 
-    private fun init(){
-        adapter= ImageAdapter(ImageResponse(arrayListOf(),0,0))
-        binding.imageRecycler.adapter=adapter
-        binding.imageRecycler.layoutManager=GridLayoutManager(requireContext(),3,GridLayoutManager.VERTICAL,false)
+    private fun init() {
+        adapter = ImageAdapter(ImageResponse(arrayListOf(), 0, 0))
+        binding.imageRecycler.adapter = adapter
+        binding.imageRecycler.layoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
     }
 }

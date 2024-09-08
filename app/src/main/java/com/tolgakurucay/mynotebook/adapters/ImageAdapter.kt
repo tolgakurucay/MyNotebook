@@ -12,14 +12,14 @@ import com.tolgakurucay.mynotebook.utils.Util.downloadFromString
 import com.tolgakurucay.mynotebook.views.main.GetImageFromAPIFragmentDirections
 
 
-class ImageAdapter(var imageResponse: ImageResponse) : RecyclerView.Adapter<ImageAdapter.ImageHolder>() {
-    class ImageHolder(val binding:ImageRowBinding) : RecyclerView.ViewHolder(binding.root)
-
+class ImageAdapter(var imageResponse: ImageResponse) :
+    RecyclerView.Adapter<ImageAdapter.ImageHolder>() {
+    class ImageHolder(val binding: ImageRowBinding) : RecyclerView.ViewHolder(binding.root)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
-        val inflater=LayoutInflater.from(parent.context)
-        val binding=ImageRowBinding.inflate(inflater,parent,false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ImageRowBinding.inflate(inflater, parent, false)
         return ImageHolder(binding)
 
     }
@@ -27,25 +27,30 @@ class ImageAdapter(var imageResponse: ImageResponse) : RecyclerView.Adapter<Imag
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
 
 
-        holder.binding.imageViewAPI.downloadFromString(imageResponse.hits[position].previewURL,Util.placeHolderProgressBar(holder.binding.root.context))
+        holder.binding.imageViewAPI.downloadFromString(
+            imageResponse.hits?.get(position)?.previewURL.orEmpty(),
+            Util.placeHolderProgressBar(holder.binding.root.context)
+        )
 
         holder.binding.imageViewAPI.setOnClickListener {
 
-            val action=GetImageFromAPIFragmentDirections.actionGetImageFromAPIFragmentToAddNoteFragment(imageResponse.hits[position].previewURL)
+            val action =
+                GetImageFromAPIFragmentDirections.actionGetImageFromAPIFragmentToAddNoteFragment(
+                    imageResponse.hits?.get(position)?.previewURL.orEmpty()
+                )
             holder.itemView.findNavController().navigate(action)
 
         }
 
 
-
     }
 
     override fun getItemCount(): Int {
-       return imageResponse.hits.size
+        return imageResponse.hits?.size ?: 0
     }
 
-    fun updateAdapter(newImageResponse:ImageResponse){
-        this.imageResponse=newImageResponse
+    fun updateAdapter(newImageResponse: ImageResponse) {
+        this.imageResponse = newImageResponse
         notifyDataSetChanged()
 
     }

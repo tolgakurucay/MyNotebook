@@ -1,5 +1,6 @@
 package com.tolgakurucay.mynotebook.views.main
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,6 +8,7 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResultListener
@@ -32,18 +35,18 @@ import kotlin.collections.ArrayList
 
 class SelectDateFragment @Inject constructor() : DialogFragment() {
 
-    private lateinit var noteModel:NoteModel
-    private lateinit var binding:FragmentSelectDateBinding
-    private lateinit var alarmManager:AlarmManager
-    val TAG="bilgi"
-    
+    private lateinit var noteModel: NoteModel
+    private lateinit var binding: FragmentSelectDateBinding
+    private lateinit var alarmManager: AlarmManager
+    val TAG = "bilgi"
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        arguments?.let { 
-           noteModel= it.getSerializable("data") as NoteModel
+        arguments?.let {
+            noteModel = it.getSerializable("data") as NoteModel
         }
 
 
-        binding= FragmentSelectDateBinding.inflate(layoutInflater)
+        binding = FragmentSelectDateBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
 
     }
@@ -56,6 +59,7 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         createNotificationChannel()
@@ -65,19 +69,25 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
 
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification() {
         Log.d(TAG, "scheduleNotification: ")
-        lifecycleScope.launch{
-            val intent= Intent(requireActivity().applicationContext,AlarmReceiver::class.java)
-            val title=noteModel.title
-            val message=noteModel.description
+        lifecycleScope.launch {
+            val intent = Intent(requireActivity().applicationContext, AlarmReceiver::class.java)
+            val title = noteModel.title
+            val message = noteModel.description
             Log.d(TAG, "scheduleNotification: $title ------ $message")
-            intent.putExtra ("message",message)
-            intent.putExtra("title",title)
+            intent.putExtra("message", message)
+            intent.putExtra("title", title)
 
-            val pendingIntent=PendingIntent.getBroadcast(requireContext().applicationContext, notificationID,intent,PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-            val alarmManager=requireActivity().getSystemService(ALARM_SERVICE) as AlarmManager
-            val time=getTime()
+            val pendingIntent = PendingIntent.getBroadcast(
+                requireContext().applicationContext,
+                notificationID,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            val alarmManager = requireActivity().getSystemService(ALARM_SERVICE) as AlarmManager
+            val time = getTime()
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 time,
@@ -88,9 +98,8 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
             this@SelectDateFragment.dismiss()
         }
 
-       
-    }
 
+    }
 
 
     private fun showAlert() {
@@ -99,14 +108,14 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
             .setTitle(getString(R.string.alarm))
             .setCancelable(false)
             .setMessage(getString(R.string.areyousureyouwanttocreatealarm))
-            .setPositiveButton(getString(R.string.yes),object:DialogInterface.OnClickListener{
+            .setPositiveButton(getString(R.string.yes), object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                   scheduleNotification()
+                    scheduleNotification()
 
                 }
 
             })
-            .setNegativeButton(getString(R.string.no),object : DialogInterface.OnClickListener{
+            .setNegativeButton(getString(R.string.no), object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
 
                 }
@@ -118,25 +127,27 @@ class SelectDateFragment @Inject constructor() : DialogFragment() {
             .show()
     }
 
-    private fun getTime() : Long {
-        val minute=binding.timePicker.minute
-        val hour=binding.timePicker.hour
-        val day=binding.datePicker.dayOfMonth
-        val month=binding.datePicker.month
-        val year=binding.datePicker.year
+    private fun getTime(): Long {
+        val minute = binding.timePicker.minute
+        val hour = binding.timePicker.hour
+        val day = binding.datePicker.dayOfMonth
+        val month = binding.datePicker.month
+        val year = binding.datePicker.year
 
-        val calendar=Calendar.getInstance()
-        calendar.set(year,month,day,hour,minute)
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day, hour, minute)
         return calendar.timeInMillis
     }
 
-    private fun createNotificationChannel(){
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
         val name = "Notifation Channel"
-        val desc="A Description of the Channel"
-        val importance=NotificationManager.IMPORTANCE_DEFAULT
-        val channel=NotificationChannel(channelID,name, importance)
-        channel.description=desc
-        val notificationManager=requireActivity().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val desc = "A Description of the Channel"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelID, name, importance)
+        channel.description = desc
+        val notificationManager =
+            requireActivity().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
 

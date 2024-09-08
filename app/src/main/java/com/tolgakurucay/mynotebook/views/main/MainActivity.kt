@@ -25,64 +25,56 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityMainBinding
-    private lateinit var navigationController:NavController
-    private val viewModel:MainActivityViewModel by viewModels()
-    @Inject lateinit var policyPopup : PolicyFragment
-    val TAG="bilgi"
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navigationController: NavController
+    private val viewModel: MainActivityViewModel by viewModels()
+    @Inject
+    lateinit var policyPopup: PolicyFragment
+    val TAG = "bilgi"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         animations()
         setContentView(binding.root)
         setup()
         checkPolicy()
-
-
         observeLiveData()
+    }
 
+    private fun setup() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment
+        navigationController = navHostFragment.navController
+        NavigationUI.setupActionBarWithNavController(this, navigationController)
+        Util.setLocale(Util.getLanguage(this), this)
 
 
     }
 
-    private fun setup(){
-        val navHostFragment=supportFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment
-        navigationController=navHostFragment.navController
-        NavigationUI.setupActionBarWithNavController(this,navigationController)
-        Util.setLocale(Util.getLanguage(this),this)
-
-
-
-
-    }
-
-    private fun animations(){
-        if(intent.getStringExtra("from")=="buy"){
-            overridePendingTransition(R.anim.from_right,R.anim.to_left)
-        }
-        else
-        {
-            overridePendingTransition(R.anim.from_left,R.anim.to_right)
+    private fun animations() {
+        if (intent.getStringExtra("from") == "buy") {
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+        } else {
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
     }
-    private fun checkPolicy(){
+
+    private fun checkPolicy() {
         viewModel.checkPolicyAgreement()
     }
 
-    private fun observeLiveData(){
+    private fun observeLiveData() {
         viewModel.isAgreed.observe(this, Observer {
             it?.let {
-                if(it){
+                if (it) {
                     Log.d(TAG, "agreement: $it")
-                }
-                else
-                {
+                } else {
                     Log.d(TAG, "agreement: $it")
-                    policyPopup.show(supportFragmentManager,null)
-                    policyPopup.setFragmentResultListener("listener"){a,b->
-                        val isAgreed=b.getBoolean("agreed")
-                        if(isAgreed){
+                    policyPopup.show(supportFragmentManager, null)
+                    policyPopup.setFragmentResultListener("listener") { a, b ->
+                        val isAgreed = b.getBoolean("agreed")
+                        if (isAgreed) {
                             policyPopup.dismiss()
                         }
                     }
@@ -95,12 +87,8 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navigationController,null)
+        return NavigationUI.navigateUp(navigationController, null)
     }
-
-
-
-
 
 
 }

@@ -45,84 +45,82 @@ import com.tolgakurucay.mynotebook.utils.Util.showAlertDialogWithOneButtonFunc
 import com.tolgakurucay.mynotebook.viewmodels.main.FeedFragmentViewModel
 import com.tolgakurucay.mynotebook.views.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FeedFragment : Fragment() { 
+class FeedFragment : Fragment() {
 
-    private lateinit var binding:FragmentFeedBinding
-    private var menuTop:Menu?=null
-    private var tempNoteModels=ArrayList<NoteModel>()
-    private val viewModel:FeedFragmentViewModel by viewModels()
-    private var favoritesList=ArrayList<NoteFavoritesModel>()
-    @Inject lateinit var selectDateFragment:SelectDateFragment
-    @Inject lateinit var loadingDialog: CustomLoadingDialog
+    private lateinit var binding: FragmentFeedBinding
+    private var menuTop: Menu? = null
+    private var tempNoteModels = ArrayList<NoteModel>()
+    private val viewModel: FeedFragmentViewModel by viewModels()
+    private var favoritesList = ArrayList<NoteFavoritesModel>()
+    @Inject
+    lateinit var selectDateFragment: SelectDateFragment
+    @Inject
+    lateinit var loadingDialog: CustomLoadingDialog
 
 
+    private var noteAdapter = NoteAdapter() {
 
-    private var noteAdapter= NoteAdapter(){
-
-        if(it.size==0){//menüyü gizle
+        if (it.size == 0) {//menüyü gizle
             setHasOptionsMenu(false)
 
-            tempNoteModels=it
-            menuTop?.findItem(R.id.shareItem)?.isVisible=false
-            menuTop?.findItem(R.id.alarmItem)?.isVisible=false
-        }
-        else if(it.size==1){
+            tempNoteModels = it
+            menuTop?.findItem(R.id.shareItem)?.isVisible = false
+            menuTop?.findItem(R.id.alarmItem)?.isVisible = false
+        } else if (it.size == 1) {
             setHasOptionsMenu(true)
-            tempNoteModels=it
-            menuTop?.findItem(R.id.shareItem)?.isVisible=true
-            menuTop?.findItem(R.id.alarmItem)?.isVisible=true
-        }
-        else//menüyü göster
+            tempNoteModels = it
+            menuTop?.findItem(R.id.shareItem)?.isVisible = true
+            menuTop?.findItem(R.id.alarmItem)?.isVisible = true
+        } else//menüyü göster
         {
             setHasOptionsMenu(true)
-            tempNoteModels=it
-            menuTop?.findItem(R.id.shareItem)?.isVisible=false
-            menuTop?.findItem(R.id.alarmItem)?.isVisible=false
+            tempNoteModels = it
+            menuTop?.findItem(R.id.shareItem)?.isVisible = false
+            menuTop?.findItem(R.id.alarmItem)?.isVisible = false
         }
     }
-    
 
-    var TAG="bilgi"
-    private lateinit var auth:FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestPermissions()
-    }
+    var TAG = "bilgi"
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding=FragmentFeedBinding.inflate(inflater)
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentFeedBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         init()
+       // requestPermissions()
+
         buttonClickListener()
         observeLiveData()
 
     }
 
-    private fun observeLiveData(){
+    private fun observeLiveData() {
 
 
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it){
-                    if (loadingDialog.isAdded){
-                        loadingDialog.show(parentFragmentManager,null)
+                if (it) {
+                    if (loadingDialog.isAdded) {
+                        loadingDialog.show(parentFragmentManager, null)
                     }
 
-                }
-                else
-                {
-                    if(loadingDialog.isAdded){
+                } else {
+                    if (loadingDialog.isAdded) {
                         loadingDialog.dismiss()
                     }
 
@@ -132,27 +130,37 @@ class FeedFragment : Fragment() {
 
         viewModel.firebaseMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it.equals("success")){
+                if (it.equals("success")) {
 
                     tempNoteModels.clear()
                     noteAdapter.viewIdListSetFalse()
                     noteAdapter.modelArrayListClear()
                     setHasOptionsMenu(false)
                     viewModel.getAllNotes(requireContext())
-                    Toast.makeText(requireContext(), getString(R.string.noteshassavedtofirebase), Toast.LENGTH_LONG).show()
-                }
-                else if(it.equals("noright")){
-                    Toast.makeText(requireContext(), getString(R.string.youhavenoright), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.noteshassavedtofirebase),
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else if (it.equals("noright")) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.youhavenoright),
+                        Toast.LENGTH_LONG
+                    ).show()
                     tempNoteModels.clear()
                     noteAdapter.viewIdListSetFalse()
                     noteAdapter.modelArrayListClear()
 
                     setHasOptionsMenu(false)
                     viewModel.getAllNotes(requireContext())
-                }
-                else
-                {
-                    showAlertDialog(getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                } else {
+                    showAlertDialog(
+                        getString(R.string.error),
+                        it,
+                        R.drawable.error,
+                        getString(R.string.okay)
+                    )
                     tempNoteModels.clear()
                     noteAdapter.viewIdListSetFalse()
                     noteAdapter.modelArrayListClear()
@@ -165,83 +173,86 @@ class FeedFragment : Fragment() {
 
         viewModel.noteList.observe(viewLifecycleOwner, Observer {
 
-            if(it!=null){
-                binding.textViewError.visibility=View.INVISIBLE
-                if(it.isEmpty()){
-                  //  noteAdapter.updateNoteList(it)
-                    noteAdapter.noteList=it
-                    for(i in it){
-                        favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
+            if (it != null) {
+                binding.textViewError.visibility = View.INVISIBLE
+                if (it.isEmpty()) {
+                    //  noteAdapter.updateNoteList(it)
+                    noteAdapter.noteList = it
+                    for (i in it) {
+                        favoritesList.add(
+                            NoteFavoritesModel(
+                                i.title.orEmpty(),
+                                i.description.orEmpty(),
+                                i.imageBase64,
+                                i.date ?: 0L
+                            )
+                        )
                     }
-                }
-                else
-                {
-                    noteAdapter.noteList=it
+                } else {
+                    noteAdapter.noteList = it
                 }
 
-            }
-            else
-            {
-                binding.textViewError.visibility=View.VISIBLE
+            } else {
+                binding.textViewError.visibility = View.VISIBLE
             }
 
         })
 
         viewModel.byteArray.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Util.byteArray=it
-                Glide.with(this).asBitmap().load(it).into(object:SimpleTarget<Bitmap>(){
+                Util.byteArray = it
+                Glide.with(this).asBitmap().load(it).into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
-                        val drawable=BitmapDrawable(resource)
+                        val drawable = BitmapDrawable(resource)
                         binding.constraintFeed.setBackgroundDrawable(drawable)
                     }
 
                 })
             }
         })
-        
-        viewModel.uriLiveData.observe(viewLifecycleOwner, Observer { 
+
+        viewModel.uriLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
 
 
                 Log.d(TAG, "observeLiveData: $it")
-                Glide.with(this@FeedFragment).asBitmap().load(it).into(object: SimpleTarget<Bitmap>(){
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
+                Glide.with(this@FeedFragment).asBitmap().load(it)
+                    .into(object : SimpleTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
 
-                        val drawable=BitmapDrawable(resource)
-                        binding.constraintFeed.setBackgroundDrawable(drawable)
-                    }
+                            val drawable = BitmapDrawable(resource)
+                            binding.constraintFeed.setBackgroundDrawable(drawable)
+                        }
 
-                })
+                    })
             }
         })
 
 
     }
-    private fun init(){
 
-        auth= FirebaseAuth.getInstance()
-        if(Util.byteArray!=null){
+    private fun init() {
+
+        auth = FirebaseAuth.getInstance()
+        if (Util.byteArray != null) {
             Log.d(TAG, "init: boş değil yüklüyor")
-            Glide.with(this).asBitmap().load(Util.byteArray).into(object:SimpleTarget<Bitmap>(){
+            Glide.with(this).asBitmap().load(Util.byteArray).into(object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: Transition<in Bitmap>?
                 ) {
-                    val drawable=BitmapDrawable(resource)
+                    val drawable = BitmapDrawable(resource)
                     binding.constraintFeed.setBackgroundDrawable(drawable)
                 }
 
             })
-        }
-        else
-        {
+        } else {
 
             Log.d(TAG, "init: boş, internetten çekildi")
             viewModel.getPPfromStorage()
@@ -250,26 +261,39 @@ class FeedFragment : Fragment() {
 
         setHasOptionsMenu(false)
         noteAdapter.modelArrayListEx.clear()
-        for(i in 0 until noteAdapter.viewIdList.size){
-            noteAdapter.viewIdList.put(i,false)
+        for (i in 0 until noteAdapter.viewIdList.size) {
+            noteAdapter.viewIdList.put(i, false)
         }
 
-        binding.recyclerView.layoutManager=GridLayoutManager(this.requireContext(),2,GridLayoutManager.VERTICAL,false)
-        binding.recyclerView.adapter=noteAdapter
+        binding.recyclerView.layoutManager =
+            GridLayoutManager(this.requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = noteAdapter
 
-        binding.bottomNavigationView.background=null
-        binding.bottomNavigationView.menu.getItem(2).isEnabled=false
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
         viewModel.getAllNotes(this.requireContext())
-        
 
 
     }
 
 
-    private fun requestPermissions(){
-        if(ContextCompat.checkSelfPermission(this.requireContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
-            Snackbar.make(this.requireView(),getString(R.string.permissionneeded),Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.givepermission)
+    private fun requestPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                this.requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                1
+            )
+            Snackbar.make(
+                this.requireView(),
+                getString(R.string.permissionneeded),
+                Snackbar.LENGTH_INDEFINITE
+            ).setAction(
+                getString(R.string.givepermission)
             ) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(
                         this@FeedFragment.requireActivity(),
@@ -298,61 +322,64 @@ class FeedFragment : Fragment() {
     }
 
 
-
-    private fun buttonClickListener(){
+    private fun buttonClickListener() {
         binding.buttonAddNote.setOnClickListener {
             navigator("addNote")
         }
         binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.cloud-> {navigator("cloud")}
-                R.id.profile->navigator("profile")
-                R.id.signOut->signOut()
-                R.id.favorites->navigator("favorites")
+            when (it.itemId) {
+                R.id.cloud -> {
+                    navigator("cloud")
+                }
+
+                R.id.profile -> navigator("profile")
+                R.id.signOut -> signOut()
+                R.id.favorites -> navigator("favorites")
 
             }
             true
-            
+
 
         }
 
 
     }
-    private fun navigator(fragmentName:String){
-       if(fragmentName == "profile"){
-           val direction=FeedFragmentDirections.actionFeedFragmentToProfileFragment()
-           Navigation.findNavController(this.requireView()).navigate(direction)
 
-       }
-        else if(fragmentName=="favorites"){
+    private fun navigator(fragmentName: String) {
+        if (fragmentName == "profile") {
+            val direction = FeedFragmentDirections.actionFeedFragmentToProfileFragment()
+            Navigation.findNavController(this.requireView()).navigate(direction)
 
-           val direction=FeedFragmentDirections.actionFeedFragmentToFavoritesFragment()
-           Navigation.findNavController(this.requireView()).navigate(direction)
-       }
-        else if(fragmentName=="addNote"){
-           val direction=FeedFragmentDirections.actionFeedFragmentToAddNoteFragment(null)
-           Navigation.findNavController(this.requireView()).navigate(direction)
-       }
-        else if(fragmentName=="cloud"){
-            val direction=FeedFragmentDirections.actionFeedFragmentToCloudFragment()
-           Navigation.findNavController(this.requireView()).navigate(direction)
-       }
+        } else if (fragmentName == "favorites") {
 
+            val direction = FeedFragmentDirections.actionFeedFragmentToFavoritesFragment()
+            Navigation.findNavController(this.requireView()).navigate(direction)
+        } else if (fragmentName == "addNote") {
+            val direction = FeedFragmentDirections.actionFeedFragmentToAddNoteFragment(null)
+            Navigation.findNavController(this.requireView()).navigate(direction)
+        } else if (fragmentName == "cloud") {
+            val direction = FeedFragmentDirections.actionFeedFragmentToCloudFragment()
+            Navigation.findNavController(this.requireView()).navigate(direction)
+        }
 
 
     }
 
-    private fun signOut(){
+    private fun signOut() {
 
         AlertDialog.Builder(this.requireContext())
             .setTitle(R.string.exit)
             .setIcon(R.drawable.signout)
             .setMessage(R.string.areyousureyouwanttoexit)
-            .setPositiveButton(R.string.yes,object:DialogInterface.OnClickListener{
+            .setPositiveButton(R.string.yes, object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
                     auth.signOut()
-                    Toast.makeText(requireContext(),getString(R.string.loggedout),Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(requireActivity(),LoginActivity::class.java))
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.loggedout),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    startActivity(Intent(requireActivity(), LoginActivity::class.java))
                     requireActivity().finish()
                 }
 
@@ -364,19 +391,18 @@ class FeedFragment : Fragment() {
             .show()
 
 
-
     }
 
-    private fun refreshCurrentFragment(){
+    private fun refreshCurrentFragment() {
         val id = requireView().findNavController().currentDestination?.id
-        requireView().findNavController().popBackStack(id!!,true)
+        requireView().findNavController().popBackStack(id!!, true)
         requireView().findNavController().navigate(id)
     }
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.app_bar_menu,menu)
-        menuTop=menu
+        inflater.inflate(R.menu.app_bar_menu, menu)
+        menuTop = menu
 
 
         super.onCreateOptionsMenu(menu, inflater)
@@ -384,45 +410,72 @@ class FeedFragment : Fragment() {
     }
 
 
-
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.deleteItems->  {
-                showAlertDialogWithFuncs(getString(R.string.delete),getString(R.string.youwantdelete),R.drawable.ic_baseline_delete_24,getString(R.string.delete),getString(R.string.cancel),{
-                    viewModel.deleteNotes(requireContext(),tempNoteModels)
-                    setHasOptionsMenu(false)
-                    noteAdapter.viewIdListSetFalse()
-                    noteAdapter.modelArrayListClear()
-                    refreshCurrentFragment()
-                                                                                                                                                                                             },{})
+        when (item.itemId) {
+            R.id.deleteItems -> {
+                showAlertDialogWithFuncs(
+                    getString(R.string.delete),
+                    getString(R.string.youwantdelete),
+                    R.drawable.ic_baseline_delete_24,
+                    getString(R.string.delete),
+                    getString(R.string.cancel),
+                    {
+                        viewModel.deleteNotes(requireContext(), tempNoteModels)
+                        setHasOptionsMenu(false)
+                        noteAdapter.viewIdListSetFalse()
+                        noteAdapter.modelArrayListClear()
+                        refreshCurrentFragment()
+                    },
+                    {})
             }
-            R.id.favoriteItems-> {
-                showAlertDialogWithFuncs(getString(R.string.favorites),getString(R.string.areyousureyouwanttoaddfavorites),R.drawable.favorites,getString(R.string.addtofavorites),getString(R.string.cancel),{
-                    favoritesList.clear()
-                    for(i in tempNoteModels){
-                        favoritesList.add(NoteFavoritesModel(i.title,i.description,i.imageBase64,i.date))
-                    }
-                    viewModel.addFavorites(requireContext(),favoritesList)
-                    setHasOptionsMenu(false)
-                    viewModel.deleteNotes(requireContext(),tempNoteModels)
-                    noteAdapter.modelArrayListClear()
-                    noteAdapter.viewIdListSetFalse()
-                    refreshCurrentFragment()
 
-                },{})
+            R.id.favoriteItems -> {
+                showAlertDialogWithFuncs(
+                    getString(R.string.favorites),
+                    getString(R.string.areyousureyouwanttoaddfavorites),
+                    R.drawable.favorites,
+                    getString(R.string.addtofavorites),
+                    getString(R.string.cancel),
+                    {
+                        favoritesList.clear()
+                        for (i in tempNoteModels) {
+                            favoritesList.add(
+                                NoteFavoritesModel(
+                                    i.title.orEmpty(),
+                                    i.description.orEmpty(),
+                                    i.imageBase64,
+                                    i.date ?: 0
+                                )
+                            )
+                        }
+                        viewModel.addFavorites(requireContext(), favoritesList)
+                        setHasOptionsMenu(false)
+                        viewModel.deleteNotes(requireContext(), tempNoteModels)
+                        noteAdapter.modelArrayListClear()
+                        noteAdapter.viewIdListSetFalse()
+                        refreshCurrentFragment()
 
-
+                    },
+                    {})
 
 
             }
-            R.id.shareItem->{viewModel.shareNote(tempNoteModels.first().title,tempNoteModels.first().description,requireActivity())}
-            R.id.alarmItem->{
+
+            R.id.shareItem -> {
+                viewModel.shareNote(
+                    tempNoteModels.first().title,
+                    tempNoteModels.first().description,
+                    requireActivity()
+                )
+            }
+
+            R.id.alarmItem -> {
 
                 lifecycleScope.launch {
                     Log.d(TAG, "onOptionsItemSelected: ")
-                    val args=Bundle()
-                    args.putSerializable("data",tempNoteModels[0])
+                    val args = Bundle()
+                    args.putSerializable("data", tempNoteModels[0])
                     setHasOptionsMenu(false)
 
                     viewModel.getAllNotes(requireContext())
@@ -430,14 +483,17 @@ class FeedFragment : Fragment() {
                     noteAdapter.modelArrayListClear()
                     noteAdapter.viewIdListSetFalse()
 
-                    selectDateFragment.arguments=args
-                    selectDateFragment.show(parentFragmentManager,null)
+                    selectDateFragment.arguments = args
+                    selectDateFragment.show(parentFragmentManager, null)
                     refreshCurrentFragment()
 
-                    }
+                }
 
             }
-           R.id.saveToFirebase->{viewModel.saveNoteToFirebase(tempNoteModels,context)}
+
+            R.id.saveToFirebase -> {
+                viewModel.saveNoteToFirebase(tempNoteModels, context)
+            }
         }
         return true
     }

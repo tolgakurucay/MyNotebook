@@ -41,34 +41,30 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class NoteFragment : Fragment() {
 
-    private lateinit var binding:FragmentNoteBinding
-    private var model:NoteModel?=null
+    private lateinit var binding: FragmentNoteBinding
+    private var model: NoteModel? = null
     private val args by navArgs<NoteFragmentArgs>()
-    private var imageBitmap: Bitmap?=null
-    @Inject lateinit var currDate:GetCurrentDate
-    private val viewModel:NoteFragmentViewModel by viewModels()
-
-
+    private var imageBitmap: Bitmap? = null
+    @Inject
+    lateinit var currDate: GetCurrentDate
+    private val viewModel: NoteFragmentViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=FragmentNoteBinding.inflate(layoutInflater)
-         model=args.noteObject
-
-
-
+        binding = FragmentNoteBinding.inflate(layoutInflater)
+        model = args.noteObject
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         return binding.root
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadObject()
@@ -78,20 +74,21 @@ class NoteFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun loadObject(){
+    private fun loadObject() {
         binding.titleInputUpdate.setText(model?.title)
         binding.descriptionInputUpdate.setText(model?.description)
 
-        if(model?.imageBase64!=null && model?.imageBase64!="null"){
-            imageBitmap= com.tolgakurucay.mynotebook.utils.Util.base64ToBitmap(model?.imageBase64)
+        if (model?.imageBase64 != null && model?.imageBase64 != "null") {
+            imageBitmap = com.tolgakurucay.mynotebook.utils.Util.base64ToBitmap(model?.imageBase64)
             binding.imageViewUpdate.setImageBitmap(imageBitmap)
-            binding.imageViewUpdate.background=null
+            binding.imageViewUpdate.background = null
         }
 
 
     }
 
-    var sActivityResultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+    var sActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
 
     ) { result ->
         result?.let {
@@ -102,8 +99,12 @@ class NoteFragment : Fragment() {
                     val uri = it.data
                     uri?.let {
                         val imageUri = it
-                        val bitmap=MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,imageUri)
-                        imageBitmap=com.tolgakurucay.mynotebook.utils.Util.makeSmallerBitmap(bitmap,200)
+                        val bitmap = MediaStore.Images.Media.getBitmap(
+                            requireActivity().contentResolver,
+                            imageUri
+                        )
+                        imageBitmap =
+                            com.tolgakurucay.mynotebook.utils.Util.makeSmallerBitmap(bitmap, 200)
                         binding.imageViewUpdate.setImageBitmap(imageBitmap)
 
 
@@ -114,9 +115,10 @@ class NoteFragment : Fragment() {
         }
     }
 
-    private fun clickListeners(){
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun clickListeners() {
         binding.imageViewUpdate.setOnClickListener {
-            val intent=Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 
 
             sActivityResultLauncher.launch(intent)
@@ -134,35 +136,33 @@ class NoteFragment : Fragment() {
                 .setTitle(getString(R.string.deleteTitle))
                 .setMessage(getString(R.string.youwantdelete))
                 .setIcon(R.drawable.error)
-                .setPositiveButton(getString(R.string.okay),object: DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        viewModel.deleteModel(model,requireContext())
-                    }
-
-                })
-                .setNegativeButton(getString(R.string.cancel),object:DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        p0?.let {
-                            it.dismiss()
+                .setPositiveButton(getString(R.string.okay),
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            viewModel.deleteModel(model, requireContext())
                         }
-                    }
 
-                })
+                    })
+                .setNegativeButton(getString(R.string.cancel),
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            p0?.let {
+                                it.dismiss()
+                            }
+                        }
+
+                    })
                 .create()
                 .show()
-
 
 
         }
 
 
-
-
-
     }
 
 
-    private fun textChangeListeners(){
+    private fun textChangeListeners() {
         binding.titleInputUpdate.addTextChangedListener {
             viewModel.validateTitle(binding.titleInputUpdate.text.toString())
         }
@@ -172,36 +172,45 @@ class NoteFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveObject(){
+    private fun saveObject() {
 
-        if(binding.titleLayoutUpdate.helperText==null && binding.descriptionLayoutUpdate.helperText==null){
-            model?.title=binding.titleInputUpdate.text.toString()
-            model?.description=binding.descriptionInputUpdate.text.toString()
-            model?.date=currDate.currentDateAsLong()
-            model?.imageBase64=com.tolgakurucay.mynotebook.utils.Util.bitmapToBase64(imageBitmap)
-            Log.d("bilgi","idddd  "+ model!!.id.toString())
-            viewModel.updateModel(model,this.requireContext())
-        }
-        else
-        {
-            Toast.makeText(this.requireContext(), getString(R.string.blankfields), Toast.LENGTH_SHORT).show()
+        if (binding.titleLayoutUpdate.helperText == null && binding.descriptionLayoutUpdate.helperText == null) {
+            model?.title = binding.titleInputUpdate.text.toString()
+            model?.description = binding.descriptionInputUpdate.text.toString()
+            model?.date = currDate.currentDateAsLong()
+            model?.imageBase64 = com.tolgakurucay.mynotebook.utils.Util.bitmapToBase64(imageBitmap)
+            Log.d("bilgi", "idddd  " + model!!.id.toString())
+            viewModel.updateModel(model, this.requireContext())
+        } else {
+            Toast.makeText(
+                this.requireContext(),
+                getString(R.string.blankfields),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
 
     }
 
 
-    private fun observeLiveData(){
+    private fun observeLiveData() {
         viewModel.updated.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it=="updated"){
-                    Toast.makeText(requireContext(), getString(R.string.updatedsuccessfully), Toast.LENGTH_SHORT).show()
-                    val action=NoteFragmentDirections.actionNoteFragmentToFeedFragment()
+                if (it == "updated") {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.updatedsuccessfully),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val action = NoteFragmentDirections.actionNoteFragmentToFeedFragment()
                     Navigation.findNavController(this.requireView()).navigate(action)
-                }
-                else
-                {
-                    showAlertDialog(getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                } else {
+                    showAlertDialog(
+                        getString(R.string.error),
+                        it,
+                        R.drawable.error,
+                        getString(R.string.okay)
+                    )
                 }
             }
         })
@@ -209,14 +218,12 @@ class NoteFragment : Fragment() {
 
         viewModel.titleMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it=="enteratitle"){
-                    binding.titleLayoutUpdate.helperText=getString(R.string.enteratitle)
-                }
-                else if(it=="atleast3"){
-                    binding.titleLayoutUpdate.helperText=getString(R.string.atleast3character)
-                }
-                else if(it=="validated"){
-                    binding.titleLayoutUpdate.helperText=null
+                if (it == "enteratitle") {
+                    binding.titleLayoutUpdate.helperText = getString(R.string.enteratitle)
+                } else if (it == "atleast3") {
+                    binding.titleLayoutUpdate.helperText = getString(R.string.atleast3character)
+                } else if (it == "validated") {
+                    binding.titleLayoutUpdate.helperText = null
                 }
             }
         })
@@ -224,14 +231,14 @@ class NoteFragment : Fragment() {
 
         viewModel.descriptionMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it=="enteradescription"){
-                binding.descriptionLayoutUpdate.helperText=getString(R.string.enteradescription)
-                }
-                else if(it=="atleast3"){
-                    binding.descriptionLayoutUpdate.helperText=getString(R.string.atleast3character)
-                }
-                else if(it=="validated"){
-                    binding.descriptionLayoutUpdate.helperText=null
+                if (it == "enteradescription") {
+                    binding.descriptionLayoutUpdate.helperText =
+                        getString(R.string.enteradescription)
+                } else if (it == "atleast3") {
+                    binding.descriptionLayoutUpdate.helperText =
+                        getString(R.string.atleast3character)
+                } else if (it == "validated") {
+                    binding.descriptionLayoutUpdate.helperText = null
                 }
             }
         })
@@ -239,27 +246,27 @@ class NoteFragment : Fragment() {
 
         viewModel.deleted.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it=="deleted"){
-                    Toast.makeText(requireContext(), getString(R.string.deletedsuccessfully), Toast.LENGTH_SHORT).show()
-                    val action=NoteFragmentDirections.actionNoteFragmentToFeedFragment()
+                if (it == "deleted") {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.deletedsuccessfully),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val action = NoteFragmentDirections.actionNoteFragmentToFeedFragment()
                     Navigation.findNavController(this.requireView()).navigate(action)
-                }
-                else
-                {
-                    showAlertDialog(getString(R.string.error),it,R.drawable.error,getString(R.string.okay))
+                } else {
+                    showAlertDialog(
+                        getString(R.string.error),
+                        it,
+                        R.drawable.error,
+                        getString(R.string.okay)
+                    )
                 }
             }
         })
 
 
     }
-
-
-
-
-
-
-
 
 
 }
